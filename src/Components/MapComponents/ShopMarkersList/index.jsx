@@ -1,6 +1,6 @@
 import ShopMarker from '../ShopMarker'
 
-import MarkerClusterGroup from 'react-leaflet-cluster'
+import { isFavorite } from '../../../utils/maputils'
 
 function ShopMarkersList({
     markersToDisplay,
@@ -11,15 +11,11 @@ function ShopMarkersList({
     setIsModalOpened,
     setOverview,
     mapRef,
-    // isAnyMarkerHovered,
-    // setIsMarkerHovered,
-    // isOverviewOpened,
-    // setIsOverviewOpened,
+    favoriteShops,
     setDropdownOpen,
 }) {
     return (
         <>
-            {/* <MarkerClusterGroup> */}
             {markersToDisplay.map((shop) =>
                 isNaN(parseFloat(shop.geolocation_lat[0])) ||
                 isNaN(parseFloat(shop.geolocation_long[0])) ||
@@ -42,10 +38,10 @@ function ShopMarkersList({
                         setOverview={setOverview}
                         mapRef={mapRef}
                         setDropdownOpen={setDropdownOpen}
+                        favorite={isFavorite(shop, favoriteShops)}
                     />
                 )
             )}
-            {/* </MarkerClusterGroup> */}
         </>
     )
 }

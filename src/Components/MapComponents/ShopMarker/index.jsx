@@ -23,6 +23,7 @@ function ShopMarker({
     setOverview,
     mapRef,
     setDropdownOpen,
+    favorite,
 }) {
     const markerRef = useRef(null)
 
@@ -71,7 +72,7 @@ function ShopMarker({
                 parseFloat(shop.geolocation_lat[0]),
                 parseFloat(shop.geolocation_long[0]),
             ]}
-            icon={getIconUponCategories(categories)}
+            icon={getIconUponCategories(categories, favorite)}
             eventHandlers={{
                 mouseover: () => {
                     if (!modalShopId || modalShopId === shop.id) {

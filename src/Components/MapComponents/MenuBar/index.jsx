@@ -1,14 +1,33 @@
 import styled from 'styled-components'
-import list from '../../../assets/list.png'
+import list from '../../../assets/browse.png'
+import event from '../../../assets/temporary.png'
+import favorites from '../../../assets/favorites.png'
 
-const ListIcon = styled.img`
+import {
+    initDisplayedShops,
+    alphabetical,
+    recursiveCategoryFilter,
+    filterByType,
+    getAllShopsFromScope,
+    filterShopsBySearch,
+} from '../../../utils/maputils'
+const IconWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+`
+
+const MenuIcon = styled.img`
     /* position: absolute; */
-    width: 30px;
+    width: 35px;
     /* height: 35px; */
     margin: 10px;
     margin-top: 17px;
+    padding: 7px;
     cursor: pointer;
     z-index: 700;
+    border-radius: 7px;
+    background-color: ${(props) => (props.active ? '#b2bdca' : null)};
 `
 
 const MenuWrapper = styled.div`
@@ -47,15 +66,106 @@ const LanguageButton = styled.div`
     cursor: pointer;
 `
 
-function MenuBar({ isSideBarOpened, setSideBarOpened, setItemsDisplayed }) {
-    function handleToggleSideBar() {
-        const barState = isSideBarOpened
-        setSideBarOpened(!barState)
+function MenuBar({
+    setDisplayedShops,
+    isSideBarOpened,
+    setSideBarOpened,
+    setItemsDisplayed,
+    favoriteShops,
+    viewMode,
+    setViewMode,
+    filteredCategories,
+    filteredType,
+    mapRef,
+    allShops,
+    allEvents,
+    research,
+}) {
+    function updateViewMode(newMode) {
+        setViewMode(newMode)
+    }
+    // function toggleSideBar() {
+    //     const barState = isSideBarOpened
+    //     setSideBarOpened(!barState)
+    // }
+
+    function handleChangeScope(newScope) {
+        if (viewMode === newScope) {
+            setSideBarOpened(false)
+            updateViewMode('')
+        } else {
+            updateViewMode(newScope)
+            setSideBarOpened(true)
+            if (research === '') {
+                setDisplayedShops(
+                    recursiveCategoryFilter(
+                        filteredCategories,
+                        filterByType(
+                            filteredType,
+                            initDisplayedShops(
+                                mapRef.current,
+                                newScope,
+                                getAllShopsFromScope(
+                                    newScope,
+                                    allShops,
+                                    favoriteShops,
+                                    allEvents
+                                )
+                            )
+                        )
+                    )
+                        .sort(alphabetical)
+                        .slice(0, 100)
+                )
+            } else {
+                setDisplayedShops(
+                    filterShopsBySearch(
+                        research,
+                        recursiveCategoryFilter(
+                            filteredCategories,
+                            filterByType(
+                                filteredType,
+                                getAllShopsFromScope(
+                                    newScope,
+                                    allShops,
+                                    favoriteShops,
+                                    allEvents
+                                )
+                            )
+                        )
+                    )
+                )
+            }
+        }
         setItemsDisplayed(20)
     }
+
     return (
         <MenuWrapper isSideBarOpened={isSideBarOpened}>
-            <ListIcon src={list} onClick={handleToggleSideBar}></ListIcon>
+            <IconWrapper>
+                <MenuIcon
+                    src={list}
+                    onClick={() => {
+                        handleChangeScope('browse')
+                    }}
+                    active={viewMode === 'browse'}
+                ></MenuIcon>
+                <MenuIcon
+                    src={event}
+                    onClick={() => {
+                        handleChangeScope('events')
+                    }}
+                    active={viewMode === 'events'}
+                ></MenuIcon>
+                <MenuIcon
+                    src={favorites}
+                    onClick={() => {
+                        handleChangeScope('favorites')
+                    }}
+                    active={viewMode === 'favorites'}
+                ></MenuIcon>
+            </IconWrapper>
+
             <LanguageContainer>
                 <LanguageButton>EN</LanguageButton>
                 <LanguageButton>JP</LanguageButton>

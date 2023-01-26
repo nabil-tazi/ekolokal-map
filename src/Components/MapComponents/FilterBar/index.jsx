@@ -22,6 +22,8 @@ import {
     localizeSearch,
     formatType,
     formatCategory,
+    filterByType,
+    getAllShopsFromScope,
 } from '../../../utils/maputils'
 import { useRef, useState } from 'react'
 
@@ -42,11 +44,10 @@ const FilterBarWrapper = styled.div`
 const InputFilter = styled.div`
     z-index: 500;
     position: relative;
-    /* padding-top: 15px; */
-    /* padding-left: 15px; */
     display: flex;
     justify-content: space-between;
     align-items: center;
+    /* cursor: ${(props) => (props.forbidden ? 'auto' : 'not-allowed')}; */
 `
 
 const RemoveSearchInput = styled.img`
@@ -89,7 +90,6 @@ const ResearchInput = styled.input`
     height: 35px;
     border-radius: 20px;
     margin-right: 5px;
-    background-color: #f8f8f4;
     border: 0;
     box-shadow: 0px 0px 10px gray;
     padding-left: 2rem;
@@ -98,6 +98,9 @@ const ResearchInput = styled.input`
     font-family: sans-serif;
     font-size: 13px;
     font-weight: 200;
+    /* cursor: ${(props) => (props.forbidden ? 'auto' : 'not-allowed')}; */
+    /* pointer-events: ${(props) => (props.forbidden ? 'auto' : 'none')}; */
+
     &:focus {
         outline: none;
     }
@@ -107,6 +110,9 @@ const ResearchInput = styled.input`
 
     background-color: ${(props) =>
         props.active === 'active' ? '#b2bdca' : '#f8f8f4'};
+
+    /* background-color: ${(props) =>
+        props.forbidden ? 'null' : '#d8d8d8'}; */
 `
 
 const CategoryFilters = styled.div`
@@ -189,7 +195,7 @@ const TypeFilterContainer = styled.div``
 
 const Dropdown = styled.div`
     width: 120px;
-    height: 187px;
+    height: 124px;
     font-family: sans-serif;
     font-size: 13px;
     color: #292929;
@@ -275,6 +281,9 @@ function FilterBar({
     filteredType,
     setFilteredType,
     inputRef,
+    viewMode,
+    favoriteShops,
+    allEvents,
 }) {
     function handleEraseResearch() {
         inputRef.current.value = ''
@@ -287,7 +296,16 @@ function FilterBar({
                 filteredCategories,
                 filterByType(
                     filteredType,
-                    initDisplayedShops(mapRef.current, allShops)
+                    initDisplayedShops(
+                        mapRef.current,
+                        viewMode,
+                        getAllShopsFromScope(
+                            viewMode,
+                            allShops,
+                            favoriteShops,
+                            allEvents
+                        )
+                    )
                 )
             )
                 .sort(alphabetical)
@@ -303,7 +321,12 @@ function FilterBar({
 
     function handleCategoryClick(clickedCategory) {
         const copy = filteredCategories
-        const copyAllShops = allShops
+        const copyAllShops = getAllShopsFromScope(
+            viewMode,
+            allShops,
+            favoriteShops,
+            allEvents
+        )
         const copyDisplayedShops = displayedShops
         const filteringDown = !copy.includes(clickedCategory)
 
@@ -318,7 +341,16 @@ function FilterBar({
             setDisplayedShops(
                 filterByType(
                     filteredType,
-                    initDisplayedShops(mapRef.current, allShops)
+                    initDisplayedShops(
+                        mapRef.current,
+                        viewMode,
+                        getAllShopsFromScope(
+                            viewMode,
+                            allShops,
+                            favoriteShops,
+                            allEvents
+                        )
+                    )
                 )
                     .sort(alphabetical)
                     .slice(0, 100)
@@ -336,7 +368,16 @@ function FilterBar({
                     newFilters,
                     filterByType(
                         filteredType,
-                        initDisplayedShops(mapRef.current, allShops)
+                        initDisplayedShops(
+                            mapRef.current,
+                            viewMode,
+                            getAllShopsFromScope(
+                                viewMode,
+                                allShops,
+                                favoriteShops,
+                                allEvents
+                            )
+                        )
                     )
                         .sort(alphabetical)
                         .slice(0, 100)
@@ -356,15 +397,15 @@ function FilterBar({
         }
     }
 
-    function filterByType(type, shops) {
-        return type === 'all'
-            ? shops
-            : shops.filter((shop) => {
-                  if (shop.categories)
-                      return shop.categories.some((cat) => cat.slug === type)
-                  else return false
-              })
-    }
+    // function filterByType(type, shops) {
+    //     return type === 'all'
+    //         ? shops
+    //         : shops.filter((shop) => {
+    //               if (shop.categories)
+    //                   return shop.categories.some((cat) => cat.slug === type)
+    //               else return false
+    //           })
+    // }
 
     function handleTypeSelect(newType) {
         setDropdownOpen(false)
@@ -374,7 +415,16 @@ function FilterBar({
             setDisplayedShops(
                 filterByType(
                     newType,
-                    initDisplayedShops(mapRef.current, allShops)
+                    initDisplayedShops(
+                        mapRef.current,
+                        viewMode,
+                        getAllShopsFromScope(
+                            viewMode,
+                            allShops,
+                            favoriteShops,
+                            allEvents
+                        )
+                    )
                 )
                     .sort(alphabetical)
                     .slice(0, 100)
@@ -385,7 +435,16 @@ function FilterBar({
                     filteredCategories,
                     filterByType(
                         newType,
-                        initDisplayedShops(mapRef.current, allShops) //
+                        initDisplayedShops(
+                            mapRef.current,
+                            viewMode,
+                            getAllShopsFromScope(
+                                viewMode,
+                                allShops,
+                                favoriteShops,
+                                allEvents
+                            )
+                        )
                     )
                 )
                     .sort(alphabetical)
@@ -393,7 +452,18 @@ function FilterBar({
             )
         } else if (filteredCategories.length === 0) {
             setDisplayedShops(
-                filterShopsBySearch(research, filterByType(newType, allShops))
+                filterShopsBySearch(
+                    research,
+                    filterByType(
+                        newType,
+                        getAllShopsFromScope(
+                            viewMode,
+                            allShops,
+                            favoriteShops,
+                            allEvents
+                        )
+                    )
+                )
             )
         } else {
             setDisplayedShops(
@@ -401,7 +471,15 @@ function FilterBar({
                     filteredCategories,
                     filterShopsBySearch(
                         research,
-                        filterByType(newType, allShops)
+                        filterByType(
+                            newType,
+                            getAllShopsFromScope(
+                                viewMode,
+                                allShops,
+                                favoriteShops,
+                                allEvents
+                            )
+                        )
                     )
                 )
             )
@@ -417,7 +495,16 @@ function FilterBar({
                     filteredCategories,
                     filterByType(
                         filteredType,
-                        initDisplayedShops(mapRef.current, allShops)
+                        initDisplayedShops(
+                            mapRef.current,
+                            viewMode,
+                            getAllShopsFromScope(
+                                viewMode,
+                                allShops,
+                                favoriteShops,
+                                allEvents
+                            )
+                        )
                     )
                 )
                     .sort(alphabetical)
@@ -426,13 +513,19 @@ function FilterBar({
             return
         }
 
-        // const copy = allShops
-
         const filteredShops = filterShopsBySearch(
             inputRef.current.value,
             recursiveCategoryFilter(
                 filteredCategories,
-                filterByType(filteredType, allShops)
+                filterByType(
+                    filteredType,
+                    getAllShopsFromScope(
+                        viewMode,
+                        allShops,
+                        favoriteShops,
+                        allEvents
+                    )
+                )
             )
         )
         localizeSearch(filteredShops, mapRef)
@@ -473,14 +566,11 @@ function FilterBar({
 
     return (
         <FilterBarWrapper>
-            <InputFilter>
-                {/* {research === '' && ( */}
+            <InputFilter forbidden={viewMode === 'browse' || viewMode === ''}>
                 <ResearchIcon
                     src={search}
                     active={research !== '' ? 'active' : 'inactive'}
                 ></ResearchIcon>
-                {/* )} */}
-                {/* {research && <ResearchResult>Results for:</ResearchResult>} */}
                 <ResearchInput
                     ref={inputRef}
                     type="text"
@@ -492,6 +582,7 @@ function FilterBar({
                     onChange={handleInputChange}
                     onKeyDown={handleKeyPressed}
                     active={research !== '' ? 'active' : 'inactive'}
+                    forbidden={viewMode === 'browse' || viewMode === ''}
                 ></ResearchInput>
                 {research && (
                     <RemoveSearchInput
@@ -531,16 +622,6 @@ function FilterBar({
                             Restaurant / Cafe
                         </DropdownEntry>
                         <DropdownEntry
-                            onClick={() => handleTypeSelect('take-out')}
-                            active={
-                                filteredType === 'take-out'
-                                    ? 'active'
-                                    : 'inactive'
-                            }
-                        >
-                            Take out
-                        </DropdownEntry>
-                        <DropdownEntry
                             onClick={() => handleTypeSelect('supermarket')}
                             active={
                                 filteredType === 'supermarket'
@@ -550,7 +631,7 @@ function FilterBar({
                         >
                             Supermarket
                         </DropdownEntry>
-                        <DropdownEntry
+                        {/* <DropdownEntry
                             onClick={() => handleTypeSelect('market')}
                             active={
                                 filteredType === 'market'
@@ -559,7 +640,7 @@ function FilterBar({
                             }
                         >
                             Market
-                        </DropdownEntry>
+                        </DropdownEntry> */}
                         <DropdownEntry
                             onClick={() => handleTypeSelect('local-store')}
                             active={
@@ -631,7 +712,7 @@ function FilterBar({
                     ></CategoryIcon>
                     {formatCategory('fairtrade')}
                 </CategoryFilter>
-                <CategoryFilter
+                {/* <CategoryFilter
                     onClick={() => handleCategoryClick('plastic-free')}
                     active={
                         filteredCategories.includes('plastic-free')
@@ -649,7 +730,7 @@ function FilterBar({
                         }
                     ></CategoryIcon>
                     {formatCategory('plastic-free')}
-                </CategoryFilter>
+                </CategoryFilter> */}
                 <CategoryFilter
                     onClick={() => handleCategoryClick('zero-waste')}
                     active={
@@ -669,6 +750,27 @@ function FilterBar({
                     ></CategoryIcon>
                     {formatCategory('zero-waste')}
                 </CategoryFilter>
+                {filteredType === 'restaurant-cafe' && (
+                    <CategoryFilter
+                        onClick={() => handleCategoryClick('take-out')}
+                        active={
+                            filteredCategories.includes('take-out')
+                                ? 'active'
+                                : 'inactive'
+                        }
+                    >
+                        <CategoryIcon
+                            src={noplastic}
+                            title={formatCategory('take-out')}
+                            active={
+                                filteredCategories.includes('take-out')
+                                    ? 'active'
+                                    : 'inactive'
+                            }
+                        ></CategoryIcon>
+                        {formatCategory('take-out')}
+                    </CategoryFilter>
+                )}
             </CategoryFilters>
         </FilterBarWrapper>
     )

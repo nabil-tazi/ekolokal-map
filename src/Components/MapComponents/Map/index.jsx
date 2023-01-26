@@ -42,6 +42,7 @@ function Bounds({
     filteredType,
     setModalShopId,
     inputRef,
+    viewMode,
 }) {
     const map = useMapEvent('moveend', () => {
         console.log('map moves1')
@@ -52,7 +53,8 @@ function Bounds({
         if (
             modalShopId === 0 &&
             research === '' && //
-            inputRef.current.value === '' //
+            inputRef.current.value === '' && //
+            viewMode === 'browse'
         ) {
             console.log('map changes2')
             setDisplayedShops(
@@ -115,6 +117,8 @@ function Map({
     setDropdownOpen,
     filteredType,
     inputRef,
+    favoriteShops,
+    viewMode,
 }) {
     return (
         <>
@@ -144,6 +148,7 @@ function Map({
                         setOverview={setOverview}
                         mapRef={mapRef}
                         setDropdownOpen={setDropdownOpen}
+                        favoriteShops={favoriteShops}
                     ></ShopMarkersList>
                 )}
                 {/* </MarkerClusterGroup> */}
@@ -158,6 +163,7 @@ function Map({
                     setModalShopId={setModalShopId}
                     modalShopId={modalShopId}
                     inputRef={inputRef}
+                    viewMode={viewMode}
                 />
                 <ZoomControl position="topright" />
             </MapWrapper>

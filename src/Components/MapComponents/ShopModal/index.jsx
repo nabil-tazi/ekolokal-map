@@ -3,8 +3,15 @@ import cross from '../../../assets/cross.png'
 import phone from '../../../assets/phone.png'
 import target from '../../../assets/target.png'
 import link from '../../../assets/link.png'
+import emptyHeart from '../../../assets/emptyHeart.png'
+import fullHeart from '../../../assets/fullHeart.png'
 
-import { positionShopForModal, closeModal } from '../../../utils/maputils'
+import {
+    positionShopForModal,
+    closeModal,
+    isFavorite,
+} from '../../../utils/maputils'
+
 import IconList from '../../Categories/IconList'
 
 const ShopModalWrapper = styled.div`
@@ -25,7 +32,9 @@ const ShopModalWrapper = styled.div`
 
 const FirstLine = styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 20px;
 `
 
 const CloseIcon = styled.img`
@@ -34,9 +43,9 @@ const CloseIcon = styled.img`
     padding: 7px;
     margin: 10px;
     border-radius: 100%;
-    align-self: flex-start;
+    /* align-self: flex-start; */
     &:hover {
-        background-color: #e9e9e9;
+        background-color: #00000010;
     }
 `
 const PhoneIcon = styled.img`
@@ -66,8 +75,8 @@ const ShopName = styled.h2`
     font-size: 22px;
     margin: 0;
     line-height: 30px;
-    margin-top: 30px;
-    margin-left: 30px;
+    /* margin-top: 30px; */
+    margin-left: 20px;
     width: 450px;
 `
 
@@ -158,6 +167,19 @@ const LocalizeIcon = styled.img`
     margin: 10px;
 `
 
+const FavoriteIcon = styled.img`
+    width: 25px;
+    height: 25px;
+    margin-left: 20px;
+    padding: 10px;
+    border-radius: 100%;
+
+    cursor: pointer;
+    &:hover {
+        background-color: #00000010;
+    }
+`
+
 const SecondLine = styled.div`
     display: flex;
     justify-content: space-between;
@@ -195,6 +217,8 @@ function ShopModal({
     // setIsOverviewOpened,
     setDropdownOpen,
     setModalShopId,
+    favoriteShops,
+    setFavoriteShops,
 }) {
     function handleCloseModal() {
         closeModal(
@@ -204,6 +228,17 @@ function ShopModal({
             setDropdownOpen,
             setModalShopId
         )
+    }
+
+    function handleFavoriteClick() {
+        const copy = favoriteShops
+        const addingToFavorites = !isFavorite(shop, copy)
+
+        const newFavorites = addingToFavorites
+            ? [...copy, shop]
+            : copy.filter((e) => e.id !== shop.id)
+
+        setFavoriteShops(newFavorites)
     }
 
     function handleLocalizeShop() {
@@ -219,6 +254,12 @@ function ShopModal({
     return (
         <ShopModalWrapper>
             <FirstLine>
+                <FavoriteIcon
+                    src={
+                        isFavorite(shop, favoriteShops) ? fullHeart : emptyHeart
+                    }
+                    onClick={handleFavoriteClick}
+                ></FavoriteIcon>
                 <ShopName>{shop.title.toUpperCase()}</ShopName>
                 <CloseIcon src={cross} onClick={handleCloseModal}></CloseIcon>
             </FirstLine>

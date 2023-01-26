@@ -4,6 +4,7 @@ import restaurantImg from '../assets/restaurant.png'
 import localStoreImg from '../assets/local-store.png'
 import supermarketImg from '../assets/supermarket.png'
 import warningImg from '../assets/warning.png'
+import favoriteImg from '../assets/loveMarker.png'
 
 export function toRad(Value) {
     return (Value * Math.PI) / 180
@@ -95,12 +96,14 @@ export function localizeSearch(filteredShops, mapRef) {
     })
 }
 
-export function initDisplayedShops(map, shopList) {
-    return updateMarkerFromBounds(
-        map.getBounds(),
-        map.getCenter(),
-        shopList
-    ).sort(alphabetical)
+export function initDisplayedShops(map, viewMode, shopList) {
+    if (viewMode === '' || viewMode === 'browse')
+        return updateMarkerFromBounds(
+            map.getBounds(),
+            map.getCenter(),
+            shopList
+        ).sort(alphabetical)
+    else return shopList
 }
 
 export function positionShopForModal(map, shopLatLng, targetZoom) {
@@ -268,8 +271,16 @@ const warningIcon = new Leaflet.Icon({
     iconSize: [35, 35],
 })
 
-export function getIconUponCategories(categories) {
-    if (
+const favoriteIcon = new Leaflet.Icon({
+    iconUrl: favoriteImg,
+    iconAnchor: [17, 35],
+    popupAnchor: [0, -35],
+    iconSize: [35, 35],
+})
+
+export function getIconUponCategories(categories, favorite) {
+    if (favorite) return favoriteIcon
+    else if (
         categories &&
         categories.some(
             (cat) => cat.slug === 'restaurant-cafe' || cat.slug === 'take-out'
@@ -322,7 +333,31 @@ export function formatCategory(category) {
             return 'No plastic'
         case 'zero-waste':
             return 'Zero waste'
+        case 'take-out':
+            return 'Take out'
         default:
             return ''
+    }
+}
+
+export function isFavorite(shop, favorites) {
+    return favorites.some((favshop) => favshop.id === shop.id)
+}
+
+export function getAllShopsFromScope(
+    viewMode,
+    allShops,
+    favoriteShops,
+    allEvents
+) {
+    switch (viewMode) {
+        case 'browse':
+            return allShops
+        case 'events':
+            return allEvents
+        case 'favorites':
+            return favoriteShops
+        default:
+            return allShops
     }
 }

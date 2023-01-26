@@ -18,6 +18,28 @@ import logo from '../../assets/ekolokal-logo.png'
 const Container = styled.div`
     /* display: flex; */
 `
+const LoadingScreen = styled.div`
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: #fef2e2;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+
+const LoadingLogo = styled.img`
+    /* position: absolute; */
+    /* display: block; */
+    /* margin: auto; */
+    margin-bottom: 100px;
+    width: 170px;
+    /* height: 170px; */
+    /* top: 35%;
+
+    left: 45%; */
+`
 
 const EkolokalLogo = styled.img`
     position: absolute;
@@ -38,13 +60,20 @@ const EkolokalLogo = styled.img`
 
 function ShopBrowser() {
     const [allShops, setAllShops] = useState([])
+    const [allEvents, setAllEvents] = useState([])
+
     const [displayedShops, setDisplayedShops] = useState([])
-    // const [isOverviewOpened, setIsOverviewOpened] = useState(false)
+
+    const [favoriteShops, setFavoriteShops] = useState(
+        localStorage.getItem('favorites') != null
+            ? JSON.parse(localStorage.getItem('favorites'))
+            : []
+    )
+    const [viewMode, setViewMode] = useState('')
 
     const [overview, setOverview] = useState(0)
-    // const [isModalOpened, setIsModalOpened] = useState(false)
     const [modalShopId, setModalShopId] = useState(0)
-    // const [isAnyMarkerHovered, setIsMarkerHovered] = useState(false)
+
     const [research, setResearch] = useState('')
     const [filteredCategories, setFilteredCategories] = useState([])
 
@@ -54,6 +83,8 @@ function ShopBrowser() {
 
     const [itemsDisplayed, setItemsDisplayed] = useState(20)
 
+    const [isLoading, setLoading] = useState(true)
+
     const mapRef = useRef()
     const inputRef = useRef(null)
 
@@ -61,10 +92,12 @@ function ShopBrowser() {
 
     useEffect(() => {
         const fetchShops = async () => {
+            setLoading(true)
             try {
                 const response = await fetch(
                     `https://ekolokal.com/wp-json/wl/v1/shops`
                 )
+
                 const parsedData = await response.json()
                 setAllShops(parsedData)
 
@@ -74,16 +107,31 @@ function ShopBrowser() {
                             filteredCategories,
                             filterByType(
                                 filteredType,
-                                initDisplayedShops(mapRef.current, parsedData)
+                                initDisplayedShops(
+                                    mapRef.current,
+                                    viewMode,
+                                    parsedData
+                                )
                             )
                         )
                             .sort(alphabetical)
                             .slice(0, 100)
                     )
                 }
+
+                setAllEvents(recursiveCategoryFilter(['market'], parsedData))
             } catch (err) {
                 console.log(err)
+            } finally {
+                setLoading(false)
             }
+        }
+
+        const storedFavorites = JSON.parse(localStorage.getItem('favorites'))
+        if (storedFavorites) {
+            console.log('found something')
+            console.log(storedFavorites)
+            setFavoriteShops(storedFavorites)
         }
 
         fetchShops()
@@ -94,12 +142,32 @@ function ShopBrowser() {
         console.log(displayedShops.length)
     }, [displayedShops.length])
 
+    useEffect(() => {
+        console.log('added to cookies')
+        localStorage.setItem('favorites', JSON.stringify(favoriteShops))
+    }, [favoriteShops])
+
     return (
         <Container>
+            {isLoading && (
+                <LoadingScreen>
+                    <LoadingLogo src={logo}></LoadingLogo>
+                </LoadingScreen>
+            )}
             <MenuBar
+                setDisplayedShops={setDisplayedShops}
                 isSideBarOpened={isSideBarOpened}
                 setSideBarOpened={setSideBarOpened}
                 setItemsDisplayed={setItemsDisplayed}
+                favoriteShops={favoriteShops}
+                viewMode={viewMode}
+                mapRef={mapRef}
+                setViewMode={setViewMode}
+                filteredCategories={filteredCategories}
+                filteredType={filteredType}
+                allShops={allShops}
+                allEvents={allEvents}
+                research={research}
             ></MenuBar>
             {isSideBarOpened && (
                 <ShopList
@@ -128,6 +196,8 @@ function ShopBrowser() {
                     setDropdownOpen={setDropdownOpen}
                     setItemsDisplayed={setItemsDisplayed}
                     setModalShopId={setModalShopId}
+                    favoriteShops={favoriteShops}
+                    setFavoriteShops={setFavoriteShops}
                 ></ShopModal>
             )}
             <FilterBar
@@ -147,9 +217,13 @@ function ShopBrowser() {
                 filteredType={filteredType}
                 setFilteredType={setFilteredType}
                 inputRef={inputRef}
+                viewMode={viewMode}
+                favoriteShops={favoriteShops}
+                allEvents={allEvents}
             ></FilterBar>
             <Map
                 allShops={allShops}
+                viewMode={viewMode}
                 displayedShops={displayedShops}
                 setDisplayedShops={setDisplayedShops}
                 overview={overview}
@@ -163,6 +237,7 @@ function ShopBrowser() {
                 setDropdownOpen={setDropdownOpen}
                 filteredType={filteredType}
                 inputRef={inputRef}
+                favoriteShops={favoriteShops}
             ></Map>
             <EkolokalLogo src={logo} />
         </Container>
