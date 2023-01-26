@@ -89,54 +89,41 @@ function MenuBar({
     //     setSideBarOpened(!barState)
     // }
 
-    function handleChangeScope(newScope) {
-        if (viewMode === newScope) {
+    function handleChangeScope(clickedScope) {
+        var newScope = clickedScope
+        if (viewMode === clickedScope) {
             setSideBarOpened(false)
+            newScope = ''
             updateViewMode('')
         } else {
             updateViewMode(newScope)
             setSideBarOpened(true)
-            if (research === '') {
-                setDisplayedShops(
-                    recursiveCategoryFilter(
-                        filteredCategories,
-                        filterByType(
-                            filteredType,
-                            initDisplayedShops(
-                                mapRef.current,
-                                newScope,
-                                getAllShopsFromScope(
-                                    newScope,
-                                    allShops,
-                                    favoriteShops,
-                                    allEvents
-                                )
-                            )
-                        )
-                    )
-                        .sort(alphabetical)
-                        .slice(0, 100)
-                )
-            } else {
-                setDisplayedShops(
-                    filterShopsBySearch(
-                        research,
-                        recursiveCategoryFilter(
-                            filteredCategories,
-                            filterByType(
-                                filteredType,
-                                getAllShopsFromScope(
-                                    newScope,
-                                    allShops,
-                                    favoriteShops,
-                                    allEvents
-                                )
-                            )
-                        )
-                    )
-                )
-            }
         }
+        // if (research === '') {
+        setDisplayedShops(
+            filterShopsBySearch(
+                research,
+                recursiveCategoryFilter(
+                    filteredCategories,
+                    filterByType(
+                        filteredType,
+                        initDisplayedShops(
+                            mapRef.current,
+                            newScope,
+                            getAllShopsFromScope(
+                                newScope,
+                                allShops,
+                                favoriteShops,
+                                allEvents
+                            )
+                        )
+                    )
+                )
+            )
+                .sort(alphabetical)
+                .slice(0, 100)
+        )
+
         setItemsDisplayed(20)
     }
 

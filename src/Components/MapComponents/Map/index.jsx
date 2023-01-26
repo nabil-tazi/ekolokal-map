@@ -52,9 +52,9 @@ function Bounds({
 
         if (
             modalShopId === 0 &&
-            research === '' && //
-            inputRef.current.value === '' && //
-            viewMode === 'browse'
+            research === '' &&
+            inputRef.current.value === '' &&
+            (viewMode === 'browse' || viewMode === '')
         ) {
             console.log('map changes2')
             setDisplayedShops(

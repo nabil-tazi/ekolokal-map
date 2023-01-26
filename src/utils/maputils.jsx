@@ -351,6 +351,8 @@ export function getAllShopsFromScope(
     allEvents
 ) {
     switch (viewMode) {
+        case '':
+            return allShops
         case 'browse':
             return allShops
         case 'events':
