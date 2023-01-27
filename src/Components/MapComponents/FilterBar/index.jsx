@@ -11,21 +11,16 @@ import organic from '../../../assets/organic.png'
 import plantbased from '../../../assets/plantbased.png'
 
 import {
-    initDisplayedShops,
-    getNewBounds,
-    positionShopForModal,
-    alphabetical,
     openModal,
     closeModal,
-    recursiveCategoryFilter,
-    filterShopsBySearch,
     localizeSearch,
     formatType,
     formatCategory,
-    filterByType,
-    getAllShopsFromScope,
+    updateShops,
 } from '../../../utils/maputils'
-import { useRef, useState } from 'react'
+
+import { useContext } from 'react'
+import { ScopeContext } from '../../../utils/context'
 
 const FilterBarWrapper = styled.div`
     position: absolute;
@@ -47,7 +42,6 @@ const InputFilter = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* cursor: ${(props) => (props.forbidden ? 'auto' : 'not-allowed')}; */
 `
 
 const RemoveSearchInput = styled.img`
@@ -57,7 +51,6 @@ const RemoveSearchInput = styled.img`
         background-color: #00000010;
     }
 
-    /* margin: 10px; */
     right: 10px;
     box-sizing: border-box;
     z-index: 500;
@@ -76,9 +69,7 @@ const ResearchIcon = styled.img`
     margin: 3px;
     position: absolute;
     box-sizing: border-box;
-    /* top: 30px; */
     left: 5px;
-    /* transform: translateY(-50%); */
     filter: ${(props) =>
         props.active === 'active'
             ? ' drop-shadow(.2px .2px 0px #fff) brightness(0) invert(1) '
@@ -98,8 +89,6 @@ const ResearchInput = styled.input`
     font-family: sans-serif;
     font-size: 13px;
     font-weight: 200;
-    /* cursor: ${(props) => (props.forbidden ? 'auto' : 'not-allowed')}; */
-    /* pointer-events: ${(props) => (props.forbidden ? 'auto' : 'none')}; */
 
     &:focus {
         outline: none;
@@ -110,9 +99,6 @@ const ResearchInput = styled.input`
 
     background-color: ${(props) =>
         props.active === 'active' ? '#b2bdca' : '#f8f8f4'};
-
-    /* background-color: ${(props) =>
-        props.forbidden ? 'null' : '#d8d8d8'}; */
 `
 
 const CategoryFilters = styled.div`
@@ -139,7 +125,6 @@ const CategoryFilter = styled.div`
     font-family: sans-serif;
     font-size: 13px;
     font-weight: 200;
-    /* font-weight: ${(props) => (props.active === 'active' ? 400 : 200)}; */
     text-shadow: ${(props) =>
         props.active === 'active' ? '-0.1px 0 #fff, 0.1px 0 #fff' : null};
 
@@ -208,16 +193,12 @@ const Dropdown = styled.div`
     padding-top: 15px;
     display: flex;
     flex-direction: column;
-
     box-shadow: 0px 0px 10px gray;
-    /* transform: translate(220px); */
     transform: translateY(-10px) translateX(12px);
 `
 
 const DropdownEntry = styled.div`
-    /* width: 140px; */
     background-color: #f8f8f4;
-    /* height: 25px; */
     padding: 3px;
     text-align: center;
     font-family: sans-serif;
@@ -251,8 +232,6 @@ const ArrowDownIcon = styled.img`
     width: 15px;
     &:hover {
         background-color: #00000015;
-        /* background-color: ${(props) =>
-            props.type !== 'all' ? null : '#e9e9e9'}; */
     }
     border-radius: 15px;
     padding: 5px;
@@ -267,7 +246,6 @@ const ArrowDownIcon = styled.img`
 function FilterBar({
     setResearch,
     research,
-    displayedShops,
     setDisplayedShops,
     mapRef,
     allShops,
@@ -281,35 +259,26 @@ function FilterBar({
     filteredType,
     setFilteredType,
     inputRef,
-    viewMode,
     favoriteShops,
     allEvents,
 }) {
+    const { viewMode } = useContext(ScopeContext)
+
     function handleEraseResearch() {
         inputRef.current.value = ''
-
         closeModal(setOverview, setDropdownOpen, setModalShopId)
-
         setResearch('')
         setDisplayedShops(
-            recursiveCategoryFilter(
+            updateShops(
+                allShops,
+                allEvents,
+                favoriteShops,
+                '',
                 filteredCategories,
-                filterByType(
-                    filteredType,
-                    initDisplayedShops(
-                        mapRef.current,
-                        viewMode,
-                        getAllShopsFromScope(
-                            viewMode,
-                            allShops,
-                            favoriteShops,
-                            allEvents
-                        )
-                    )
-                )
+                filteredType,
+                mapRef,
+                viewMode
             )
-                .sort(alphabetical)
-                .slice(0, 100)
         )
     }
 
@@ -321,13 +290,7 @@ function FilterBar({
 
     function handleCategoryClick(clickedCategory) {
         const copy = filteredCategories
-        const copyAllShops = getAllShopsFromScope(
-            viewMode,
-            allShops,
-            favoriteShops,
-            allEvents
-        )
-        const copyDisplayedShops = displayedShops
+
         const filteringDown = !copy.includes(clickedCategory)
 
         const newFilters = filteringDown
@@ -337,202 +300,54 @@ function FilterBar({
         setFilteredCategories(newFilters)
         setOverview(0)
 
-        if (newFilters.length === 0 && research === '') {
-            setDisplayedShops(
-                filterByType(
-                    filteredType,
-                    initDisplayedShops(
-                        mapRef.current,
-                        viewMode,
-                        getAllShopsFromScope(
-                            viewMode,
-                            allShops,
-                            favoriteShops,
-                            allEvents
-                        )
-                    )
-                )
-                    .sort(alphabetical)
-                    .slice(0, 100)
+        setDisplayedShops(
+            updateShops(
+                allShops,
+                allEvents,
+                favoriteShops,
+                research,
+                newFilters,
+                filteredType,
+                mapRef,
+                viewMode
             )
-        } else if (filteringDown) {
-            setDisplayedShops(
-                recursiveCategoryFilter(
-                    newFilters,
-                    filterByType(filteredType, copyDisplayedShops)
-                )
-            )
-        } else if (research === '') {
-            setDisplayedShops(
-                recursiveCategoryFilter(
-                    newFilters,
-                    filterByType(
-                        filteredType,
-                        initDisplayedShops(
-                            mapRef.current,
-                            viewMode,
-                            getAllShopsFromScope(
-                                viewMode,
-                                allShops,
-                                favoriteShops,
-                                allEvents
-                            )
-                        )
-                    )
-                        .sort(alphabetical)
-                        .slice(0, 100)
-                )
-            )
-        } else {
-            console.log('heavy')
-            setDisplayedShops(
-                recursiveCategoryFilter(
-                    newFilters,
-                    filterShopsBySearch(
-                        research,
-                        filterByType(filteredType, copyAllShops)
-                    )
-                )
-            )
-        }
+        )
     }
-
-    // function filterByType(type, shops) {
-    //     return type === 'all'
-    //         ? shops
-    //         : shops.filter((shop) => {
-    //               if (shop.categories)
-    //                   return shop.categories.some((cat) => cat.slug === type)
-    //               else return false
-    //           })
-    // }
 
     function handleTypeSelect(newType) {
         setDropdownOpen(false)
         setFilteredType(newType)
 
-        if (filteredCategories.length === 0 && research === '') {
-            setDisplayedShops(
-                filterByType(
-                    newType,
-                    initDisplayedShops(
-                        mapRef.current,
-                        viewMode,
-                        getAllShopsFromScope(
-                            viewMode,
-                            allShops,
-                            favoriteShops,
-                            allEvents
-                        )
-                    )
-                )
-                    .sort(alphabetical)
-                    .slice(0, 100)
+        setDisplayedShops(
+            updateShops(
+                allShops,
+                allEvents,
+                favoriteShops,
+                research,
+                filteredCategories,
+                newType,
+                mapRef,
+                viewMode
             )
-        } else if (research === '') {
-            setDisplayedShops(
-                recursiveCategoryFilter(
-                    filteredCategories,
-                    filterByType(
-                        newType,
-                        initDisplayedShops(
-                            mapRef.current,
-                            viewMode,
-                            getAllShopsFromScope(
-                                viewMode,
-                                allShops,
-                                favoriteShops,
-                                allEvents
-                            )
-                        )
-                    )
-                )
-                    .sort(alphabetical)
-                    .slice(0, 100)
-            )
-        } else if (filteredCategories.length === 0) {
-            setDisplayedShops(
-                filterShopsBySearch(
-                    research,
-                    filterByType(
-                        newType,
-                        getAllShopsFromScope(
-                            viewMode,
-                            allShops,
-                            favoriteShops,
-                            allEvents
-                        )
-                    )
-                )
-            )
-        } else {
-            setDisplayedShops(
-                recursiveCategoryFilter(
-                    filteredCategories,
-                    filterShopsBySearch(
-                        research,
-                        filterByType(
-                            newType,
-                            getAllShopsFromScope(
-                                viewMode,
-                                allShops,
-                                favoriteShops,
-                                allEvents
-                            )
-                        )
-                    )
-                )
-            )
-        }
+        )
     }
 
     function handleSearchInput() {
         setResearch(inputRef.current.value)
 
-        if (inputRef.current.value === '') {
-            setDisplayedShops(
-                recursiveCategoryFilter(
-                    filteredCategories,
-                    filterByType(
-                        filteredType,
-                        initDisplayedShops(
-                            mapRef.current,
-                            viewMode,
-                            getAllShopsFromScope(
-                                viewMode,
-                                allShops,
-                                favoriteShops,
-                                allEvents
-                            )
-                        )
-                    )
-                )
-                    .sort(alphabetical)
-                    .slice(0, 100)
-            )
-            return
-        }
-
-        const filteredShops = filterShopsBySearch(
+        const filteredShops = updateShops(
+            allShops,
+            allEvents,
+            favoriteShops,
             inputRef.current.value,
-            recursiveCategoryFilter(
-                filteredCategories,
-                filterByType(
-                    filteredType,
-                    getAllShopsFromScope(
-                        viewMode,
-                        allShops,
-                        favoriteShops,
-                        allEvents
-                    )
-                )
-            )
+            filteredCategories,
+            filteredType,
+            mapRef,
+            viewMode
         )
+
         localizeSearch(filteredShops, mapRef)
         setDisplayedShops(filteredShops)
-        // console.log("we're gonna display :")
-        // console.log(filteredShops.length)
-
         setSideBarOpened(true)
 
         if (filteredShops.length === 1) {
@@ -553,7 +368,6 @@ function FilterBar({
     function handleOpenDropDown() {
         const dropdownStatus = isDropdownOpen
         setDropdownOpen(!dropdownStatus)
-        // localizeSearch(displayedShops, mapRef)
     }
 
     function handleInputChange() {
@@ -631,16 +445,6 @@ function FilterBar({
                         >
                             Supermarket
                         </DropdownEntry>
-                        {/* <DropdownEntry
-                            onClick={() => handleTypeSelect('market')}
-                            active={
-                                filteredType === 'market'
-                                    ? 'active'
-                                    : 'inactive'
-                            }
-                        >
-                            Market
-                        </DropdownEntry> */}
                         <DropdownEntry
                             onClick={() => handleTypeSelect('local-store')}
                             active={
@@ -712,25 +516,6 @@ function FilterBar({
                     ></CategoryIcon>
                     {formatCategory('fairtrade')}
                 </CategoryFilter>
-                {/* <CategoryFilter
-                    onClick={() => handleCategoryClick('plastic-free')}
-                    active={
-                        filteredCategories.includes('plastic-free')
-                            ? 'active'
-                            : 'inactive'
-                    }
-                >
-                    <CategoryIcon
-                        src={noplastic}
-                        title={formatCategory('plastic-free')}
-                        active={
-                            filteredCategories.includes('plastic-free')
-                                ? 'active'
-                                : 'inactive'
-                        }
-                    ></CategoryIcon>
-                    {formatCategory('plastic-free')}
-                </CategoryFilter> */}
                 <CategoryFilter
                     onClick={() => handleCategoryClick('zero-waste')}
                     active={

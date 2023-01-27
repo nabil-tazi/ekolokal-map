@@ -96,14 +96,48 @@ export function localizeSearch(filteredShops, mapRef) {
     })
 }
 
-export function initDisplayedShops(map, viewMode, shopList) {
-    if (viewMode === '' || viewMode === 'browse')
+export function initShopFromBounds(map, viewMode, research, shopList) {
+    if ((viewMode === '' || viewMode === 'browse') && research === '')
         return updateMarkerFromBounds(
             map.getBounds(),
             map.getCenter(),
             shopList
         ).sort(alphabetical)
     else return shopList
+}
+
+export function updateShops(
+    allShops,
+    allEvents,
+    favoriteShops,
+    research,
+    categories,
+    type,
+    mapRef,
+    viewMode
+) {
+    return filterShopsBySearch(
+        research,
+        recursiveCategoryFilter(
+            categories,
+            filterByType(
+                type,
+                initShopFromBounds(
+                    mapRef.current,
+                    viewMode,
+                    research,
+                    getAllShopsFromScope(
+                        viewMode,
+                        allShops,
+                        favoriteShops,
+                        allEvents
+                    )
+                )
+            )
+        )
+    )
+        .sort(alphabetical)
+        .slice(0, 100)
 }
 
 export function positionShopForModal(map, shopLatLng, targetZoom) {
@@ -352,6 +386,7 @@ export function getAllShopsFromScope(
 ) {
     switch (viewMode) {
         case '':
+            console.log('on y est')
             return allShops
         case 'browse':
             return allShops

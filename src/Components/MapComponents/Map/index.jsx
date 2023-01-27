@@ -5,6 +5,9 @@ import {
     ZoomControl,
 } from 'react-leaflet'
 
+import { useContext } from 'react'
+import { ScopeContext } from '../../../utils/context'
+
 // import MarkerClusterGroup from 'react-leaflet-cluster'
 
 import MarkerClusterGroup from '@changey/react-leaflet-markercluster'
@@ -42,8 +45,9 @@ function Bounds({
     filteredType,
     setModalShopId,
     inputRef,
-    viewMode,
 }) {
+    const { viewMode } = useContext(ScopeContext)
+
     const map = useMapEvent('moveend', () => {
         console.log('map moves1')
         console.log(modalShopId)
@@ -118,7 +122,6 @@ function Map({
     filteredType,
     inputRef,
     favoriteShops,
-    viewMode,
 }) {
     return (
         <>
@@ -163,7 +166,6 @@ function Map({
                     setModalShopId={setModalShopId}
                     modalShopId={modalShopId}
                     inputRef={inputRef}
-                    viewMode={viewMode}
                 />
                 <ZoomControl position="topright" />
             </MapWrapper>

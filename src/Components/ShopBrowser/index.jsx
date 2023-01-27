@@ -1,19 +1,15 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useContext } from 'react'
 import ShopList from '../ShopList'
 import Map from '../MapComponents/Map'
 import FilterBar from '../MapComponents/FilterBar'
 import MenuBar from '../MapComponents/MenuBar'
 import ShopModal from '../MapComponents/ShopModal'
 import styled from 'styled-components'
-import {
-    initDisplayedShops,
-    filterByType,
-    recursiveCategoryFilter,
-    updateMarkerFromBounds,
-    alphabetical,
-} from '../../utils/maputils'
+import { recursiveCategoryFilter, updateShops } from '../../utils/maputils'
 import ShopData from '../../assets/data'
 import logo from '../../assets/ekolokal-logo.png'
+
+import { ScopeContext } from '../../utils/context'
 
 const Container = styled.div`
     /* display: flex; */
@@ -30,15 +26,8 @@ const LoadingScreen = styled.div`
 `
 
 const LoadingLogo = styled.img`
-    /* position: absolute; */
-    /* display: block; */
-    /* margin: auto; */
     margin-bottom: 100px;
     width: 170px;
-    /* height: 170px; */
-    /* top: 35%;
-
-    left: 45%; */
 `
 
 const EkolokalLogo = styled.img`
@@ -69,7 +58,7 @@ function ShopBrowser() {
             ? JSON.parse(localStorage.getItem('favorites'))
             : []
     )
-    const [viewMode, setViewMode] = useState('')
+    const { viewMode } = useContext(ScopeContext)
 
     const [overview, setOverview] = useState(0)
     const [modalShopId, setModalShopId] = useState(0)
@@ -91,6 +80,11 @@ function ShopBrowser() {
     const initCenter = [34.67, 135.49]
 
     useEffect(() => {
+        const storedFavorites = JSON.parse(localStorage.getItem('favorites'))
+        if (storedFavorites) {
+            setFavoriteShops(storedFavorites)
+        }
+
         const fetchShops = async () => {
             setLoading(true)
             try {
@@ -101,39 +95,31 @@ function ShopBrowser() {
                 const parsedData = await response.json()
                 setAllShops(parsedData)
 
+                const events = recursiveCategoryFilter(['market'], parsedData)
+                setAllEvents(events)
+
                 if (inputRef.current.value === '') {
+                    console.log('viewMode')
+                    console.log(viewMode)
                     setDisplayedShops(
-                        recursiveCategoryFilter(
+                        updateShops(
+                            parsedData,
+                            events,
+                            storedFavorites,
+                            '',
                             filteredCategories,
-                            filterByType(
-                                filteredType,
-                                initDisplayedShops(
-                                    mapRef.current,
-                                    viewMode,
-                                    parsedData
-                                )
-                            )
+                            filteredType,
+                            mapRef,
+                            viewMode
                         )
-                            .sort(alphabetical)
-                            .slice(0, 100)
                     )
                 }
-
-                setAllEvents(recursiveCategoryFilter(['market'], parsedData))
             } catch (err) {
                 console.log(err)
             } finally {
                 setLoading(false)
             }
         }
-
-        const storedFavorites = JSON.parse(localStorage.getItem('favorites'))
-        if (storedFavorites) {
-            console.log('found something')
-            console.log(storedFavorites)
-            setFavoriteShops(storedFavorites)
-        }
-
         fetchShops()
     }, [])
 
@@ -149,6 +135,7 @@ function ShopBrowser() {
 
     return (
         <Container>
+            {/* <ScopeProvider> */}
             {isLoading && (
                 <LoadingScreen>
                     <LoadingLogo src={logo}></LoadingLogo>
@@ -160,9 +147,7 @@ function ShopBrowser() {
                 setSideBarOpened={setSideBarOpened}
                 setItemsDisplayed={setItemsDisplayed}
                 favoriteShops={favoriteShops}
-                viewMode={viewMode}
                 mapRef={mapRef}
-                setViewMode={setViewMode}
                 filteredCategories={filteredCategories}
                 filteredType={filteredType}
                 allShops={allShops}
@@ -203,7 +188,6 @@ function ShopBrowser() {
             <FilterBar
                 research={research}
                 setResearch={setResearch}
-                displayedShops={displayedShops}
                 setDisplayedShops={setDisplayedShops}
                 setOverview={setOverview}
                 mapRef={mapRef}
@@ -217,13 +201,11 @@ function ShopBrowser() {
                 filteredType={filteredType}
                 setFilteredType={setFilteredType}
                 inputRef={inputRef}
-                viewMode={viewMode}
                 favoriteShops={favoriteShops}
                 allEvents={allEvents}
             ></FilterBar>
             <Map
                 allShops={allShops}
-                viewMode={viewMode}
                 displayedShops={displayedShops}
                 setDisplayedShops={setDisplayedShops}
                 overview={overview}
@@ -240,6 +222,7 @@ function ShopBrowser() {
                 favoriteShops={favoriteShops}
             ></Map>
             <EkolokalLogo src={logo} />
+            {/* </ScopeProvider> */}
         </Container>
     )
 }

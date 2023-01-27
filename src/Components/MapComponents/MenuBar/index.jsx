@@ -3,24 +3,18 @@ import list from '../../../assets/browse.png'
 import event from '../../../assets/temporary.png'
 import favorites from '../../../assets/favorites.png'
 
-import {
-    initDisplayedShops,
-    alphabetical,
-    recursiveCategoryFilter,
-    filterByType,
-    getAllShopsFromScope,
-    filterShopsBySearch,
-} from '../../../utils/maputils'
+import { updateShops } from '../../../utils/maputils'
 const IconWrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 30px;
 `
 
+import { useContext } from 'react'
+import { ScopeContext } from '../../../utils/context'
+
 const MenuIcon = styled.img`
-    /* position: absolute; */
     width: 35px;
-    /* height: 35px; */
     margin: 10px;
     margin-top: 17px;
     padding: 7px;
@@ -72,8 +66,6 @@ function MenuBar({
     setSideBarOpened,
     setItemsDisplayed,
     favoriteShops,
-    viewMode,
-    setViewMode,
     filteredCategories,
     filteredType,
     mapRef,
@@ -81,47 +73,29 @@ function MenuBar({
     allEvents,
     research,
 }) {
-    function updateViewMode(newMode) {
-        setViewMode(newMode)
-    }
-    // function toggleSideBar() {
-    //     const barState = isSideBarOpened
-    //     setSideBarOpened(!barState)
-    // }
+    const { viewMode, switchViewMode } = useContext(ScopeContext)
 
     function handleChangeScope(clickedScope) {
         var newScope = clickedScope
         if (viewMode === clickedScope) {
             setSideBarOpened(false)
             newScope = ''
-            updateViewMode('')
+            switchViewMode('')
         } else {
-            updateViewMode(newScope)
+            switchViewMode(newScope)
             setSideBarOpened(true)
         }
-        // if (research === '') {
         setDisplayedShops(
-            filterShopsBySearch(
+            updateShops(
+                allShops,
+                allEvents,
+                favoriteShops,
                 research,
-                recursiveCategoryFilter(
-                    filteredCategories,
-                    filterByType(
-                        filteredType,
-                        initDisplayedShops(
-                            mapRef.current,
-                            newScope,
-                            getAllShopsFromScope(
-                                newScope,
-                                allShops,
-                                favoriteShops,
-                                allEvents
-                            )
-                        )
-                    )
-                )
+                filteredCategories,
+                filteredType,
+                mapRef,
+                newScope
             )
-                .sort(alphabetical)
-                .slice(0, 100)
         )
 
         setItemsDisplayed(20)
