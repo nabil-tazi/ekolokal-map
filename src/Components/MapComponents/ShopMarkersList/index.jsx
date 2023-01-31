@@ -1,22 +1,21 @@
+import { useContext } from 'react'
+
 import ShopMarker from '../ShopMarker'
 
 import { isFavorite } from '../../../utils/maputils'
+import { ScopeContext } from '../../../utils/context'
 
 function ShopMarkersList({
-    markersToDisplay,
     overview,
     modalShopId,
     setModalShopId,
-    isModalOpened,
-    setIsModalOpened,
     setOverview,
-    mapRef,
-    favoriteShops,
     setDropdownOpen,
 }) {
+    const { mapRef, favoriteShops, displayedShops } = useContext(ScopeContext)
     return (
         <>
-            {markersToDisplay.map((shop) =>
+            {displayedShops.map((shop) =>
                 isNaN(parseFloat(shop.geolocation_lat[0])) ||
                 isNaN(parseFloat(shop.geolocation_long[0])) ||
                 shop?.geolocation_lat[0] === '' ||

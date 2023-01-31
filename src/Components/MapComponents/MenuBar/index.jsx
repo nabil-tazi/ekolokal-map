@@ -60,20 +60,8 @@ const LanguageButton = styled.div`
     cursor: pointer;
 `
 
-function MenuBar({
-    setDisplayedShops,
-    isSideBarOpened,
-    setSideBarOpened,
-    setItemsDisplayed,
-    favoriteShops,
-    filteredCategories,
-    filteredType,
-    mapRef,
-    allShops,
-    allEvents,
-    research,
-}) {
-    const { viewMode, switchViewMode } = useContext(ScopeContext)
+function MenuBar({ isSideBarOpened, setSideBarOpened, setItemsDisplayed }) {
+    const { viewMode, switchViewMode, changeScope } = useContext(ScopeContext)
 
     function handleChangeScope(clickedScope) {
         var newScope = clickedScope
@@ -85,18 +73,19 @@ function MenuBar({
             switchViewMode(newScope)
             setSideBarOpened(true)
         }
-        setDisplayedShops(
-            updateShops(
-                allShops,
-                allEvents,
-                favoriteShops,
-                research,
-                filteredCategories,
-                filteredType,
-                mapRef,
-                newScope
-            )
-        )
+        changeScope(newScope)
+        // updateDisplayedShops(
+        //     updateShops(
+        //         allShops,
+        //         allEvents,
+        //         favoriteShops,
+        //         research,
+        //         filteredCategories,
+        //         filteredType,
+        //         mapRef.current,
+        //         newScope
+        //     )
+        // )
 
         setItemsDisplayed(20)
     }

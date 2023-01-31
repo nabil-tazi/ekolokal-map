@@ -17,14 +17,7 @@ import 'leaflet/dist/leaflet.css'
 // import 'react-leaflet-markercluster/dist/styles.min.css'
 import styled from 'styled-components'
 
-import {
-    updateMarkerFromBounds,
-    alphabetical,
-    // sortById,
-    recursiveCategoryFilter,
-    filterByType,
-    closeModal,
-} from '../../../utils/maputils.jsx'
+import { closeModal } from '../../../utils/maputils.jsx'
 
 import ShopMarkersList from '../ShopMarkersList'
 
@@ -35,94 +28,49 @@ const MapWrapper = styled(MapContainer)`
 `
 
 function Bounds({
-    allShops,
-    setDisplayedShops,
     modalShopId,
     setOverview,
-    research,
-    filteredCategories,
     setDropdownOpen,
-    filteredType,
     setModalShopId,
     inputRef,
 }) {
-    const { viewMode } = useContext(ScopeContext)
+    const { viewMode, research, moveMap } = useContext(ScopeContext)
 
     const map = useMapEvent('moveend', () => {
-        console.log('map moves1')
-        console.log(modalShopId)
-        console.log(research)
-        console.log(inputRef.current.value)
-
         if (
             modalShopId === 0 &&
             research === '' &&
             inputRef.current.value === '' &&
             (viewMode === 'browse' || viewMode === '')
         ) {
-            console.log('map changes2')
-            setDisplayedShops(
-                recursiveCategoryFilter(
-                    filteredCategories,
-                    filterByType(
-                        filteredType,
-                        updateMarkerFromBounds(
-                            map.getBounds(),
-                            map.getCenter(),
-                            allShops
-                        )
-                    )
-                )
-                    // .slice(0, 200) // Only displays the first 200
-                    .sort(alphabetical)
-                    // .sort(sortById)
-                    .slice(0, 100)
-            )
+            moveMap(map)
         }
     })
 
     useMapEvent('click', () => {
-        // setOverview(0)
-        // setIsModalOpened(false)
-        // setIsOverviewOpened(false)
-        // setDropdownOpen(false)
-        // setModalShopId(0)
         closeModal(setOverview, setDropdownOpen, setModalShopId)
     })
     useMapEvent('mouseover', () => {
         if (modalShopId === 0) {
             setOverview(0)
         } else {
-            console.log('mouseOver')
-
             setOverview(modalShopId)
         }
-        // setIsModalOpened(false)
-        // setIsOverviewOpened(false)
-        // setDropdownOpen(false)
-        // setModalShopId(0)
-        // closeModal(setOverview, setDropdownOpen, setModalShopId)
     })
     return null
 }
 
 function Map({
-    allShops,
-    displayedShops,
-    setDisplayedShops,
     overview,
     center,
-    mapRef,
     modalShopId,
     setModalShopId,
     setOverview,
-    research,
-    filteredCategories,
     setDropdownOpen,
-    filteredType,
     inputRef,
-    favoriteShops,
 }) {
+    const { mapRef, displayedShops } = useContext(ScopeContext)
+
     return (
         <>
             <MapWrapper
@@ -144,25 +92,17 @@ function Map({
                 > */}
                 {displayedShops && (
                     <ShopMarkersList
-                        markersToDisplay={displayedShops}
                         overview={overview}
                         modalShopId={modalShopId}
                         setModalShopId={setModalShopId}
                         setOverview={setOverview}
-                        mapRef={mapRef}
                         setDropdownOpen={setDropdownOpen}
-                        favoriteShops={favoriteShops}
                     ></ShopMarkersList>
                 )}
                 {/* </MarkerClusterGroup> */}
                 <Bounds
-                    allShops={allShops}
-                    setDisplayedShops={setDisplayedShops}
-                    research={research}
                     setOverview={setOverview}
-                    filteredCategories={filteredCategories}
                     setDropdownOpen={setDropdownOpen}
-                    filteredType={filteredType}
                     setModalShopId={setModalShopId}
                     modalShopId={modalShopId}
                     inputRef={inputRef}

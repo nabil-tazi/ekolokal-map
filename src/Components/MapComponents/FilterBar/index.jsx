@@ -4,22 +4,15 @@ import search from '../../../assets/search.png'
 import list from '../../../assets/list.png'
 import arrow from '../../../assets/down.png'
 
-import fairtrade from '../../../assets/fairtrade.png'
-import nobin from '../../../assets/nobin.png'
-import noplastic from '../../../assets/noplastic.png'
-import organic from '../../../assets/organic.png'
-import plantbased from '../../../assets/plantbased.png'
+import { CATEGORIES } from '../../../utils/configuration/CategoriesConfig'
+import { TYPES } from '../../../utils/configuration/TypeConfig'
 
-import {
-    openModal,
-    closeModal,
-    localizeSearch,
-    formatType,
-    formatCategory,
-    updateShops,
-} from '../../../utils/maputils'
+import CategoryFilterButton from '../CategoryFilterButton'
+import TypeFilterEntry from '../TypeFilterEntry'
 
-import { useContext } from 'react'
+import { openModal, closeModal, formatType } from '../../../utils/maputils'
+
+import { useContext, useEffect } from 'react'
 import { ScopeContext } from '../../../utils/context'
 
 const FilterBarWrapper = styled.div`
@@ -113,37 +106,6 @@ const CategoryFilters = styled.div`
     overflow-x: scroll;
 `
 
-const CategoryFilter = styled.div`
-    max-width: 100px;
-    height: 37px;
-    line-height: 13px;
-    /* background-color: #f8f8f4; */
-    z-index: 500;
-    border-radius: 20px;
-    /* color: #292929; */
-    color: ${(props) => (props.active === 'active' ? 'white' : '#292929')};
-    font-family: sans-serif;
-    font-size: 13px;
-    font-weight: 200;
-    text-shadow: ${(props) =>
-        props.active === 'active' ? '-0.1px 0 #fff, 0.1px 0 #fff' : null};
-
-    user-select: none;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    cursor: pointer;
-    padding-right: 10px;
-    box-shadow: 0px 0px 10px gray;
-    background-color: ${(props) =>
-        props.active === 'active' ? '#b2bdca' : '#f8f8f4'};
-
-    &:hover {
-        background-color: ${(props) =>
-            props.active === 'active' ? '#b2bdca' : '#e9e9e9'};
-    }
-`
-
 const TypeFilter = styled.div`
     height: 37px;
     width: 130px;
@@ -197,37 +159,6 @@ const Dropdown = styled.div`
     transform: translateY(-10px) translateX(12px);
 `
 
-const DropdownEntry = styled.div`
-    background-color: #f8f8f4;
-    padding: 3px;
-    text-align: center;
-    font-family: sans-serif;
-    font-size: 13px;
-    font-weight: 200;
-    color: ${(props) => (props.active === 'active' ? 'white' : '#292929')};
-    border-radius: 5px;
-    border: 5px solid transparent;
-
-    cursor: pointer;
-    &:hover {
-        background-color: ${(props) =>
-            props.active === 'active' ? '#b2bdca' : '#00000010'};
-    }
-
-    background-color: ${(props) =>
-        props.active === 'active' ? '#b2bdca' : '#f8f8f4'};
-`
-
-const CategoryIcon = styled.img`
-    width: 28px;
-    margin-left: 10px;
-    margin-right: 5px;
-    filter: ${(props) =>
-        props.active === 'active'
-            ? ' drop-shadow(.2px .2px 0px #fff) brightness(0) invert(1) '
-            : null};
-`
-
 const ArrowDownIcon = styled.img`
     width: 15px;
     &:hover {
@@ -244,43 +175,38 @@ const ArrowDownIcon = styled.img`
 `
 
 function FilterBar({
-    setResearch,
-    research,
-    setDisplayedShops,
-    mapRef,
-    allShops,
     setModalShopId,
     setOverview,
     setSideBarOpened,
-    filteredCategories,
-    setFilteredCategories,
     isDropdownOpen,
     setDropdownOpen,
-    filteredType,
-    setFilteredType,
     inputRef,
-    favoriteShops,
-    allEvents,
 }) {
-    const { viewMode } = useContext(ScopeContext)
+    const {
+        research,
+        updateResearch,
+        mapRef,
+        viewMode,
+        filteredType,
+        inputSearch,
+        displayedShops,
+    } = useContext(ScopeContext)
 
-    function handleEraseResearch() {
-        inputRef.current.value = ''
-        closeModal(setOverview, setDropdownOpen, setModalShopId)
-        setResearch('')
-        setDisplayedShops(
-            updateShops(
-                allShops,
-                allEvents,
-                favoriteShops,
-                '',
-                filteredCategories,
-                filteredType,
-                mapRef,
-                viewMode
+    useEffect(() => {
+        if (displayedShops.length === 1 && research !== '') {
+            openModal(
+                mapRef.current,
+                [
+                    parseFloat(displayedShops[0].geolocation_lat[0]),
+                    parseFloat(displayedShops[0].geolocation_long[0]),
+                ],
+                displayedShops[0].id,
+                setModalShopId,
+                setOverview,
+                16
             )
-        )
-    }
+        }
+    }, [displayedShops])
 
     const handleKeyPressed = (e) => {
         if (e.key === 'Enter') {
@@ -288,86 +214,16 @@ function FilterBar({
         }
     }
 
-    function handleCategoryClick(clickedCategory) {
-        const copy = filteredCategories
-
-        const filteringDown = !copy.includes(clickedCategory)
-
-        const newFilters = filteringDown
-            ? [...copy, clickedCategory]
-            : copy.filter((e) => e !== clickedCategory)
-
-        setFilteredCategories(newFilters)
-        setOverview(0)
-
-        setDisplayedShops(
-            updateShops(
-                allShops,
-                allEvents,
-                favoriteShops,
-                research,
-                newFilters,
-                filteredType,
-                mapRef,
-                viewMode
-            )
-        )
-    }
-
-    function handleTypeSelect(newType) {
-        setDropdownOpen(false)
-        setFilteredType(newType)
-
-        setDisplayedShops(
-            updateShops(
-                allShops,
-                allEvents,
-                favoriteShops,
-                research,
-                filteredCategories,
-                newType,
-                mapRef,
-                viewMode
-            )
-        )
-    }
-
     function handleSearchInput() {
-        setResearch(inputRef.current.value)
+        const input = inputRef.current.value
+        updateResearch(input)
+        inputSearch(input)
 
-        const filteredShops = updateShops(
-            allShops,
-            allEvents,
-            favoriteShops,
-            inputRef.current.value,
-            filteredCategories,
-            filteredType,
-            mapRef,
-            viewMode
-        )
-
-        localizeSearch(filteredShops, mapRef)
-        setDisplayedShops(filteredShops)
-        setSideBarOpened(true)
-
-        if (filteredShops.length === 1) {
-            openModal(
-                mapRef.current,
-                [
-                    parseFloat(filteredShops[0].geolocation_lat[0]),
-                    parseFloat(filteredShops[0].geolocation_long[0]),
-                ],
-                filteredShops[0].id,
-                setModalShopId,
-                setOverview,
-                16
-            )
-        }
+        if (input !== '') setSideBarOpened(true)
     }
 
     function handleOpenDropDown() {
-        const dropdownStatus = isDropdownOpen
-        setDropdownOpen(!dropdownStatus)
+        setDropdownOpen(!isDropdownOpen)
     }
 
     function handleInputChange() {
@@ -377,6 +233,21 @@ function FilterBar({
     function closeDropdown() {
         setDropdownOpen(false)
     }
+
+    const categoriesList = [
+        CATEGORIES.PLANTBASED,
+        CATEGORIES.ORGANIC,
+        CATEGORIES.FAIRTRADE,
+        CATEGORIES.ZEROWASTE,
+        CATEGORIES.TAKEOUT,
+    ]
+
+    const typeList = [
+        TYPES.ALL,
+        TYPES.RESTAURANTCAFE,
+        TYPES.SUPERMARKET,
+        TYPES.LOCALSTORE,
+    ]
 
     return (
         <FilterBarWrapper>
@@ -401,7 +272,10 @@ function FilterBar({
                 {research && (
                     <RemoveSearchInput
                         src={cross}
-                        onClick={handleEraseResearch}
+                        onClick={() => {
+                            inputRef.current.value = ''
+                            handleSearchInput()
+                        }}
                         active={research !== '' ? 'active' : 'inactive'}
                     ></RemoveSearchInput>
                 )}
@@ -417,145 +291,24 @@ function FilterBar({
                 </TypeFilter>
                 {isDropdownOpen && (
                     <Dropdown>
-                        <DropdownEntry
-                            onClick={() => handleTypeSelect('all')}
-                            active={
-                                filteredType === 'all' ? 'active' : 'inactive'
-                            }
-                        >
-                            All types
-                        </DropdownEntry>
-                        <DropdownEntry
-                            onClick={() => handleTypeSelect('restaurant-cafe')}
-                            active={
-                                filteredType === 'restaurant-cafe'
-                                    ? 'active'
-                                    : 'inactive'
-                            }
-                        >
-                            Restaurant / Cafe
-                        </DropdownEntry>
-                        <DropdownEntry
-                            onClick={() => handleTypeSelect('supermarket')}
-                            active={
-                                filteredType === 'supermarket'
-                                    ? 'active'
-                                    : 'inactive'
-                            }
-                        >
-                            Supermarket
-                        </DropdownEntry>
-                        <DropdownEntry
-                            onClick={() => handleTypeSelect('local-store')}
-                            active={
-                                filteredType === 'local-store'
-                                    ? 'active'
-                                    : 'inactive'
-                            }
-                        >
-                            Local store
-                        </DropdownEntry>
+                        {typeList.map((type, index) => (
+                            <TypeFilterEntry
+                                key={index}
+                                TYPE={type}
+                                setDropdownOpen={setDropdownOpen}
+                            ></TypeFilterEntry>
+                        ))}
                     </Dropdown>
                 )}
             </TypeFilterContainer>
             <CategoryFilters>
-                <CategoryFilter
-                    onClick={() => handleCategoryClick('plant-based')}
-                    active={
-                        filteredCategories.includes('plant-based')
-                            ? 'active'
-                            : 'inactive'
-                    }
-                >
-                    <CategoryIcon
-                        src={plantbased}
-                        title={formatCategory('plant-based')}
-                        active={
-                            filteredCategories.includes('plant-based')
-                                ? 'active'
-                                : 'inactive'
-                        }
-                    ></CategoryIcon>
-                    {formatCategory('plant-based')}
-                </CategoryFilter>
-                <CategoryFilter
-                    onClick={() => handleCategoryClick('organic')}
-                    active={
-                        filteredCategories.includes('organic')
-                            ? 'active'
-                            : 'inactive'
-                    }
-                >
-                    <CategoryIcon
-                        src={organic}
-                        title={formatCategory('organic')}
-                        active={
-                            filteredCategories.includes('organic')
-                                ? 'active'
-                                : 'inactive'
-                        }
-                    ></CategoryIcon>
-                    {formatCategory('organic')}
-                </CategoryFilter>
-                <CategoryFilter
-                    onClick={() => handleCategoryClick('fairtrade')}
-                    active={
-                        filteredCategories.includes('fairtrade')
-                            ? 'active'
-                            : 'inactive'
-                    }
-                >
-                    <CategoryIcon
-                        src={fairtrade}
-                        title={formatCategory('fairtrade')}
-                        active={
-                            filteredCategories.includes('fairtrade')
-                                ? 'active'
-                                : 'inactive'
-                        }
-                    ></CategoryIcon>
-                    {formatCategory('fairtrade')}
-                </CategoryFilter>
-                <CategoryFilter
-                    onClick={() => handleCategoryClick('zero-waste')}
-                    active={
-                        filteredCategories.includes('zero-waste')
-                            ? 'active'
-                            : 'inactive'
-                    }
-                >
-                    <CategoryIcon
-                        src={nobin}
-                        title={formatCategory('zero-waste')}
-                        active={
-                            filteredCategories.includes('zero-waste')
-                                ? 'active'
-                                : 'inactive'
-                        }
-                    ></CategoryIcon>
-                    {formatCategory('zero-waste')}
-                </CategoryFilter>
-                {filteredType === 'restaurant-cafe' && (
-                    <CategoryFilter
-                        onClick={() => handleCategoryClick('take-out')}
-                        active={
-                            filteredCategories.includes('take-out')
-                                ? 'active'
-                                : 'inactive'
-                        }
-                    >
-                        <CategoryIcon
-                            src={noplastic}
-                            title={formatCategory('take-out')}
-                            active={
-                                filteredCategories.includes('take-out')
-                                    ? 'active'
-                                    : 'inactive'
-                            }
-                        ></CategoryIcon>
-                        {formatCategory('take-out')}
-                    </CategoryFilter>
-                )}
+                {categoriesList.map((cat, index) => (
+                    <CategoryFilterButton
+                        key={index}
+                        CATEGORY={cat}
+                        setOverview={setOverview}
+                    ></CategoryFilterButton>
+                ))}
             </CategoryFilters>
         </FilterBarWrapper>
     )

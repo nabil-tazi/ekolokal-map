@@ -4,7 +4,8 @@ import arrow from '../../assets/left-arrow.png'
 
 import { formatType, formatCategory } from '../../utils/maputils'
 
-import { useState, useRef } from 'react'
+import { useContext } from 'react'
+import { ScopeContext } from '../../utils/context'
 
 const Wrapper = styled.div`
     position: absolute;
@@ -105,24 +106,17 @@ const LeftArrowIcon = styled.img`
 `
 
 function ShopList({
-    displayedShops,
-    // setDisplayedShops,
     setOverview,
-    mapRef,
-    // setIsModalOpened,
-    // isModalOpened,
     modalShopId,
     setModalShopId,
-    // setIsMarkerHovered,
-    // setIsOverviewOpened,
     setDropdownOpen,
     setSideBarOpened,
     itemsDisplayed,
     setItemsDisplayed,
-    research,
-    filteredType,
-    filteredCategories,
 }) {
+    const { research, filteredCategories, filteredType, displayedShops } =
+        useContext(ScopeContext)
+
     function closeDropdown() {
         setDropdownOpen(false)
     }
@@ -191,15 +185,9 @@ function ShopList({
                         <ShopListItem
                             key={shop.id}
                             shop={shop}
-                            // setDisplayedShops={setDisplayedShops}
                             setOverview={setOverview}
-                            mapRef={mapRef}
-                            // setIsModalOpened={setIsModalOpened}
-                            // isModalOpened={isModalOpened}
                             modalShopId={modalShopId}
                             setModalShopId={setModalShopId}
-                            // setIsMarkerHovered={setIsMarkerHovered}
-                            // setIsOverviewOpened={setIsOverviewOpened}
                         ></ShopListItem>
                     ))}
 

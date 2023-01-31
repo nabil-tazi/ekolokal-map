@@ -1,6 +1,8 @@
 import styled from 'styled-components'
+import { ScopeContext } from '../../utils/context'
 import { openModal, positionShopForModal } from '../../utils/maputils'
 import IconList from '../Categories/IconList'
+import { useContext } from 'react'
 
 const ListItemWrapper = styled.div`
     margin-bottom: 15px;
@@ -68,18 +70,9 @@ const TitleThumbnail = styled.div`
     /* background: blue; */
 `
 
-function ShopListItem({
-    shop,
-    // setDisplayedShops,
-    // setIsOverviewOpened,
-    setOverview,
-    mapRef,
-    // setIsModalOpened,
-    // isModalOpened,
-    modalShopId,
-    setModalShopId,
-    // setIsMarkerHovered,
-}) {
+function ShopListItem({ shop, setOverview, modalShopId, setModalShopId }) {
+    const { mapRef } = useContext(ScopeContext)
+
     function handleHover() {
         if (modalShopId === 0) {
             setOverview(shop.id)

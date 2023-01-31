@@ -48,33 +48,23 @@ const EkolokalLogo = styled.img`
 `
 
 function ShopBrowser() {
-    const [allShops, setAllShops] = useState([])
-    const [allEvents, setAllEvents] = useState([])
-
-    const [displayedShops, setDisplayedShops] = useState([])
-
-    const [favoriteShops, setFavoriteShops] = useState(
-        localStorage.getItem('favorites') != null
-            ? JSON.parse(localStorage.getItem('favorites'))
-            : []
-    )
-    const { viewMode } = useContext(ScopeContext)
+    const {
+        viewMode,
+        allShops,
+        initAllShops,
+        initAllEvents,
+        favoriteShops,
+        updateFavoriteShops,
+        displayedShops,
+        init,
+    } = useContext(ScopeContext)
 
     const [overview, setOverview] = useState(0)
     const [modalShopId, setModalShopId] = useState(0)
-
-    const [research, setResearch] = useState('')
-    const [filteredCategories, setFilteredCategories] = useState([])
-
     const [isSideBarOpened, setSideBarOpened] = useState(false)
     const [isDropdownOpen, setDropdownOpen] = useState(false)
-    const [filteredType, setFilteredType] = useState('all')
-
     const [itemsDisplayed, setItemsDisplayed] = useState(20)
-
     const [isLoading, setLoading] = useState(true)
-
-    const mapRef = useRef()
     const inputRef = useRef(null)
 
     const initCenter = [34.67, 135.49]
@@ -82,7 +72,7 @@ function ShopBrowser() {
     useEffect(() => {
         const storedFavorites = JSON.parse(localStorage.getItem('favorites'))
         if (storedFavorites) {
-            setFavoriteShops(storedFavorites)
+            updateFavoriteShops(storedFavorites)
         }
 
         const fetchShops = async () => {
@@ -93,26 +83,13 @@ function ShopBrowser() {
                 )
 
                 const parsedData = await response.json()
-                setAllShops(parsedData)
+                initAllShops(parsedData)
 
                 const events = recursiveCategoryFilter(['market'], parsedData)
-                setAllEvents(events)
+                initAllEvents(events)
 
                 if (inputRef.current.value === '') {
-                    console.log('viewMode')
-                    console.log(viewMode)
-                    setDisplayedShops(
-                        updateShops(
-                            parsedData,
-                            events,
-                            storedFavorites,
-                            '',
-                            filteredCategories,
-                            filteredType,
-                            mapRef,
-                            viewMode
-                        )
-                    )
+                    init(parsedData, events, storedFavorites)
                 }
             } catch (err) {
                 console.log(err)
@@ -135,94 +112,55 @@ function ShopBrowser() {
 
     return (
         <Container>
-            {/* <ScopeProvider> */}
             {isLoading && (
                 <LoadingScreen>
                     <LoadingLogo src={logo}></LoadingLogo>
                 </LoadingScreen>
             )}
             <MenuBar
-                setDisplayedShops={setDisplayedShops}
                 isSideBarOpened={isSideBarOpened}
                 setSideBarOpened={setSideBarOpened}
                 setItemsDisplayed={setItemsDisplayed}
                 favoriteShops={favoriteShops}
-                mapRef={mapRef}
-                filteredCategories={filteredCategories}
-                filteredType={filteredType}
-                allShops={allShops}
-                allEvents={allEvents}
-                research={research}
             ></MenuBar>
             {isSideBarOpened && (
                 <ShopList
-                    allShops={allShops}
-                    displayedShops={displayedShops}
-                    setDisplayedShops={setDisplayedShops}
                     setOverview={setOverview}
-                    mapRef={mapRef}
                     modalShopId={modalShopId}
                     setModalShopId={setModalShopId}
-                    research={research}
-                    setResearch={setResearch}
                     setDropdownOpen={setDropdownOpen}
                     setSideBarOpened={setSideBarOpened}
                     itemsDisplayed={itemsDisplayed}
                     setItemsDisplayed={setItemsDisplayed}
-                    filteredType={filteredType}
-                    filteredCategories={filteredCategories}
                 ></ShopList>
             )}
             {modalShopId && (
                 <ShopModal
                     setOverview={setOverview}
-                    mapRef={mapRef}
                     shop={allShops.filter((shop) => shop.id === modalShopId)[0]}
                     setDropdownOpen={setDropdownOpen}
                     setItemsDisplayed={setItemsDisplayed}
                     setModalShopId={setModalShopId}
-                    favoriteShops={favoriteShops}
-                    setFavoriteShops={setFavoriteShops}
                 ></ShopModal>
             )}
             <FilterBar
-                research={research}
-                setResearch={setResearch}
-                setDisplayedShops={setDisplayedShops}
                 setOverview={setOverview}
-                mapRef={mapRef}
-                allShops={allShops}
                 setModalShopId={setModalShopId}
                 setSideBarOpened={setSideBarOpened}
-                filteredCategories={filteredCategories}
-                setFilteredCategories={setFilteredCategories}
                 isDropdownOpen={isDropdownOpen}
                 setDropdownOpen={setDropdownOpen}
-                filteredType={filteredType}
-                setFilteredType={setFilteredType}
                 inputRef={inputRef}
-                favoriteShops={favoriteShops}
-                allEvents={allEvents}
             ></FilterBar>
             <Map
-                allShops={allShops}
-                displayedShops={displayedShops}
-                setDisplayedShops={setDisplayedShops}
                 overview={overview}
                 center={initCenter}
-                mapRef={mapRef}
                 modalShopId={modalShopId}
                 setModalShopId={setModalShopId}
                 setOverview={setOverview}
-                research={research}
-                filteredCategories={filteredCategories}
                 setDropdownOpen={setDropdownOpen}
-                filteredType={filteredType}
                 inputRef={inputRef}
-                favoriteShops={favoriteShops}
             ></Map>
             <EkolokalLogo src={logo} />
-            {/* </ScopeProvider> */}
         </Container>
     )
 }

@@ -10,7 +10,11 @@ import {
     positionShopForModal,
     closeModal,
     isFavorite,
+    updateShops,
 } from '../../../utils/maputils'
+
+import { useContext } from 'react'
+import { ScopeContext } from '../../../utils/context'
 
 import IconList from '../../Categories/IconList'
 
@@ -210,24 +214,25 @@ const AddressWrapper = styled.div`
 `
 
 function ShopModal({
-    // setIsModalOpened,
     setOverview,
-    mapRef,
     shop,
-    // setIsOverviewOpened,
     setDropdownOpen,
     setModalShopId,
-    favoriteShops,
-    setFavoriteShops,
+    // setDisplayedShops,
+    // filteredType,
+    // filteredCategories,
+    // research,
 }) {
+    const {
+        mapRef,
+        favoriteShops,
+        updateFavoriteShops,
+
+        changeFavorites,
+    } = useContext(ScopeContext)
+
     function handleCloseModal() {
-        closeModal(
-            // setIsModalOpened,
-            // setIsOverviewOpened,
-            setOverview,
-            setDropdownOpen,
-            setModalShopId
-        )
+        closeModal(setOverview, setDropdownOpen, setModalShopId)
     }
 
     function handleFavoriteClick() {
@@ -238,7 +243,20 @@ function ShopModal({
             ? [...copy, shop]
             : copy.filter((e) => e.id !== shop.id)
 
-        setFavoriteShops(newFavorites)
+        updateFavoriteShops(newFavorites)
+        changeFavorites(newFavorites)
+        // updateDisplayedShops(
+        //     updateShops(
+        //         allShops,
+        //         allEvents,
+        //         newFavorites,
+        //         research,
+        //         filteredCategories,
+        //         filteredType,
+        //         mapRef.current,
+        //         viewMode
+        //     )
+        // )
     }
 
     function handleLocalizeShop() {

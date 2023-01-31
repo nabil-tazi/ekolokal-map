@@ -89,8 +89,9 @@ export function updateMarkerFromBounds(bounds, center, allShops) {
     return filterShopsByMapBounds(bounds.pad(-0.9), allShops) //.sort(distanceToCenter) //Remove the markers close to the edges (10%)
 }
 
-export function localizeSearch(filteredShops, mapRef) {
-    mapRef.current.fitBounds(getNewBounds(filteredShops), {
+export function localizeSearch(filteredShops, map) {
+    if (filteredShops.length === 0) return
+    map.fitBounds(getNewBounds(filteredShops), {
         paddingTopLeft: L.point(500, 200),
         paddingBottomRight: L.point(200, 0),
     })
@@ -106,24 +107,24 @@ export function initShopFromBounds(map, viewMode, research, shopList) {
     else return shopList
 }
 
-export function updateShops(
+export function updateShops2(
     allShops,
     allEvents,
     favoriteShops,
     research,
     categories,
     type,
-    mapRef,
+    map,
     viewMode
 ) {
-    return filterShopsBySearch(
+    const filteredShops = filterShopsBySearch(
         research,
         recursiveCategoryFilter(
             categories,
             filterByType(
                 type,
                 initShopFromBounds(
-                    mapRef.current,
+                    map,
                     viewMode,
                     research,
                     getAllShopsFromScope(
@@ -138,6 +139,49 @@ export function updateShops(
     )
         .sort(alphabetical)
         .slice(0, 100)
+
+    return filteredShops
+}
+
+export function updateShops({
+    allShops,
+    allEvents,
+    favoriteShops,
+    research,
+    filteredCategories,
+    filteredType,
+    map,
+    viewMode,
+    localize,
+}) {
+    const filteredShops = filterShopsBySearch(
+        research,
+        recursiveCategoryFilter(
+            filteredCategories,
+            filterByType(
+                filteredType,
+                initShopFromBounds(
+                    map,
+                    viewMode,
+                    research,
+                    getAllShopsFromScope(
+                        viewMode,
+                        allShops,
+                        favoriteShops,
+                        allEvents
+                    )
+                )
+            )
+        )
+    )
+        .sort(alphabetical)
+        .slice(0, 100)
+
+    if (localize) {
+        localizeSearch(filteredShops, map)
+    }
+
+    return filteredShops
 }
 
 export function positionShopForModal(map, shopLatLng, targetZoom) {
@@ -386,7 +430,6 @@ export function getAllShopsFromScope(
 ) {
     switch (viewMode) {
         case '':
-            console.log('on y est')
             return allShops
         case 'browse':
             return allShops
