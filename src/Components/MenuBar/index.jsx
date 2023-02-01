@@ -1,9 +1,8 @@
 import styled from 'styled-components'
-import list from '../../../assets/browse.png'
-import event from '../../../assets/temporary.png'
-import favorites from '../../../assets/favorites.png'
+import list from '../../assets/browse.png'
+import event from '../../assets/temporary.png'
+import favorites from '../../assets/favorites.png'
 
-import { updateShops } from '../../../utils/maputils'
 const IconWrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -11,8 +10,8 @@ const IconWrapper = styled.div`
 `
 
 import { useContext } from 'react'
-import { ScopeContext } from '../../../utils/context/ScopeContext'
-import { TypeCategoryContext } from '../../../utils/context/TypeCategoryContext'
+import { ScopeContext } from '../../utils/context/ScopeContext'
+import { TypeCategoryContext } from '../../utils/context/TypeCategoryContext'
 
 const MenuIcon = styled.img`
     width: 35px;

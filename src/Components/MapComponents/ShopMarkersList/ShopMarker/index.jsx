@@ -1,13 +1,13 @@
 import { Marker, useMapEvent } from 'react-leaflet'
 import Leaflet from 'leaflet'
 
-import ShopPopup from '../ShopPopup'
+import ShopPopup from '../../ShopPopup'
 import { useRef, useEffect } from 'react'
 import {
     openModal,
     closeModal,
     getIconUponCategories,
-} from '../../../utils/maputils'
+} from '../../../../utils/maputils'
 
 function ShopMarker({
     shop,

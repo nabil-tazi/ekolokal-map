@@ -2,18 +2,16 @@ import { useEffect, useState, useRef, useContext } from 'react'
 import ShopList from '../ShopList'
 import Map from '../MapComponents/Map'
 import FilterBar from '../MapComponents/Filters/FilterBar'
-import MenuBar from '../MapComponents/MenuBar'
-import ShopModal from '../MapComponents/ShopModal'
+import MenuBar from '../MenuBar'
+import ShopModal from '../ShopModal'
 import styled from 'styled-components'
-import { recursiveCategoryFilter, updateShops } from '../../utils/maputils'
+import { recursiveCategoryFilter } from '../../utils/maputils'
 import ShopData from '../../assets/data'
 import logo from '../../assets/ekolokal-logo.png'
 
 import { ScopeContext } from '../../utils/context/ScopeContext'
 
-const Container = styled.div`
-    /* display: flex; */
-`
+const Container = styled.div``
 const LoadingScreen = styled.div`
     position: absolute;
     width: 100vw;
@@ -49,7 +47,6 @@ const EkolokalLogo = styled.img`
 
 function ShopBrowser() {
     const {
-        viewMode,
         allShops,
         initAllShops,
         initAllEvents,
@@ -106,7 +103,6 @@ function ShopBrowser() {
     }, [displayedShops.length])
 
     useEffect(() => {
-        console.log('added to cookies')
         localStorage.setItem('favorites', JSON.stringify(favoriteShops))
     }, [favoriteShops])
 

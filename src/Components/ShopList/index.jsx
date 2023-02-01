@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import ShopListItem from '../ShopListItem'
+import ShopListItem from './ShopListItem'
 import arrow from '../../assets/left-arrow.png'
 
 import { formatType, formatCategory } from '../../utils/maputils'

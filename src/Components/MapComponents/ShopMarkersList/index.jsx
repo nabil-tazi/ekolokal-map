@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import ShopMarker from '../ShopMarker'
+import ShopMarker from './ShopMarker'
 
 import { isFavorite } from '../../../utils/maputils'
 import { ScopeContext } from '../../../utils/context/ScopeContext'

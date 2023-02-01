@@ -1,17 +1,14 @@
 import styled from 'styled-components'
-import cross from '../../../../assets/cross.png'
-import search from '../../../../assets/search.png'
-import arrow from '../../../../assets/down.png'
 
 import CategoryFilterButton from '../CategoryFilters/CategoryFilterButton'
-import TypeFilterEntry from '../TypeFilter/TypeFilterEntry'
 import InputFilter from '../InputFilter'
 
-import { openModal, formatType } from '../../../../utils/maputils'
+import { openModal } from '../../../../utils/maputils'
 
 import { useContext, useEffect } from 'react'
 import { ScopeContext } from '../../../../utils/context/ScopeContext'
 import { TypeCategoryContext } from '../../../../utils/context/TypeCategoryContext'
+import TypeDropdownFilter from '../TypeFilter/TypeDropdownFilter'
 
 const FilterBarWrapper = styled.div`
     position: absolute;
@@ -38,72 +35,6 @@ const CategoryFilters = styled.div`
     overflow-x: scroll;
 `
 
-const TypeFilter = styled.div`
-    height: 37px;
-    min-width: 130px;
-    line-height: 13px;
-    background-color: #f8f8f4;
-
-    z-index: 500;
-    border-radius: 20px;
-    color: #292929;
-    font-family: sans-serif;
-    font-size: 13px;
-    font-weight: 200;
-    user-select: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    padding-right: 10px;
-    box-shadow: 0px 0px 10px gray;
-    z-index: 500;
-    position: relative;
-    margin-right: 40px;
-    padding-left: 10px;
-    background-color: ${(props) =>
-        props.type !== 'all' ? '#b2bdca' : '#f8f8f4'};
-
-    text-shadow: ${(props) =>
-        props.type !== 'all' ? '-0.1px 0 #fff, 0.1px 0 #fff' : null};
-
-    color: ${(props) => (props.type !== 'all' ? 'white' : '#292929')};
-`
-
-const Dropdown = styled.div`
-    width: 120px;
-    height: 124px;
-    font-family: sans-serif;
-    font-size: 13px;
-    color: #292929;
-    font-weight: 200;
-    background-color: #f8f8f4;
-    z-index: 450;
-    border-radius: 5px;
-    position: absolute;
-    padding: 5px;
-    padding-top: 15px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0px 0px 10px gray;
-    transform: translateY(82px) translateX(177px);
-`
-
-const ArrowDownIcon = styled.img`
-    width: 15px;
-    &:hover {
-        background-color: #00000015;
-    }
-    border-radius: 15px;
-    padding: 5px;
-    margin-left: -5px;
-    margin-right: -5px;
-    filter: ${(props) =>
-        props.type !== 'all'
-            ? ' drop-shadow(.2px .2px 0px #fff) brightness(0) invert(1) '
-            : null};
-`
-
 function FilterBar({
     setModalShopId,
     setOverview,
@@ -112,10 +43,9 @@ function FilterBar({
     setDropdownOpen,
     inputRef,
 }) {
-    const { research, mapRef, filteredType, displayedShops } =
-        useContext(ScopeContext)
+    const { research, mapRef, displayedShops } = useContext(ScopeContext)
 
-    const { TypesMenu, CategoriesMenu } = useContext(TypeCategoryContext)
+    const { CategoriesMenu } = useContext(TypeCategoryContext)
 
     useEffect(() => {
         if (displayedShops.length === 1 && research !== '') {
@@ -133,10 +63,6 @@ function FilterBar({
         }
     }, [displayedShops])
 
-    function handleOpenDropDown() {
-        setDropdownOpen(!isDropdownOpen)
-    }
-
     return (
         <FilterBarWrapper>
             <InputFilter
@@ -146,25 +72,10 @@ function FilterBar({
                 setModalShopId={setModalShopId}
                 setSideBarOpened={setSideBarOpened}
             ></InputFilter>
-            <TypeFilter onClick={handleOpenDropDown} type={filteredType}>
-                {formatType(filteredType)}
-                <ArrowDownIcon
-                    src={arrow}
-                    title="Down-arroarrow-downw"
-                    type={filteredType}
-                ></ArrowDownIcon>
-            </TypeFilter>
-            {isDropdownOpen && (
-                <Dropdown>
-                    {TypesMenu.map((type, index) => (
-                        <TypeFilterEntry
-                            key={index}
-                            TYPE={type}
-                            setDropdownOpen={setDropdownOpen}
-                        ></TypeFilterEntry>
-                    ))}
-                </Dropdown>
-            )}
+            <TypeDropdownFilter
+                setDropdownOpen={setDropdownOpen}
+                isDropdownOpen={isDropdownOpen}
+            ></TypeDropdownFilter>
             <CategoryFilters>
                 {CategoriesMenu.map((cat, index) => (
                     <CategoryFilterButton

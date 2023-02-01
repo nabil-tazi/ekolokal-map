@@ -26,7 +26,7 @@ const DropdownEntry = styled.div`
         props.active === 'active' ? '#b2bdca' : '#f8f8f4'};
 `
 
-function TyperFilterEntry({ TYPE, setDropdownOpen }) {
+function TypeDropdownEntry({ TYPE, setDropdownOpen }) {
     const { filteredType, updateType, changeType } = useContext(ScopeContext)
     const { setCategoriesMenu } = useContext(TypeCategoryContext)
 
@@ -47,4 +47,4 @@ function TyperFilterEntry({ TYPE, setDropdownOpen }) {
     )
 }
 
-export default TyperFilterEntry
+export default TypeDropdownEntry

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import { ScopeContext } from '../../utils/context/ScopeContext'
-import { openModal, positionShopForModal } from '../../utils/maputils'
-import IconList from '../Categories/IconList'
+import { ScopeContext } from '../../../utils/context/ScopeContext'
+import { openModal, positionShopForModal } from '../../../utils/maputils'
+import IconList from '../../Categories/IconList'
 import { useContext } from 'react'
 
 const ListItemWrapper = styled.div`

@@ -1,22 +1,21 @@
 import styled from 'styled-components'
-import cross from '../../../assets/cross.png'
-import phone from '../../../assets/phone.png'
-import target from '../../../assets/target.png'
-import link from '../../../assets/link.png'
-import emptyHeart from '../../../assets/emptyHeart.png'
-import fullHeart from '../../../assets/fullHeart.png'
+import cross from '../../assets/cross.png'
+import phone from '../../assets/phone.png'
+import target from '../../assets/target.png'
+import link from '../../assets/link.png'
+import emptyHeart from '../../assets/emptyHeart.png'
+import fullHeart from '../../assets/fullHeart.png'
 
 import {
     positionShopForModal,
     closeModal,
     isFavorite,
-    updateShops,
-} from '../../../utils/maputils'
+} from '../../utils/maputils'
 
 import { useContext } from 'react'
-import { ScopeContext } from '../../../utils/context/ScopeContext'
+import { ScopeContext } from '../../utils/context/ScopeContext'
 
-import IconList from '../../Categories/IconList'
+import IconList from '../Categories/IconList'
 
 const ShopModalWrapper = styled.div`
     position: absolute;
