@@ -1,7 +1,7 @@
 import { useContext } from 'react'
-import { ScopeContext } from '../../../utils/context/ScopeContext'
-import { TypeCategoryContext } from '../../../utils/context/TypeCategoryContext'
-import { formatCategory } from '../../../utils/maputils'
+import { ScopeContext } from '../../../../../utils/context/ScopeContext'
+import { TypeCategoryContext } from '../../../../../utils/context/TypeCategoryContext'
+import { formatCategory } from '../../../../../utils/maputils'
 
 import styled from 'styled-components'
 

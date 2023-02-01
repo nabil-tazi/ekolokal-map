@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useContext } from 'react'
 import ShopList from '../ShopList'
 import Map from '../MapComponents/Map'
-import FilterBar from '../MapComponents/FilterBar'
+import FilterBar from '../MapComponents/Filters/FilterBar'
 import MenuBar from '../MapComponents/MenuBar'
 import ShopModal from '../MapComponents/ShopModal'
 import styled from 'styled-components'

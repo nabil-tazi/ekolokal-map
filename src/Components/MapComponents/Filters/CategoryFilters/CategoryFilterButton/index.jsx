@@ -1,11 +1,11 @@
 import { useContext } from 'react'
-import { ScopeContext } from '../../../utils/context/ScopeContext'
+import { ScopeContext } from '../../../../../utils/context/ScopeContext'
 // import fairtrade from '../../../assets/fairtrade.png'
 // import nobin from '../../../assets/nobin.png'
 // import noplastic from '../../../assets/noplastic.png'
 // import organic from '../../../assets/organic.png'
 // import plantbased from '../../../assets/plantbased.png'
-import { formatCategory } from '../../../utils/maputils'
+import { formatCategory } from '../../../../../utils/maputils'
 
 import styled from 'styled-components'
 
