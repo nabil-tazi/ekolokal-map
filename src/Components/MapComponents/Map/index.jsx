@@ -6,7 +6,7 @@ import {
 } from 'react-leaflet'
 
 import { useContext } from 'react'
-import { ScopeContext } from '../../../utils/context'
+import { ScopeContext } from '../../../utils/context/ScopeContext'
 
 // import MarkerClusterGroup from 'react-leaflet-cluster'
 

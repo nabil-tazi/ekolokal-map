@@ -5,7 +5,7 @@ import arrow from '../../assets/left-arrow.png'
 import { formatType, formatCategory } from '../../utils/maputils'
 
 import { useContext } from 'react'
-import { ScopeContext } from '../../utils/context'
+import { ScopeContext } from '../../utils/context/ScopeContext'
 
 const Wrapper = styled.div`
     position: absolute;

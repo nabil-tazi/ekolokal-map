@@ -13,7 +13,8 @@ import TypeFilterEntry from '../TypeFilterEntry'
 import { openModal, closeModal, formatType } from '../../../utils/maputils'
 
 import { useContext, useEffect } from 'react'
-import { ScopeContext } from '../../../utils/context'
+import { ScopeContext } from '../../../utils/context/ScopeContext'
+import { TypeCategoryContext } from '../../../utils/context/TypeCategoryContext'
 
 const FilterBarWrapper = styled.div`
     position: absolute;
@@ -192,6 +193,8 @@ function FilterBar({
         displayedShops,
     } = useContext(ScopeContext)
 
+    const { TypesMenu, CategoriesMenu } = useContext(TypeCategoryContext)
+
     useEffect(() => {
         if (displayedShops.length === 1 && research !== '') {
             openModal(
@@ -234,20 +237,20 @@ function FilterBar({
         setDropdownOpen(false)
     }
 
-    const categoriesList = [
-        CATEGORIES.PLANTBASED,
-        CATEGORIES.ORGANIC,
-        CATEGORIES.FAIRTRADE,
-        CATEGORIES.ZEROWASTE,
-        CATEGORIES.TAKEOUT,
-    ]
+    // const categoriesList = [
+    //     CATEGORIES.PLANTBASED,
+    //     CATEGORIES.ORGANIC,
+    //     CATEGORIES.FAIRTRADE,
+    //     CATEGORIES.ZEROWASTE,
+    //     CATEGORIES.TAKEOUT,
+    // ]
 
-    const typeList = [
-        TYPES.ALL,
-        TYPES.RESTAURANTCAFE,
-        TYPES.SUPERMARKET,
-        TYPES.LOCALSTORE,
-    ]
+    // const typeList = [
+    //     TYPES.ALL,
+    //     TYPES.RESTAURANTCAFE,
+    //     TYPES.SUPERMARKET,
+    //     TYPES.LOCALSTORE,
+    // ]
 
     return (
         <FilterBarWrapper>
@@ -291,7 +294,7 @@ function FilterBar({
                 </TypeFilter>
                 {isDropdownOpen && (
                     <Dropdown>
-                        {typeList.map((type, index) => (
+                        {TypesMenu.map((type, index) => (
                             <TypeFilterEntry
                                 key={index}
                                 TYPE={type}
@@ -302,7 +305,7 @@ function FilterBar({
                 )}
             </TypeFilterContainer>
             <CategoryFilters>
-                {categoriesList.map((cat, index) => (
+                {CategoriesMenu.map((cat, index) => (
                     <CategoryFilterButton
                         key={index}
                         CATEGORY={cat}

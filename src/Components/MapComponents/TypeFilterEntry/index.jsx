@@ -1,5 +1,6 @@
 import { useContext } from 'react'
-import { ScopeContext } from '../../../utils/context'
+import { ScopeContext } from '../../../utils/context/ScopeContext'
+import { TypeCategoryContext } from '../../../utils/context/TypeCategoryContext'
 import { formatCategory } from '../../../utils/maputils'
 
 import styled from 'styled-components'
@@ -27,11 +28,13 @@ const DropdownEntry = styled.div`
 
 function TyperFilterEntry({ TYPE, setDropdownOpen }) {
     const { filteredType, updateType, changeType } = useContext(ScopeContext)
+    const { setCategoriesMenu } = useContext(TypeCategoryContext)
 
     function handleTypeSelect(newType) {
         setDropdownOpen(false)
         updateType(newType)
         changeType(newType)
+        setCategoriesMenu(newType)
     }
 
     return (

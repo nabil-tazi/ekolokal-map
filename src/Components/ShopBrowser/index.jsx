@@ -9,7 +9,7 @@ import { recursiveCategoryFilter, updateShops } from '../../utils/maputils'
 import ShopData from '../../assets/data'
 import logo from '../../assets/ekolokal-logo.png'
 
-import { ScopeContext } from '../../utils/context'
+import { ScopeContext } from '../../utils/context/ScopeContext'
 
 const Container = styled.div`
     /* display: flex; */
@@ -122,6 +122,7 @@ function ShopBrowser() {
                 setSideBarOpened={setSideBarOpened}
                 setItemsDisplayed={setItemsDisplayed}
                 favoriteShops={favoriteShops}
+                setDropdownOpen={setDropdownOpen}
             ></MenuBar>
             {isSideBarOpened && (
                 <ShopList

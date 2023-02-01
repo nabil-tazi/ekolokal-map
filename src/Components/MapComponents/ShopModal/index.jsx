@@ -14,7 +14,7 @@ import {
 } from '../../../utils/maputils'
 
 import { useContext } from 'react'
-import { ScopeContext } from '../../../utils/context'
+import { ScopeContext } from '../../../utils/context/ScopeContext'
 
 import IconList from '../../Categories/IconList'
 

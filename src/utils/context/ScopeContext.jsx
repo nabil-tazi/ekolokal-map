@@ -1,6 +1,6 @@
 import { useState, createContext, useRef, useReducer } from 'react'
 
-import { updateShops } from '../../utils/maputils'
+import { updateShops } from '../maputils'
 
 export const ScopeContext = createContext()
 
@@ -118,6 +118,8 @@ export const ScopeProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(reducer, initialState)
 
+    //Comme viewMode sera utilisé par le ScopeContext et le Menu/Category/Type Context, il devrait être son propre Hook,
+    //et les deux contextes le consomment
     return (
         <ScopeContext.Provider
             value={{

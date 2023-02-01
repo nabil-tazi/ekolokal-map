@@ -11,7 +11,8 @@ const IconWrapper = styled.div`
 `
 
 import { useContext } from 'react'
-import { ScopeContext } from '../../../utils/context'
+import { ScopeContext } from '../../../utils/context/ScopeContext'
+import { TypeCategoryContext } from '../../../utils/context/TypeCategoryContext'
 
 const MenuIcon = styled.img`
     width: 35px;
@@ -60,20 +61,29 @@ const LanguageButton = styled.div`
     cursor: pointer;
 `
 
-function MenuBar({ isSideBarOpened, setSideBarOpened, setItemsDisplayed }) {
+function MenuBar({
+    isSideBarOpened,
+    setSideBarOpened,
+    setItemsDisplayed,
+    setDropdownOpen,
+}) {
     const { viewMode, switchViewMode, changeScope } = useContext(ScopeContext)
+    const { TypesMenu, setTypesMenu } = useContext(TypeCategoryContext)
 
     function handleChangeScope(clickedScope) {
+        setDropdownOpen(false)
         var newScope = clickedScope
         if (viewMode === clickedScope) {
             setSideBarOpened(false)
             newScope = ''
             switchViewMode('')
+            setTypesMenu('')
         } else {
             switchViewMode(newScope)
             setSideBarOpened(true)
         }
         changeScope(newScope)
+        setTypesMenu(newScope)
         // updateDisplayedShops(
         //     updateShops(
         //         allShops,

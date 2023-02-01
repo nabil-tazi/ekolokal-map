@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { ScopeContext } from '../../../utils/context'
+import { ScopeContext } from '../../../utils/context/ScopeContext'
 // import fairtrade from '../../../assets/fairtrade.png'
 // import nobin from '../../../assets/nobin.png'
 // import noplastic from '../../../assets/noplastic.png'
