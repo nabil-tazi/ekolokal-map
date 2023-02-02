@@ -55,7 +55,7 @@ function ShopBrowser() {
         favoriteShops,
         updateFavoriteShops,
         displayedShops,
-        init,
+        initDisplayedShops,
     } = useContext(ScopeContext)
 
     const [overview, setOverview] = useState(0)
@@ -88,7 +88,7 @@ function ShopBrowser() {
                 initAllEvents(events)
 
                 if (inputRef.current.value === '') {
-                    init(parsedData, events, storedFavorites)
+                    initDisplayedShops(parsedData, events, storedFavorites)
                 }
             } catch (err) {
                 console.log(err)

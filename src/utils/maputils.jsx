@@ -181,6 +181,7 @@ export function updateShops({
         .sort(alphabetical)
         .slice(0, 100)
 
+    console.log(`localize : ${localize}`)
     if (localize) {
         localizeSearch(filteredShops, map)
     }

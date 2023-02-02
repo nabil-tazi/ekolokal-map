@@ -24,3 +24,5 @@ export const SCOPES = {
         ENGLISH: 'Favorites',
     },
 }
+
+export const ScopesMenu = [SCOPES.BROWSE, SCOPES.EVENTS, SCOPES.FAVORITES]

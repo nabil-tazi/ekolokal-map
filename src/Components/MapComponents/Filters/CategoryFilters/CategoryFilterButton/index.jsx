@@ -62,6 +62,8 @@ function CategoryFilterButton({ CATEGORY, setOverview }) {
         changeType,
         displayedShops,
         changeCategories,
+        ACTIONS,
+        updateDisplayedShops,
     } = useContext(ScopeContext)
 
     function handleCategoryClick(clickedCategory) {
@@ -76,7 +78,8 @@ function CategoryFilterButton({ CATEGORY, setOverview }) {
         updateCategories(newFilters)
         setOverview(0)
 
-        changeCategories(newFilters)
+        // changeCategories(newFilters)
+        updateDisplayedShops(ACTIONS.CHANGE_CATEGORIES, newFilters)
     }
 
     return (

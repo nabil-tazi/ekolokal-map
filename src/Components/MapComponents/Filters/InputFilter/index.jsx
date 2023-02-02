@@ -79,7 +79,8 @@ function InputFilter({
     setModalShopId,
     setSideBarOpened,
 }) {
-    const { research, updateResearch, inputSearch } = useContext(ScopeContext)
+    const { research, updateResearch, updateDisplayedShops, ACTIONS } =
+        useContext(ScopeContext)
 
     const handleKeyPressed = (e) => {
         if (e.key === 'Enter') {
@@ -94,7 +95,8 @@ function InputFilter({
     function handleSearchInput() {
         const input = inputRef.current.value
         updateResearch(input)
-        inputSearch(input)
+        // inputSearch(input)
+        updateDisplayedShops(ACTIONS.CHANGE_SEARCH_INPUT, input)
 
         if (input !== '') setSideBarOpened(true)
     }

@@ -35,7 +35,8 @@ function Bounds({
     setModalShopId,
     inputRef,
 }) {
-    const { viewMode, research, moveMap } = useContext(ScopeContext)
+    const { viewMode, research, updateDisplayedShops, ACTIONS } =
+        useContext(ScopeContext)
 
     const map = useMapEvent('moveend', () => {
         if (
@@ -44,7 +45,8 @@ function Bounds({
             inputRef.current.value === '' &&
             (viewMode === SCOPES.BROWSE || viewMode === SCOPES.NONE)
         ) {
-            moveMap(map)
+            // moveMap(map)
+            updateDisplayedShops(ACTIONS.MOVE_MAP, map)
         }
     })
 

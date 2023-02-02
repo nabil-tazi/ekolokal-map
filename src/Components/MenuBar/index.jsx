@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { SCOPES } from '../../utils/configuration/ScopeConfig'
+import { SCOPES, ScopesMenu } from '../../utils/configuration/ScopeConfig'
 import { useContext } from 'react'
 import { ScopeContext } from '../../utils/context/ScopeContext'
 import { TypeCategoryContext } from '../../utils/context/TypeCategoryMenuContext'
@@ -61,10 +61,14 @@ function MenuBar({
     setItemsDisplayed,
     setDropdownOpen,
 }) {
-    const { viewMode, switchViewMode, changeScope } = useContext(ScopeContext)
-    const { TypesMenu, setTypesMenu } = useContext(TypeCategoryContext)
-
-    const ScopesMenu = [SCOPES.BROWSE, SCOPES.EVENTS, SCOPES.FAVORITES]
+    const {
+        viewMode,
+        switchViewMode,
+        changeScope,
+        updateDisplayedShops,
+        ACTIONS,
+    } = useContext(ScopeContext)
+    const { setTypesMenu } = useContext(TypeCategoryContext)
 
     function handleChangeScope(clickedScope) {
         setDropdownOpen(false)
@@ -76,7 +80,8 @@ function MenuBar({
             setSideBarOpened(true)
         }
         switchViewMode(newScope)
-        changeScope(newScope)
+        // changeScope(newScope)
+        updateDisplayedShops(ACTIONS.CHANGE_SCOPE, newScope)
         setTypesMenu(newScope)
 
         setItemsDisplayed(20)

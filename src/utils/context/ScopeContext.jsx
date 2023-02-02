@@ -49,18 +49,10 @@ export const ScopeProvider = ({ children }) => {
     }
 
     const initialState = {
-        // allShops: allShops,
-        // allEvents: allEvents,
-        // favoriteShops: favoriteShops,
-        // research: research,
-        // categories: filteredCategories,
-        // type: filteredType,
-        // mapRef: mapRef,
-        // viewMode: viewMode,
         displayedShops: [],
     }
 
-    const actions = {
+    const ACTIONS = {
         MOVE_MAP: 'MOVE_MAP',
         CHANGE_SCOPE: 'CHANGE_SCOPE',
         CHANGE_SEARCH_INPUT: 'CHANGE_SEARCH_INPUT',
@@ -84,28 +76,28 @@ export const ScopeProvider = ({ children }) => {
             openModal: false,
         }
 
-        switch (action.actionType) {
-            case actions.MOVE_MAP:
-                params.map = action.map
+        switch (action.type) {
+            case ACTIONS.MOVE_MAP:
+                params.map = action.param
                 break
-            case actions.CHANGE_SCOPE:
-                params.viewMode = action.scope
+            case ACTIONS.CHANGE_SCOPE:
+                params.viewMode = action.param
                 break
-            case actions.CHANGE_SEARCH_INPUT:
-                params.research = action.researchTerms
+            case ACTIONS.CHANGE_SEARCH_INPUT:
+                params.research = action.param
                 params.localize = true
                 params.openModal = true
                 break
-            case actions.CHANGE_TYPE:
-                params.filteredType = action.type
+            case ACTIONS.CHANGE_TYPE:
+                params.filteredType = action.param
                 break
-            case actions.CHANGE_CATEGORIES:
-                params.filteredCategories = action.categories
+            case ACTIONS.CHANGE_CATEGORIES:
+                params.filteredCategories = action.param
                 break
-            case actions.CHANGE_FAVORITES:
-                params.favoriteShops = action.favorites
+            case ACTIONS.CHANGE_FAVORITES:
+                params.favoriteShops = action.param
                 break
-            case actions.INIT:
+            case ACTIONS.INIT:
                 params.allShops = action.allShops
                 params.allEvents = action.allEvents
                 params.favoriteShops = action.favorites
@@ -140,43 +132,16 @@ export const ScopeProvider = ({ children }) => {
                 updateCategories,
                 filteredType,
                 updateType,
+                ACTIONS,
                 displayedShops: state.displayedShops,
-                inputSearch: (input) => {
-                    dispatch({
-                        actionType: actions.CHANGE_SEARCH_INPUT,
-                        researchTerms: input,
-                    })
+
+                updateDisplayedShops: (actionType, param) => {
+                    dispatch({ type: actionType, param: param })
                 },
-                moveMap: (map) => {
+
+                initDisplayedShops: (allShops, allEvents, favorites) => {
                     dispatch({
-                        actionType: actions.MOVE_MAP,
-                        map: map,
-                    })
-                },
-                changeType: (type) => {
-                    dispatch({ actionType: actions.CHANGE_TYPE, type: type })
-                },
-                changeCategories: (categories) => {
-                    dispatch({
-                        actionType: actions.CHANGE_CATEGORIES,
-                        categories: categories,
-                    })
-                },
-                changeScope: (scope) => {
-                    dispatch({
-                        actionType: actions.CHANGE_SCOPE,
-                        scope: scope,
-                    })
-                },
-                changeFavorites: (favorites) => {
-                    dispatch({
-                        actionType: actions.CHANGE_FAVORITES,
-                        favorites: favorites,
-                    })
-                },
-                init: (allShops, allEvents, favorites) => {
-                    dispatch({
-                        actionType: actions.INIT,
+                        type: ACTIONS.INIT,
                         allShops: allShops,
                         allEvents: allEvents,
                         favorites: favorites,

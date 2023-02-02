@@ -228,6 +228,8 @@ function ShopModal({
         updateFavoriteShops,
 
         changeFavorites,
+        ACTIONS,
+        updateDisplayedShops,
     } = useContext(ScopeContext)
 
     function handleCloseModal() {
@@ -243,7 +245,8 @@ function ShopModal({
             : copy.filter((e) => e.id !== shop.id)
 
         updateFavoriteShops(newFavorites)
-        changeFavorites(newFavorites)
+        // changeFavorites(newFavorites)
+        updateDisplayedShops(ACTIONS.CHANGE_FAVORITES, newFavorites)
         // updateDisplayedShops(
         //     updateShops(
         //         allShops,

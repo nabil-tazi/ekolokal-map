@@ -26,13 +26,20 @@ const DropdownEntry = styled.div`
 `
 
 function TypeDropdownEntry({ TYPE, setDropdownOpen }) {
-    const { filteredType, updateType, changeType } = useContext(ScopeContext)
+    const {
+        filteredType,
+        updateType,
+        changeType,
+        ACTIONS,
+        updateDisplayedShops,
+    } = useContext(ScopeContext)
     const { setCategoriesMenu } = useContext(TypeCategoryContext)
 
     function handleTypeSelect(newType) {
         setDropdownOpen(false)
         updateType(newType)
-        changeType(newType)
+        // changeType(newType)
+        updateDisplayedShops(ACTIONS.CHANGE_TYPE, newType)
         setCategoriesMenu(newType)
     }
 
