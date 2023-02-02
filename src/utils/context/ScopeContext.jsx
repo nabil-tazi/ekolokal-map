@@ -1,4 +1,5 @@
 import { useState, createContext, useRef, useReducer } from 'react'
+import { SCOPES } from '../configuration/ScopeConfig'
 import { TYPES } from '../configuration/TypeConfig'
 
 import { updateShops } from '../maputils'
@@ -8,7 +9,7 @@ export const ScopeContext = createContext()
 export const ScopeProvider = ({ children }) => {
     const mapRef = useRef()
 
-    const [viewMode, setViewMode] = useState('')
+    const [viewMode, setViewMode] = useState(SCOPES.NONE)
     const switchViewMode = (newViewMode) => {
         setViewMode(newViewMode)
     }

@@ -7,7 +7,7 @@ import { openModal } from '../../../../utils/maputils'
 
 import { useContext, useEffect } from 'react'
 import { ScopeContext } from '../../../../utils/context/ScopeContext'
-import { TypeCategoryContext } from '../../../../utils/context/TypeCategoryContext'
+import { TypeCategoryContext } from '../../../../utils/context/TypeCategoryMenuContext'
 import TypeDropdownFilter from '../TypeFilter/TypeDropdownFilter'
 
 const FilterBarWrapper = styled.div`

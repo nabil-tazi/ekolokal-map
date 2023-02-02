@@ -1,18 +1,15 @@
 import styled from 'styled-components'
-import list from '../../assets/browse.png'
-import event from '../../assets/temporary.png'
-import favorites from '../../assets/favorites.png'
+
+import { SCOPES } from '../../utils/configuration/ScopeConfig'
+import { useContext } from 'react'
+import { ScopeContext } from '../../utils/context/ScopeContext'
+import { TypeCategoryContext } from '../../utils/context/TypeCategoryMenuContext'
 
 const IconWrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 30px;
 `
-
-import { useContext } from 'react'
-import { ScopeContext } from '../../utils/context/ScopeContext'
-import { TypeCategoryContext } from '../../utils/context/TypeCategoryContext'
-
 const MenuIcon = styled.img`
     width: 35px;
     margin: 10px;
@@ -23,7 +20,6 @@ const MenuIcon = styled.img`
     border-radius: 7px;
     background-color: ${(props) => (props.active ? '#b2bdca' : null)};
 `
-
 const MenuWrapper = styled.div`
     position: absolute;
     left: 0;
@@ -35,7 +31,6 @@ const MenuWrapper = styled.div`
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    /* background-color: orange; */
     z-index: 700;
 
     box-shadow: ${(props) =>
@@ -69,32 +64,20 @@ function MenuBar({
     const { viewMode, switchViewMode, changeScope } = useContext(ScopeContext)
     const { TypesMenu, setTypesMenu } = useContext(TypeCategoryContext)
 
+    const ScopesMenu = [SCOPES.BROWSE, SCOPES.EVENTS, SCOPES.FAVORITES]
+
     function handleChangeScope(clickedScope) {
         setDropdownOpen(false)
         var newScope = clickedScope
         if (viewMode === clickedScope) {
             setSideBarOpened(false)
-            newScope = ''
-            switchViewMode('')
-            setTypesMenu('')
+            newScope = SCOPES.NONE
         } else {
-            switchViewMode(newScope)
             setSideBarOpened(true)
         }
+        switchViewMode(newScope)
         changeScope(newScope)
         setTypesMenu(newScope)
-        // updateDisplayedShops(
-        //     updateShops(
-        //         allShops,
-        //         allEvents,
-        //         favoriteShops,
-        //         research,
-        //         filteredCategories,
-        //         filteredType,
-        //         mapRef.current,
-        //         newScope
-        //     )
-        // )
 
         setItemsDisplayed(20)
     }
@@ -102,29 +85,17 @@ function MenuBar({
     return (
         <MenuWrapper isSideBarOpened={isSideBarOpened}>
             <IconWrapper>
-                <MenuIcon
-                    src={list}
-                    onClick={() => {
-                        handleChangeScope('browse')
-                    }}
-                    active={viewMode === 'browse'}
-                ></MenuIcon>
-                <MenuIcon
-                    src={event}
-                    onClick={() => {
-                        handleChangeScope('events')
-                    }}
-                    active={viewMode === 'events'}
-                ></MenuIcon>
-                <MenuIcon
-                    src={favorites}
-                    onClick={() => {
-                        handleChangeScope('favorites')
-                    }}
-                    active={viewMode === 'favorites'}
-                ></MenuIcon>
+                {ScopesMenu.map((scope, index) => (
+                    <MenuIcon
+                        key={index}
+                        src={scope.IMG}
+                        onClick={() => {
+                            handleChangeScope(scope)
+                        }}
+                        active={viewMode === scope}
+                    ></MenuIcon>
+                ))}
             </IconWrapper>
-
             <LanguageContainer>
                 <LanguageButton>EN</LanguageButton>
                 <LanguageButton>JP</LanguageButton>

@@ -20,6 +20,7 @@ import styled from 'styled-components'
 import { closeModal } from '../../../utils/maputils.jsx'
 
 import ShopMarkersList from '../ShopMarkersList'
+import { SCOPES } from '../../../utils/configuration/ScopeConfig'
 
 const MapWrapper = styled(MapContainer)`
     position: absolute;
@@ -41,7 +42,7 @@ function Bounds({
             modalShopId === 0 &&
             research === '' &&
             inputRef.current.value === '' &&
-            (viewMode === 'browse' || viewMode === '')
+            (viewMode === SCOPES.BROWSE || viewMode === SCOPES.NONE)
         ) {
             moveMap(map)
         }

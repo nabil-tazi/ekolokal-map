@@ -5,6 +5,7 @@ import localStoreImg from '../assets/local-store.png'
 import supermarketImg from '../assets/supermarket.png'
 import warningImg from '../assets/warning.png'
 import favoriteImg from '../assets/loveMarker.png'
+import { SCOPES } from './configuration/ScopeConfig'
 
 export function toRad(Value) {
     return (Value * Math.PI) / 180
@@ -98,7 +99,10 @@ export function localizeSearch(filteredShops, map) {
 }
 
 export function initShopFromBounds(map, viewMode, research, shopList) {
-    if ((viewMode === '' || viewMode === 'browse') && research === '')
+    if (
+        (viewMode === SCOPES.NONE || viewMode === SCOPES.BROWSE) &&
+        research === ''
+    )
         return updateMarkerFromBounds(
             map.getBounds(),
             map.getCenter(),
@@ -428,13 +432,13 @@ export function getAllShopsFromScope(
     allEvents
 ) {
     switch (viewMode) {
-        case '':
+        case SCOPES.NONE:
             return allShops
-        case 'browse':
+        case SCOPES.BROWSE:
             return allShops
-        case 'events':
+        case SCOPES.EVENTS:
             return allEvents
-        case 'favorites':
+        case SCOPES.FAVORITES:
             return favoriteShops
         default:
             return allShops

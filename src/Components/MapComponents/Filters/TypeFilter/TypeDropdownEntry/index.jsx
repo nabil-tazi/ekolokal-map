@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { ScopeContext } from '../../../../../utils/context/ScopeContext'
-import { TypeCategoryContext } from '../../../../../utils/context/TypeCategoryContext'
+import { TypeCategoryContext } from '../../../../../utils/context/TypeCategoryMenuContext'
 
 import styled from 'styled-components'
 
