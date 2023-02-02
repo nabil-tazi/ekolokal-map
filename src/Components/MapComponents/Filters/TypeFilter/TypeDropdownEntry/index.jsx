@@ -1,7 +1,6 @@
 import { useContext } from 'react'
 import { ScopeContext } from '../../../../../utils/context/ScopeContext'
 import { TypeCategoryContext } from '../../../../../utils/context/TypeCategoryContext'
-import { formatCategory } from '../../../../../utils/maputils'
 
 import styled from 'styled-components'
 
@@ -39,7 +38,7 @@ function TypeDropdownEntry({ TYPE, setDropdownOpen }) {
 
     return (
         <DropdownEntry
-            onClick={() => handleTypeSelect(TYPE.ID)}
+            onClick={() => handleTypeSelect(TYPE)}
             active={filteredType === TYPE.ID ? 'active' : 'inactive'}
         >
             {TYPE.ENGLISH}

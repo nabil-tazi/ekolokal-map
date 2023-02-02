@@ -85,13 +85,13 @@ function TypeDropdownFilter({ setDropdownOpen, isDropdownOpen }) {
         <>
             <TypeDropdownButton
                 onClick={handleOpenDropDown}
-                type={filteredType}
+                type={filteredType.ID}
             >
-                {formatType(filteredType)}
+                {filteredType.ENGLISH}
                 <ArrowDownIcon
                     src={arrow}
                     title="Down-arroarrow-downw"
-                    type={filteredType}
+                    type={filteredType.ID}
                 ></ArrowDownIcon>
             </TypeDropdownButton>
             {isDropdownOpen && (

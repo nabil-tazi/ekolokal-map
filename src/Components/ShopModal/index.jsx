@@ -15,7 +15,7 @@ import {
 import { useContext } from 'react'
 import { ScopeContext } from '../../utils/context/ScopeContext'
 
-import IconList from '../Categories/IconList'
+import IconList from '../CategoriesIcon/IconList'
 
 const ShopModalWrapper = styled.div`
     position: absolute;

@@ -11,6 +11,10 @@ export const TYPES = {
         ID: 'supermarket',
         ENGLISH: 'Supermarket',
     },
+    EVENT: {
+        ID: 'market',
+        ENGLISH: 'Events',
+    },
     LOCALSTORE: {
         ID: 'local-store',
         ENGLISH: 'Local store',

@@ -269,7 +269,7 @@ export function recursiveCategoryFilter(filters, shopList) {
     } else {
         const newShopList = shopList.filter((shop) => {
             if (shop.categories)
-                return shop.categories.some((cat) => cat.slug === filters[0])
+                return shop.categories.some((cat) => cat.slug === filters[0].ID)
             else return false
         })
         return recursiveCategoryFilter(filters.slice(1), newShopList)
@@ -277,11 +277,12 @@ export function recursiveCategoryFilter(filters, shopList) {
 }
 
 export function filterByType(type, shops) {
-    return type === 'all'
+    console.log(type)
+    return type.ID === 'all'
         ? shops
         : shops.filter((shop) => {
               if (shop.categories)
-                  return shop.categories.some((cat) => cat.slug === type)
+                  return shop.categories.some((cat) => cat.slug === type.ID)
               else return false
           })
 }
@@ -291,8 +292,6 @@ export function filterShopsBySearch(searchInput, shopList) {
         return shopList
     }
     const wordsArray = searchInput.split(' ')
-
-    // return shopList.filter((shop) => singleWordSearch(searchInput, shop))
     return shopList.filter((shop) => recursiveWordsSearch(wordsArray, shop))
 }
 

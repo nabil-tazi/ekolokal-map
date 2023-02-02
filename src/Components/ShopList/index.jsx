@@ -3,6 +3,7 @@ import ShopListItem from './ShopListItem'
 import arrow from '../../assets/left-arrow.png'
 
 import { formatType, formatCategory } from '../../utils/maputils'
+import { CATEGORIES } from '../../utils/configuration/CategoriesConfig'
 
 import { useContext } from 'react'
 import { ScopeContext } from '../../utils/context/ScopeContext'
@@ -145,12 +146,7 @@ function ShopList({
                         <>No </>
                     )}
                     {filteredCategories.length === 1 && (
-                        <>
-                            {' '}
-                            {formatCategory(
-                                filteredCategories[0]
-                            ).toLowerCase()}{' '}
-                        </>
+                        <> {filteredCategories[0].ENGLISH.toLowerCase()} </>
                     )}
                     {filteredType !== 'all' && (
                         <>"{formatType(filteredType)}" </>

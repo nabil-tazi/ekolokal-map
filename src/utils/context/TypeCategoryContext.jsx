@@ -76,14 +76,14 @@ export const TypeCategoryProvider = ({ children }) => {
             CATEGORIES.ORGANIC,
             CATEGORIES.FAIRTRADE,
             CATEGORIES.ZEROWASTE,
-            CATEGORIES.TAKEOUT,
+            // CATEGORIES.TAKEOUT,
         ],
     }
 
     const reducerCategories = (state, action) => {
         console.log(action.type)
         switch (action.type) {
-            case TYPES.ALL.ID:
+            case TYPES.ALL:
                 return {
                     CategoriesMenu: [
                         CATEGORIES.PLANTBASED,
@@ -93,7 +93,7 @@ export const TypeCategoryProvider = ({ children }) => {
                         // CATEGORIES.TAKEOUT,
                     ],
                 }
-            case TYPES.RESTAURANTCAFE.ID:
+            case TYPES.RESTAURANTCAFE:
                 return {
                     CategoriesMenu: [
                         CATEGORIES.PLANTBASED,

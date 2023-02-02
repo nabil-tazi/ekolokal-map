@@ -5,9 +5,11 @@ import FilterBar from '../MapComponents/Filters/FilterBar'
 import MenuBar from '../MenuBar'
 import ShopModal from '../ShopModal'
 import styled from 'styled-components'
-import { recursiveCategoryFilter } from '../../utils/maputils'
+import { filterByType } from '../../utils/maputils'
 import ShopData from '../../assets/data'
 import logo from '../../assets/ekolokal-logo.png'
+
+import { TYPES } from '../../utils/configuration/TypeConfig'
 
 import { ScopeContext } from '../../utils/context/ScopeContext'
 
@@ -82,7 +84,7 @@ function ShopBrowser() {
                 const parsedData = await response.json()
                 initAllShops(parsedData)
 
-                const events = recursiveCategoryFilter(['market'], parsedData)
+                const events = filterByType(TYPES.EVENT, parsedData)
                 initAllEvents(events)
 
                 if (inputRef.current.value === '') {

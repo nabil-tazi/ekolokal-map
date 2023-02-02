@@ -1,4 +1,5 @@
 import { useState, createContext, useRef, useReducer } from 'react'
+import { TYPES } from '../configuration/TypeConfig'
 
 import { updateShops } from '../maputils'
 
@@ -41,7 +42,7 @@ export const ScopeProvider = ({ children }) => {
         setFilteredCategories(newCategories)
     }
 
-    const [filteredType, setFilteredType] = useState('all')
+    const [filteredType, setFilteredType] = useState(TYPES.ALL)
     const updateType = (newType) => {
         setFilteredType(newType)
     }

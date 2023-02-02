@@ -5,7 +5,6 @@ import { ScopeContext } from '../../../../../utils/context/ScopeContext'
 // import noplastic from '../../../assets/noplastic.png'
 // import organic from '../../../assets/organic.png'
 // import plantbased from '../../../assets/plantbased.png'
-import { formatCategory } from '../../../../../utils/maputils'
 
 import styled from 'styled-components'
 
@@ -72,7 +71,7 @@ function CategoryFilterButton({ CATEGORY, setOverview }) {
 
         const newFilters = filteringDown
             ? [...copy, clickedCategory]
-            : copy.filter((e) => e !== clickedCategory)
+            : copy.filter((e) => e.ID !== clickedCategory.ID)
 
         updateCategories(newFilters)
         setOverview(0)
@@ -82,16 +81,16 @@ function CategoryFilterButton({ CATEGORY, setOverview }) {
 
     return (
         <CategoryFilter
-            onClick={() => handleCategoryClick(CATEGORY.ID)}
+            onClick={() => handleCategoryClick(CATEGORY)}
             active={
-                filteredCategories.includes(CATEGORY.ID) ? 'active' : 'inactive'
+                filteredCategories.includes(CATEGORY) ? 'active' : 'inactive'
             }
         >
             <CategoryIcon
                 src={CATEGORY.IMG}
-                title={formatCategory(CATEGORY.ID)}
+                title={CATEGORY.ENGLISH}
                 active={
-                    filteredCategories.includes(CATEGORY.ID)
+                    filteredCategories.includes(CATEGORY)
                         ? 'active'
                         : 'inactive'
                 }
