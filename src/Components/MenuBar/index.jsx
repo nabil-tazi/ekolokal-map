@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-
 import { SCOPES, ScopesMenu } from '../../utils/configuration/ScopeConfig'
 import { useContext } from 'react'
 import { ScopeContext } from '../../utils/context/ScopeContext'
@@ -38,7 +37,6 @@ const MenuWrapper = styled.div`
     border-right: ${(props) =>
         props.isSideBarOpened ? '.2px solid #a0a0a0' : '0px 0px 10px gray'};
 `
-
 const LanguageContainer = styled.div`
     font-family: sans-serif;
     font-size: 13px;
@@ -51,7 +49,6 @@ const LanguageContainer = styled.div`
 const LanguageButton = styled.div`
     margin: 5px;
     user-select: none;
-
     cursor: pointer;
 `
 
@@ -61,43 +58,32 @@ function MenuBar({
     setItemsDisplayed,
     setDropdownOpen,
 }) {
-    const {
-        viewMode,
-        switchViewMode,
-        changeScope,
-        updateDisplayedShops,
-        ACTIONS,
-    } = useContext(ScopeContext)
+    const { currentScope, switchScope, updateDisplayedShops, ACTIONS } =
+        useContext(ScopeContext)
     const { setTypesMenu } = useContext(TypeCategoryContext)
 
     function handleChangeScope(clickedScope) {
         setDropdownOpen(false)
-        var newScope = clickedScope
-        if (viewMode === clickedScope) {
-            setSideBarOpened(false)
-            newScope = SCOPES.NONE
-        } else {
-            setSideBarOpened(true)
-        }
-        switchViewMode(newScope)
-        // changeScope(newScope)
+        const newScope =
+            currentScope === clickedScope ? SCOPES.NONE : clickedScope
+        setSideBarOpened(currentScope !== clickedScope)
+        switchScope(newScope)
         updateDisplayedShops(ACTIONS.CHANGE_SCOPE, newScope)
         setTypesMenu(newScope)
-
         setItemsDisplayed(20)
     }
 
     return (
         <MenuWrapper isSideBarOpened={isSideBarOpened}>
             <IconWrapper>
-                {ScopesMenu.map((scope, index) => (
+                {ScopesMenu.map((scopeItem, index) => (
                     <MenuIcon
                         key={index}
-                        src={scope.IMG}
+                        src={scopeItem.IMG}
                         onClick={() => {
-                            handleChangeScope(scope)
+                            handleChangeScope(scopeItem)
                         }}
-                        active={viewMode === scope}
+                        active={scopeItem === currentScope}
                     ></MenuIcon>
                 ))}
             </IconWrapper>

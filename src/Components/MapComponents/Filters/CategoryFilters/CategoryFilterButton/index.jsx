@@ -50,35 +50,23 @@ const CategoryFilter = styled.div`
 
 function CategoryFilterButton({ CATEGORY, setOverview }) {
     const {
-        research,
-        updateResearch,
-        mapRef,
-        viewMode,
         filteredCategories,
-        updateCategories,
-        filteredType,
-        updateType,
-        inputSearch,
-        changeType,
-        displayedShops,
-        changeCategories,
+        saveFilteredCategories,
         ACTIONS,
         updateDisplayedShops,
     } = useContext(ScopeContext)
 
     function handleCategoryClick(clickedCategory) {
         const copy = filteredCategories
-
         const filteringDown = !copy.includes(clickedCategory)
 
         const newFilters = filteringDown
             ? [...copy, clickedCategory]
             : copy.filter((e) => e.ID !== clickedCategory.ID)
 
-        updateCategories(newFilters)
+        saveFilteredCategories(newFilters)
         setOverview(0)
 
-        // changeCategories(newFilters)
         updateDisplayedShops(ACTIONS.CHANGE_CATEGORIES, newFilters)
     }
 

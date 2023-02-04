@@ -79,14 +79,8 @@ function InputFilter({
     setModalShopId,
     setSideBarOpened,
 }) {
-    const { research, updateResearch, updateDisplayedShops, ACTIONS } =
+    const { research, setResearch, updateDisplayedShops, ACTIONS } =
         useContext(ScopeContext)
-
-    const handleKeyPressed = (e) => {
-        if (e.key === 'Enter') {
-            handleSearchInput()
-        }
-    }
 
     function handleInputChange() {
         closeModal(setOverview, setDropdownOpen, setModalShopId)
@@ -94,8 +88,7 @@ function InputFilter({
 
     function handleSearchInput() {
         const input = inputRef.current.value
-        updateResearch(input)
-        // inputSearch(input)
+        setResearch(input)
         updateDisplayedShops(ACTIONS.CHANGE_SEARCH_INPUT, input)
 
         if (input !== '') setSideBarOpened(true)
@@ -120,7 +113,11 @@ function InputFilter({
                 }}
                 onClick={closeDropdown}
                 onChange={handleInputChange}
-                onKeyDown={handleKeyPressed}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        handleSearchInput()
+                    }
+                }}
                 active={research !== '' ? 'active' : 'inactive'}
             ></ResearchInput>
             {research && (

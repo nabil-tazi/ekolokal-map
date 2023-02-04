@@ -9,10 +9,10 @@ export const ScopeContext = createContext()
 export const ScopeProvider = ({ children }) => {
     const mapRef = useRef()
 
-    const [viewMode, setViewMode] = useState(SCOPES.NONE)
-    const switchViewMode = (newViewMode) => {
-        setViewMode(newViewMode)
-    }
+    const [currentScope, switchScope] = useState(SCOPES.NONE)
+    // const switchScope = (newScope) => {
+    //     setScope(newScope)
+    // }
 
     const [allShops, setAllShops] = useState([])
     const initAllShops = (data) => {
@@ -24,29 +24,14 @@ export const ScopeProvider = ({ children }) => {
         setAllEvents(data)
     }
 
-    const [favoriteShops, setFavoriteShops] = useState(
+    const [favoriteShops, saveFavoriteShops] = useState(
         localStorage.getItem('favorites') != null
             ? JSON.parse(localStorage.getItem('favorites'))
             : []
     )
-    const updateFavoriteShops = (newFavorites) => {
-        setFavoriteShops(newFavorites)
-    }
-
     const [research, setResearch] = useState('')
-    const updateResearch = (newResearch) => {
-        setResearch(newResearch)
-    }
-
-    const [filteredCategories, setFilteredCategories] = useState([])
-    const updateCategories = (newCategories) => {
-        setFilteredCategories(newCategories)
-    }
-
-    const [filteredType, setFilteredType] = useState(TYPES.ALL)
-    const updateType = (newType) => {
-        setFilteredType(newType)
-    }
+    const [filteredCategories, saveFilteredCategories] = useState([])
+    const [filteredType, saveFilteredType] = useState(TYPES.ALL)
 
     const initialState = {
         displayedShops: [],
@@ -71,7 +56,7 @@ export const ScopeProvider = ({ children }) => {
             filteredCategories: filteredCategories,
             filteredType: filteredType,
             map: mapRef.current,
-            viewMode: viewMode,
+            scope: currentScope,
             localize: false,
             openModal: false,
         }
@@ -81,7 +66,7 @@ export const ScopeProvider = ({ children }) => {
                 params.map = action.param
                 break
             case ACTIONS.CHANGE_SCOPE:
-                params.viewMode = action.param
+                params.scope = action.param
                 break
             case ACTIONS.CHANGE_SEARCH_INPUT:
                 params.research = action.param
@@ -112,26 +97,26 @@ export const ScopeProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(reducer, initialState)
 
-    //Comme viewMode sera utilisé par le ScopeContext et le Menu/Category/Type Context, il devrait être son propre Hook,
+    //Comme scope sera utilisé par le ScopeContext et le Menu/Category/Type Context, il devrait être son propre Hook,
     //et les deux contextes le consomment
     return (
         <ScopeContext.Provider
             value={{
                 mapRef,
-                viewMode,
-                switchViewMode,
+                currentScope,
+                switchScope,
                 allShops,
                 initAllShops,
                 allEvents,
                 initAllEvents,
                 favoriteShops,
-                updateFavoriteShops,
+                saveFavoriteShops,
                 research,
-                updateResearch,
+                setResearch,
                 filteredCategories,
-                updateCategories,
+                saveFilteredCategories,
                 filteredType,
-                updateType,
+                saveFilteredType,
                 ACTIONS,
                 displayedShops: state.displayedShops,
 

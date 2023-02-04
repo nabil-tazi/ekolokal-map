@@ -28,7 +28,7 @@ const DropdownEntry = styled.div`
 function TypeDropdownEntry({ TYPE, setDropdownOpen }) {
     const {
         filteredType,
-        updateType,
+        saveFilteredType,
         changeType,
         ACTIONS,
         updateDisplayedShops,
@@ -37,7 +37,7 @@ function TypeDropdownEntry({ TYPE, setDropdownOpen }) {
 
     function handleTypeSelect(newType) {
         setDropdownOpen(false)
-        updateType(newType)
+        saveFilteredType(newType)
         // changeType(newType)
         updateDisplayedShops(ACTIONS.CHANGE_TYPE, newType)
         setCategoriesMenu(newType)

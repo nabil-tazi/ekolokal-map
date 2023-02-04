@@ -53,7 +53,7 @@ function ShopBrowser() {
         initAllShops,
         initAllEvents,
         favoriteShops,
-        updateFavoriteShops,
+        saveFavoriteShops,
         displayedShops,
         initDisplayedShops,
     } = useContext(ScopeContext)
@@ -71,7 +71,7 @@ function ShopBrowser() {
     useEffect(() => {
         const storedFavorites = JSON.parse(localStorage.getItem('favorites'))
         if (storedFavorites) {
-            updateFavoriteShops(storedFavorites)
+            saveFavoriteShops(storedFavorites)
         }
 
         const fetchShops = async () => {

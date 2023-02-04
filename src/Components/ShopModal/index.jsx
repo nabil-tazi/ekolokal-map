@@ -225,7 +225,7 @@ function ShopModal({
     const {
         mapRef,
         favoriteShops,
-        updateFavoriteShops,
+        saveFavoriteShops,
 
         changeFavorites,
         ACTIONS,
@@ -244,7 +244,7 @@ function ShopModal({
             ? [...copy, shop]
             : copy.filter((e) => e.id !== shop.id)
 
-        updateFavoriteShops(newFavorites)
+        saveFavoriteShops(newFavorites)
         // changeFavorites(newFavorites)
         updateDisplayedShops(ACTIONS.CHANGE_FAVORITES, newFavorites)
         // updateDisplayedShops(
@@ -256,7 +256,7 @@ function ShopModal({
         //         filteredCategories,
         //         filteredType,
         //         mapRef.current,
-        //         viewMode
+        //         scope
         //     )
         // )
     }

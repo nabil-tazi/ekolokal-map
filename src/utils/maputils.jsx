@@ -98,11 +98,8 @@ export function localizeSearch(filteredShops, map) {
     })
 }
 
-export function initShopFromBounds(map, viewMode, research, shopList) {
-    if (
-        (viewMode === SCOPES.NONE || viewMode === SCOPES.BROWSE) &&
-        research === ''
-    )
+export function initShopFromBounds(map, scope, research, shopList) {
+    if ((scope === SCOPES.NONE || scope === SCOPES.BROWSE) && research === '')
         return updateMarkerFromBounds(
             map.getBounds(),
             map.getCenter(),
@@ -111,41 +108,41 @@ export function initShopFromBounds(map, viewMode, research, shopList) {
     else return shopList
 }
 
-export function updateShops2(
-    allShops,
-    allEvents,
-    favoriteShops,
-    research,
-    categories,
-    type,
-    map,
-    viewMode
-) {
-    const filteredShops = filterShopsBySearch(
-        research,
-        recursiveCategoryFilter(
-            categories,
-            filterByType(
-                type,
-                initShopFromBounds(
-                    map,
-                    viewMode,
-                    research,
-                    getAllShopsFromScope(
-                        viewMode,
-                        allShops,
-                        favoriteShops,
-                        allEvents
-                    )
-                )
-            )
-        )
-    )
-        .sort(alphabetical)
-        .slice(0, 100)
+// export function updateShops2(
+//     allShops,
+//     allEvents,
+//     favoriteShops,
+//     research,
+//     categories,
+//     type,
+//     map,
+//     scope
+// ) {
+//     const filteredShops = filterShopsBySearch(
+//         research,
+//         recursiveCategoryFilter(
+//             categories,
+//             filterByType(
+//                 type,
+//                 initShopFromBounds(
+//                     map,
+//                     scope,
+//                     research,
+//                     getAllShopsFromScope(
+//                         scope,
+//                         allShops,
+//                         favoriteShops,
+//                         allEvents
+//                     )
+//                 )
+//             )
+//         )
+//     )
+//         .sort(alphabetical)
+//         .slice(0, 100)
 
-    return filteredShops
-}
+//     return filteredShops
+// }
 
 export function updateShops({
     allShops,
@@ -155,7 +152,7 @@ export function updateShops({
     filteredCategories,
     filteredType,
     map,
-    viewMode,
+    scope,
     localize,
 }) {
     const filteredShops = filterShopsBySearch(
@@ -166,10 +163,10 @@ export function updateShops({
                 filteredType,
                 initShopFromBounds(
                     map,
-                    viewMode,
+                    scope,
                     research,
                     getAllShopsFromScope(
-                        viewMode,
+                        scope,
                         allShops,
                         favoriteShops,
                         allEvents
@@ -427,12 +424,12 @@ export function isFavorite(shop, favorites) {
 }
 
 export function getAllShopsFromScope(
-    viewMode,
+    scope,
     allShops,
     favoriteShops,
     allEvents
 ) {
-    switch (viewMode) {
+    switch (scope) {
         case SCOPES.NONE:
             return allShops
         case SCOPES.BROWSE:
