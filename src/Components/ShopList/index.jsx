@@ -2,11 +2,9 @@ import styled from 'styled-components'
 import ShopListItem from './ShopListItem'
 import arrow from '../../assets/left-arrow.png'
 
-import { formatType, formatCategory } from '../../utils/maputils'
-import { CATEGORIES } from '../../utils/configuration/CategoriesConfig'
-
 import { useContext } from 'react'
-import { ScopeContext } from '../../utils/context/ScopeContext'
+import { ShopsDataContext } from '../../utils/context/ShopsDataContext'
+import { UserInterfaceContext } from '../../utils/context/UserInterfaceContext'
 
 const Wrapper = styled.div`
     position: absolute;
@@ -106,38 +104,23 @@ const LeftArrowIcon = styled.img`
     width: 6px;
 `
 
-function ShopList({
-    setOverview,
-    modalShopId,
-    setModalShopId,
-    setDropdownOpen,
-    setSideBarOpened,
-    itemsDisplayed,
-    setItemsDisplayed,
-}) {
-    const { research, filteredCategories, filteredType, displayedShops } =
-        useContext(ScopeContext)
+function ShopList() {
+    const {
+        research,
+        filteredCategories,
+        displayedShops,
+        filteredType,
+        noResearch,
+    } = useContext(ShopsDataContext)
 
-    function closeDropdown() {
-        setDropdownOpen(false)
-    }
-
-    function closeSideBar() {
-        setSideBarOpened(false)
-        setItemsDisplayed(20)
-    }
-
-    function handleLoadMore() {
-        const items = itemsDisplayed
-        setItemsDisplayed(items + 20)
-        scollToRef.current.scrollIntoView({ behavior: 'smooth' })
-    }
+    const { closeDropdown, closeSideBar, loadedItems, loadMoreShops } =
+        useContext(UserInterfaceContext)
 
     return (
         <>
             <Wrapper onClick={closeDropdown}>
                 <ResearchSummary>
-                    {displayedShops.length === 100 && research === '' && (
+                    {displayedShops.length === 100 && noResearch && (
                         <>More than </>
                     )}
                     {displayedShops.length > 0 ? (
@@ -148,19 +131,10 @@ function ShopList({
                     {filteredCategories.length === 1 && (
                         <> {filteredCategories[0].ENGLISH.toLowerCase()} </>
                     )}
-                    {filteredType !== 'all' && (
-                        <>"{formatType(filteredType)}" </>
+                    {filteredType.ID !== 'all' && (
+                        <>"{filteredType.ENGLISH}" </>
                     )}{' '}
                     shops found{research && <> for "{research}"</>}
-                    {/* {filteredCategories.length > 0 && (
-                        <>
-                            {' '}
-                            matching{' '}
-                            {filteredCategories.map((cat) => (
-                                <>"{formatCategory(cat)}", </>
-                            ))}
-                        </>
-                    )} */}
                     {filteredCategories.length > 1 && (
                         <>
                             {' '}
@@ -168,27 +142,18 @@ function ShopList({
                             categories
                         </>
                     )}
-                    {/* {filteredCategories.length === 1 && (
-                        <> matching "{formatCategory(filteredCategories[0])}"</>
-                    )} */}
-                    {research === '' && <> in the area</>}.
+                    {noResearch && <> in the area</>}.
                 </ResearchSummary>
                 <CloseSideBarButton onClick={closeSideBar}>
                     <LeftArrowIcon src={arrow}></LeftArrowIcon>
                 </CloseSideBarButton>
                 <ShopListWrapper>
-                    {displayedShops.slice(0, itemsDisplayed).map((shop) => (
-                        <ShopListItem
-                            key={shop.id}
-                            shop={shop}
-                            setOverview={setOverview}
-                            modalShopId={modalShopId}
-                            setModalShopId={setModalShopId}
-                        ></ShopListItem>
+                    {displayedShops.slice(0, loadedItems).map((shop) => (
+                        <ShopListItem key={shop.id} shop={shop}></ShopListItem>
                     ))}
 
-                    {itemsDisplayed < displayedShops.length && (
-                        <LoadMoreButton onClick={handleLoadMore}>
+                    {loadedItems < displayedShops.length && (
+                        <LoadMoreButton onClick={loadMoreShops}>
                             Load more...
                         </LoadMoreButton>
                     )}

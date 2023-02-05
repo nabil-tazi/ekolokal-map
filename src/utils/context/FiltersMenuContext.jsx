@@ -2,9 +2,9 @@ import { createContext, useReducer } from 'react'
 import { TYPES } from '../configuration/TypeConfig'
 import { CATEGORIES } from '../configuration/CategoriesConfig'
 
-export const TypeCategoryContext = createContext()
+export const FiltersMenuContext = createContext()
 
-export const TypeCategoryProvider = ({ children }) => {
+export const FiltersMenuProvider = ({ children }) => {
     const initialStateTypes = {
         TypesMenu: [
             TYPES.ALL,
@@ -122,16 +122,16 @@ export const TypeCategoryProvider = ({ children }) => {
     )
 
     return (
-        <TypeCategoryContext.Provider
+        <FiltersMenuContext.Provider
             value={{
                 TypesMenu: stateTypes.TypesMenu,
-                setTypesMenu: (scope) => {
+                updateTypesMenu: (scope) => {
                     dispatchTypes({
                         scope: scope,
                     })
                 },
                 CategoriesMenu: stateCategories.CategoriesMenu,
-                setCategoriesMenu: (type) => {
+                updateCategoriesMenu: (type) => {
                     dispatchCategories({
                         type: type,
                     })
@@ -139,6 +139,6 @@ export const TypeCategoryProvider = ({ children }) => {
             }}
         >
             {children}
-        </TypeCategoryContext.Provider>
+        </FiltersMenuContext.Provider>
     )
 }

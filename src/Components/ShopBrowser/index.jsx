@@ -4,6 +4,7 @@ import Map from '../MapComponents/Map'
 import FilterBar from '../MapComponents/Filters/FilterBar'
 import MenuBar from '../MenuBar'
 import ShopModal from '../ShopModal'
+import LoadingScreen from '../LoadingScreen'
 import styled from 'styled-components'
 import { filterByType } from '../../utils/maputils'
 import ShopData from '../../assets/data'
@@ -11,24 +12,10 @@ import logo from '../../assets/ekolokal-logo.png'
 
 import { TYPES } from '../../utils/configuration/TypeConfig'
 
-import { ScopeContext } from '../../utils/context/ScopeContext'
+import { ShopsDataContext } from '../../utils/context/ShopsDataContext'
+import { UserInterfaceContext } from '../../utils/context/UserInterfaceContext'
 
 const Container = styled.div``
-const LoadingScreen = styled.div`
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    background-color: #fef2e2;
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`
-
-const LoadingLogo = styled.img`
-    margin-bottom: 100px;
-    width: 170px;
-`
 
 const EkolokalLogo = styled.img`
     position: absolute;
@@ -56,13 +43,11 @@ function ShopBrowser() {
         saveFavoriteShops,
         displayedShops,
         initDisplayedShops,
-    } = useContext(ScopeContext)
+    } = useContext(ShopsDataContext)
 
-    const [overview, setOverview] = useState(0)
-    const [modalShopId, setModalShopId] = useState(0)
-    const [isSideBarOpened, setSideBarOpened] = useState(false)
-    const [isDropdownOpen, setDropdownOpen] = useState(false)
-    const [itemsDisplayed, setItemsDisplayed] = useState(20)
+    const { isSideBarOpen, modalShopId, resetLazyLoad } =
+        useContext(UserInterfaceContext)
+
     const [isLoading, setLoading] = useState(true)
     const inputRef = useRef(null)
 
@@ -87,9 +72,10 @@ function ShopBrowser() {
                 const events = filterByType(TYPES.EVENT, parsedData)
                 initAllEvents(events)
 
-                if (inputRef.current.value === '') {
-                    initDisplayedShops(parsedData, events, storedFavorites)
-                }
+                initDisplayedShops(parsedData, events, storedFavorites)
+                // if (inputRef.current.value === '') {
+                //     initDisplayedShops(parsedData, events, storedFavorites)
+                // }
             } catch (err) {
                 console.log(err)
             } finally {
@@ -100,8 +86,7 @@ function ShopBrowser() {
     }, [])
 
     useEffect(() => {
-        setItemsDisplayed(20)
-        console.log(displayedShops.length)
+        resetLazyLoad()
     }, [displayedShops.length])
 
     useEffect(() => {
@@ -110,55 +95,16 @@ function ShopBrowser() {
 
     return (
         <Container>
-            {isLoading && (
-                <LoadingScreen>
-                    <LoadingLogo src={logo}></LoadingLogo>
-                </LoadingScreen>
-            )}
-            <MenuBar
-                isSideBarOpened={isSideBarOpened}
-                setSideBarOpened={setSideBarOpened}
-                setItemsDisplayed={setItemsDisplayed}
-                favoriteShops={favoriteShops}
-                setDropdownOpen={setDropdownOpen}
-            ></MenuBar>
-            {isSideBarOpened && (
-                <ShopList
-                    setOverview={setOverview}
-                    modalShopId={modalShopId}
-                    setModalShopId={setModalShopId}
-                    setDropdownOpen={setDropdownOpen}
-                    setSideBarOpened={setSideBarOpened}
-                    itemsDisplayed={itemsDisplayed}
-                    setItemsDisplayed={setItemsDisplayed}
-                ></ShopList>
-            )}
+            {isLoading && <LoadingScreen></LoadingScreen>}
+            <MenuBar></MenuBar>
+            {isSideBarOpen && <ShopList></ShopList>}
             {modalShopId && (
                 <ShopModal
-                    setOverview={setOverview}
                     shop={allShops.filter((shop) => shop.id === modalShopId)[0]}
-                    setDropdownOpen={setDropdownOpen}
-                    setItemsDisplayed={setItemsDisplayed}
-                    setModalShopId={setModalShopId}
                 ></ShopModal>
             )}
-            <FilterBar
-                setOverview={setOverview}
-                setModalShopId={setModalShopId}
-                setSideBarOpened={setSideBarOpened}
-                isDropdownOpen={isDropdownOpen}
-                setDropdownOpen={setDropdownOpen}
-                inputRef={inputRef}
-            ></FilterBar>
-            <Map
-                overview={overview}
-                center={initCenter}
-                modalShopId={modalShopId}
-                setModalShopId={setModalShopId}
-                setOverview={setOverview}
-                setDropdownOpen={setDropdownOpen}
-                inputRef={inputRef}
-            ></Map>
+            <FilterBar inputRef={inputRef}></FilterBar>
+            <Map center={initCenter} inputRef={inputRef}></Map>
             <EkolokalLogo src={logo} />
         </Container>
     )

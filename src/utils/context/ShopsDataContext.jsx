@@ -4,15 +4,12 @@ import { TYPES } from '../configuration/TypeConfig'
 
 import { updateShops } from '../maputils'
 
-export const ScopeContext = createContext()
+export const ShopsDataContext = createContext()
 
-export const ScopeProvider = ({ children }) => {
+export const ShopsDataProvider = ({ children }) => {
     const mapRef = useRef()
 
     const [currentScope, switchScope] = useState(SCOPES.NONE)
-    // const switchScope = (newScope) => {
-    //     setScope(newScope)
-    // }
 
     const [allShops, setAllShops] = useState([])
     const initAllShops = (data) => {
@@ -32,6 +29,12 @@ export const ScopeProvider = ({ children }) => {
     const [research, setResearch] = useState('')
     const [filteredCategories, saveFilteredCategories] = useState([])
     const [filteredType, saveFilteredType] = useState(TYPES.ALL)
+
+    const noResearch = research === ''
+
+    function isFavorite(shop) {
+        return favoriteShops.some((favshop) => favshop.id === shop.id)
+    }
 
     const initialState = {
         displayedShops: [],
@@ -97,10 +100,10 @@ export const ScopeProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(reducer, initialState)
 
-    //Comme scope sera utilisé par le ScopeContext et le Menu/Category/Type Context, il devrait être son propre Hook,
+    //Comme scope sera utilisé par le ShopsDataContext et le Menu/Category/Type Context, il devrait être son propre Hook,
     //et les deux contextes le consomment
     return (
-        <ScopeContext.Provider
+        <ShopsDataContext.Provider
             value={{
                 mapRef,
                 currentScope,
@@ -118,6 +121,8 @@ export const ScopeProvider = ({ children }) => {
                 filteredType,
                 saveFilteredType,
                 ACTIONS,
+                noResearch,
+                isFavorite,
                 displayedShops: state.displayedShops,
 
                 updateDisplayedShops: (actionType, param) => {
@@ -135,6 +140,6 @@ export const ScopeProvider = ({ children }) => {
             }}
         >
             {children}
-        </ScopeContext.Provider>
+        </ShopsDataContext.Provider>
     )
 }

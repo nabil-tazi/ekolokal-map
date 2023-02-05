@@ -6,16 +6,11 @@ import link from '../../assets/link.png'
 import emptyHeart from '../../assets/emptyHeart.png'
 import fullHeart from '../../assets/fullHeart.png'
 
-import {
-    positionShopForModal,
-    closeModal,
-    isFavorite,
-} from '../../utils/maputils'
-
 import { useContext } from 'react'
-import { ScopeContext } from '../../utils/context/ScopeContext'
+import { ShopsDataContext } from '../../utils/context/ShopsDataContext'
 
 import IconList from '../CategoriesIcon/IconList'
+import { UserInterfaceContext } from '../../utils/context/UserInterfaceContext'
 
 const ShopModalWrapper = styled.div`
     position: absolute;
@@ -212,72 +207,36 @@ const AddressWrapper = styled.div`
     align-items: center;
 `
 
-function ShopModal({
-    setOverview,
-    shop,
-    setDropdownOpen,
-    setModalShopId,
-    // setDisplayedShops,
-    // filteredType,
-    // filteredCategories,
-    // research,
-}) {
+function ShopModal({ shop }) {
     const {
         mapRef,
         favoriteShops,
         saveFavoriteShops,
-
-        changeFavorites,
         ACTIONS,
         updateDisplayedShops,
-    } = useContext(ScopeContext)
+        isFavorite,
+    } = useContext(ShopsDataContext)
+
+    const { closeModal, flyToShop } = useContext(UserInterfaceContext)
 
     function handleCloseModal() {
-        closeModal(setOverview, setDropdownOpen, setModalShopId)
+        closeModal()
     }
 
     function handleFavoriteClick() {
-        const copy = favoriteShops
-        const addingToFavorites = !isFavorite(shop, copy)
-
-        const newFavorites = addingToFavorites
-            ? [...copy, shop]
-            : copy.filter((e) => e.id !== shop.id)
+        const newFavorites = isFavorite(shop)
+            ? favoriteShops.filter((e) => e.id !== shop.id)
+            : [...favoriteShops, shop]
 
         saveFavoriteShops(newFavorites)
-        // changeFavorites(newFavorites)
         updateDisplayedShops(ACTIONS.CHANGE_FAVORITES, newFavorites)
-        // updateDisplayedShops(
-        //     updateShops(
-        //         allShops,
-        //         allEvents,
-        //         newFavorites,
-        //         research,
-        //         filteredCategories,
-        //         filteredType,
-        //         mapRef.current,
-        //         scope
-        //     )
-        // )
     }
 
-    function handleLocalizeShop() {
-        positionShopForModal(
-            mapRef.current,
-            [
-                parseFloat(shop.geolocation_lat[0]),
-                parseFloat(shop.geolocation_long[0]),
-            ],
-            16
-        )
-    }
     return (
         <ShopModalWrapper>
             <FirstLine>
                 <FavoriteIcon
-                    src={
-                        isFavorite(shop, favoriteShops) ? fullHeart : emptyHeart
-                    }
+                    src={isFavorite(shop) ? fullHeart : emptyHeart}
                     onClick={handleFavoriteClick}
                 ></FavoriteIcon>
                 <ShopName>{shop.title.toUpperCase()}</ShopName>
@@ -334,7 +293,18 @@ function ShopModal({
                                 </Website>
                             )}
                         </ContactInformation>
-                        <AddressWrapper onClick={handleLocalizeShop}>
+                        <AddressWrapper
+                            onClick={() => {
+                                flyToShop(
+                                    mapRef.current,
+                                    [
+                                        parseFloat(shop.geolocation_lat[0]),
+                                        parseFloat(shop.geolocation_long[0]),
+                                    ],
+                                    16
+                                )
+                            }}
+                        >
                             {shop.formatted_address && (
                                 <Address>{shop.formatted_address}</Address>
                             )}

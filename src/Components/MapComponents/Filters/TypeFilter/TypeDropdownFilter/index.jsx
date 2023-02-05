@@ -2,11 +2,10 @@ import styled from 'styled-components'
 import arrow from '../../../../../assets/down.png'
 
 import { useContext } from 'react'
-import { ScopeContext } from '../../../../../utils/context/ScopeContext'
-import { TypeCategoryContext } from '../../../../../utils/context/TypeCategoryMenuContext'
+import { ShopsDataContext } from '../../../../../utils/context/ShopsDataContext'
+import { FiltersMenuContext } from '../../../../../utils/context/FiltersMenuContext'
+import { UserInterfaceContext } from '../../../../../utils/context/UserInterfaceContext'
 import TypeDropdownEntry from '../TypeDropdownEntry'
-
-import { formatType } from '../../../../../utils/maputils'
 
 const TypeDropdownButton = styled.div`
     height: 37px;
@@ -73,20 +72,14 @@ const ArrowDownIcon = styled.img`
             : null};
 `
 
-function TypeDropdownFilter({ setDropdownOpen, isDropdownOpen }) {
-    const { filteredType } = useContext(ScopeContext)
-    const { TypesMenu } = useContext(TypeCategoryContext)
-
-    function handleOpenDropDown() {
-        setDropdownOpen(!isDropdownOpen)
-    }
+function TypeDropdownFilter() {
+    const { filteredType } = useContext(ShopsDataContext)
+    const { TypesMenu } = useContext(FiltersMenuContext)
+    const { isDropdownOpen, toggleDropdown } = useContext(UserInterfaceContext)
 
     return (
         <>
-            <TypeDropdownButton
-                onClick={handleOpenDropDown}
-                type={filteredType.ID}
-            >
+            <TypeDropdownButton onClick={toggleDropdown} type={filteredType.ID}>
                 {filteredType.ENGLISH}
                 <ArrowDownIcon
                     src={arrow}
@@ -100,7 +93,6 @@ function TypeDropdownFilter({ setDropdownOpen, isDropdownOpen }) {
                         <TypeDropdownEntry
                             key={index}
                             TYPE={type}
-                            setDropdownOpen={setDropdownOpen}
                         ></TypeDropdownEntry>
                     ))}
                 </DropdownMenu>

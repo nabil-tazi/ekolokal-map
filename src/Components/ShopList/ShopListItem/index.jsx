@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import { ScopeContext } from '../../../utils/context/ScopeContext'
-import { openModal, positionShopForModal } from '../../../utils/maputils'
+import { ShopsDataContext } from '../../../utils/context/ShopsDataContext'
 import IconList from '../../CategoriesIcon/IconList'
 import { useContext } from 'react'
+import { UserInterfaceContext } from '../../../utils/context/UserInterfaceContext'
 
 const ListItemWrapper = styled.div`
     margin-bottom: 15px;
@@ -70,28 +70,29 @@ const TitleThumbnail = styled.div`
     /* background: blue; */
 `
 
-function ShopListItem({ shop, setOverview, modalShopId, setModalShopId }) {
-    const { mapRef } = useContext(ScopeContext)
+function ShopListItem({ shop }) {
+    const { mapRef } = useContext(ShopsDataContext)
+    const {
+        openOverview,
+        modalShopId,
+        openModal,
+        closeOverview,
+        isModalClosed,
+    } = useContext(UserInterfaceContext)
 
     function handleHover() {
-        if (modalShopId === 0) {
-            setOverview(shop.id)
-            // setIsOverviewOpened(true)
-            // setIsMarkerHovered(true)
+        if (isModalClosed) {
+            openOverview(shop.id)
         }
     }
 
     function handleMouseOut() {
-        if (modalShopId === 0) {
-            setOverview(0)
-            // setIsOverviewOpened(false)
-            // setIsMarkerHovered(false)
+        if (isModalClosed) {
+            closeOverview()
         }
     }
 
     function handleClick() {
-        // setIsOverviewOpened(true)
-        // setOverview(shop.id)
         openModal(
             mapRef.current,
             [
@@ -99,21 +100,8 @@ function ShopListItem({ shop, setOverview, modalShopId, setModalShopId }) {
                 parseFloat(shop.geolocation_long[0]),
             ],
             shop.id,
-            setModalShopId,
-            // setIsModalOpened,
-            // setIsOverviewOpened,
-            setOverview,
             mapRef.current.getZoom()
         )
-        // positionShopForModal(
-        //     mapRef.current,
-        //     [
-        //         parseFloat(shop.geolocation_lat[0]),
-        //         parseFloat(shop.geolocation_long[0]),
-        //     ],
-        //     // 15
-        //     mapRef.current.getZoom()
-        // )
     }
     return (
         <ListItemWrapper

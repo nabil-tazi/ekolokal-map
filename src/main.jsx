@@ -1,15 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import { ScopeProvider } from './utils/context/ScopeContext'
-import { TypeCategoryProvider } from './utils/context/TypeCategoryMenuContext'
+import { ShopsDataProvider } from './utils/context/ShopsDataContext'
+import { FiltersMenuProvider } from './utils/context/FiltersMenuContext'
+import { UserInterfaceProvider } from './utils/context/UserInterfaceContext'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        <ScopeProvider>
-            <TypeCategoryProvider>
-                <App />
-            </TypeCategoryProvider>
-        </ScopeProvider>
+        <UserInterfaceProvider>
+            <ShopsDataProvider>
+                <FiltersMenuProvider>
+                    <App />
+                </FiltersMenuProvider>
+            </ShopsDataProvider>
+        </UserInterfaceProvider>
     </React.StrictMode>
 )

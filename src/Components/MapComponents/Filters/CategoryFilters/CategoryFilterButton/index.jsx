@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { ScopeContext } from '../../../../../utils/context/ScopeContext'
+import { ShopsDataContext } from '../../../../../utils/context/ShopsDataContext'
 // import fairtrade from '../../../assets/fairtrade.png'
 // import nobin from '../../../assets/nobin.png'
 // import noplastic from '../../../assets/noplastic.png'
@@ -7,6 +7,7 @@ import { ScopeContext } from '../../../../../utils/context/ScopeContext'
 // import plantbased from '../../../assets/plantbased.png'
 
 import styled from 'styled-components'
+import { UserInterfaceContext } from '../../../../../utils/context/UserInterfaceContext'
 
 const CategoryIcon = styled.img`
     width: 28px;
@@ -48,24 +49,25 @@ const CategoryFilter = styled.div`
     }
 `
 
-function CategoryFilterButton({ CATEGORY, setOverview }) {
+function CategoryFilterButton({ CATEGORY }) {
     const {
         filteredCategories,
         saveFilteredCategories,
         ACTIONS,
         updateDisplayedShops,
-    } = useContext(ScopeContext)
+    } = useContext(ShopsDataContext)
+
+    const { closeOverview } = useContext(UserInterfaceContext)
 
     function handleCategoryClick(clickedCategory) {
-        const copy = filteredCategories
-        const filteringDown = !copy.includes(clickedCategory)
+        const filteringDown = !filteredCategories.includes(clickedCategory)
 
         const newFilters = filteringDown
-            ? [...copy, clickedCategory]
-            : copy.filter((e) => e.ID !== clickedCategory.ID)
+            ? [...filteredCategories, clickedCategory]
+            : filteredCategories.filter((e) => e.ID !== clickedCategory.ID)
 
         saveFilteredCategories(newFilters)
-        setOverview(0)
+        closeOverview()
 
         updateDisplayedShops(ACTIONS.CHANGE_CATEGORIES, newFilters)
     }

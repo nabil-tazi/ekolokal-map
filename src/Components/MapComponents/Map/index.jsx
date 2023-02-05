@@ -6,7 +6,7 @@ import {
 } from 'react-leaflet'
 
 import { useContext } from 'react'
-import { ScopeContext } from '../../../utils/context/ScopeContext'
+import { ShopsDataContext } from '../../../utils/context/ShopsDataContext'
 
 // import MarkerClusterGroup from 'react-leaflet-cluster'
 
@@ -17,10 +17,9 @@ import 'leaflet/dist/leaflet.css'
 // import 'react-leaflet-markercluster/dist/styles.min.css'
 import styled from 'styled-components'
 
-import { closeModal } from '../../../utils/maputils.jsx'
-
 import ShopMarkersList from '../ShopMarkersList'
 import { SCOPES } from '../../../utils/configuration/ScopeConfig'
+import { UserInterfaceContext } from '../../../utils/context/UserInterfaceContext'
 
 const MapWrapper = styled(MapContainer)`
     position: absolute;
@@ -28,51 +27,42 @@ const MapWrapper = styled(MapContainer)`
     left: 0;
 `
 
-function Bounds({
-    modalShopId,
-    setOverview,
-    setDropdownOpen,
-    setModalShopId,
-    inputRef,
-}) {
-    const { scope, research, updateDisplayedShops, ACTIONS } =
-        useContext(ScopeContext)
+function Bounds({ inputRef }) {
+    const { currentScope, updateDisplayedShops, ACTIONS, noResearch } =
+        useContext(ShopsDataContext)
+
+    const {
+        modalShopId,
+        openOverview,
+        closeOverview,
+        closeModal,
+        isModalClosed,
+    } = useContext(UserInterfaceContext)
 
     const map = useMapEvent('moveend', () => {
         if (
-            modalShopId === 0 &&
-            research === '' &&
-            inputRef.current.value === '' &&
-            (scope === SCOPES.BROWSE || scope === SCOPES.NONE)
+            isModalClosed &&
+            noResearch &&
+            // inputRef.current.value === '' &&
+            (currentScope === SCOPES.BROWSE || currentScope === SCOPES.NONE)
         ) {
-            // moveMap(map)
+            console.log('MOVE')
+
             updateDisplayedShops(ACTIONS.MOVE_MAP, map)
         }
     })
 
     useMapEvent('click', () => {
-        closeModal(setOverview, setDropdownOpen, setModalShopId)
+        closeModal()
     })
     useMapEvent('mouseover', () => {
-        if (modalShopId === 0) {
-            setOverview(0)
-        } else {
-            setOverview(modalShopId)
-        }
+        isModalClosed ? closeOverview() : openOverview(modalShopId)
     })
     return null
 }
 
-function Map({
-    overview,
-    center,
-    modalShopId,
-    setModalShopId,
-    setOverview,
-    setDropdownOpen,
-    inputRef,
-}) {
-    const { mapRef, displayedShops } = useContext(ScopeContext)
+function Map({ center, inputRef }) {
+    const { mapRef, displayedShops } = useContext(ShopsDataContext)
 
     return (
         <>
@@ -93,23 +83,9 @@ function Map({
                     spiderfyOnMaxZoom={false}
                     maxClusterRadius={40}
                 > */}
-                {displayedShops && (
-                    <ShopMarkersList
-                        overview={overview}
-                        modalShopId={modalShopId}
-                        setModalShopId={setModalShopId}
-                        setOverview={setOverview}
-                        setDropdownOpen={setDropdownOpen}
-                    ></ShopMarkersList>
-                )}
+                {displayedShops && <ShopMarkersList></ShopMarkersList>}
                 {/* </MarkerClusterGroup> */}
-                <Bounds
-                    setOverview={setOverview}
-                    setDropdownOpen={setDropdownOpen}
-                    setModalShopId={setModalShopId}
-                    modalShopId={modalShopId}
-                    inputRef={inputRef}
-                />
+                <Bounds inputRef={inputRef} />
                 <ZoomControl position="topright" />
             </MapWrapper>
         </>

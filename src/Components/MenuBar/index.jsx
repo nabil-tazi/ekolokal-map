@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 import { SCOPES, ScopesMenu } from '../../utils/configuration/ScopeConfig'
 import { useContext } from 'react'
-import { ScopeContext } from '../../utils/context/ScopeContext'
-import { TypeCategoryContext } from '../../utils/context/TypeCategoryMenuContext'
+import { ShopsDataContext } from '../../utils/context/ShopsDataContext'
+import { FiltersMenuContext } from '../../utils/context/FiltersMenuContext'
+import { UserInterfaceContext } from '../../utils/context/UserInterfaceContext'
 
 const IconWrapper = styled.div`
     display: flex;
@@ -33,9 +34,9 @@ const MenuWrapper = styled.div`
     z-index: 700;
 
     box-shadow: ${(props) =>
-        props.isSideBarOpened ? '0px 0px 0px gray' : '0px 0px 10px gray'};
+        props.isSideBarOpen ? '0px 0px 0px gray' : '0px 0px 10px gray'};
     border-right: ${(props) =>
-        props.isSideBarOpened ? '.2px solid #a0a0a0' : '0px 0px 10px gray'};
+        props.isSideBarOpen ? '.2px solid #a0a0a0' : '0px 0px 10px gray'};
 `
 const LanguageContainer = styled.div`
     font-family: sans-serif;
@@ -52,29 +53,26 @@ const LanguageButton = styled.div`
     cursor: pointer;
 `
 
-function MenuBar({
-    isSideBarOpened,
-    setSideBarOpened,
-    setItemsDisplayed,
-    setDropdownOpen,
-}) {
+function MenuBar() {
     const { currentScope, switchScope, updateDisplayedShops, ACTIONS } =
-        useContext(ScopeContext)
-    const { setTypesMenu } = useContext(TypeCategoryContext)
+        useContext(ShopsDataContext)
+
+    const { updateTypesMenu } = useContext(FiltersMenuContext)
+
+    const { isSideBarOpen, toggleSideBar, closeDropdown, resetLazyLoad } =
+        useContext(UserInterfaceContext)
 
     function handleChangeScope(clickedScope) {
-        setDropdownOpen(false)
-        const newScope =
-            currentScope === clickedScope ? SCOPES.NONE : clickedScope
-        setSideBarOpened(currentScope !== clickedScope)
-        switchScope(newScope)
-        updateDisplayedShops(ACTIONS.CHANGE_SCOPE, newScope)
-        setTypesMenu(newScope)
-        setItemsDisplayed(20)
+        resetLazyLoad()
+        closeDropdown()
+        if (clickedScope === currentScope || !isSideBarOpen) toggleSideBar()
+        switchScope(clickedScope)
+        updateDisplayedShops(ACTIONS.CHANGE_SCOPE, clickedScope)
+        updateTypesMenu(clickedScope)
     }
 
     return (
-        <MenuWrapper isSideBarOpened={isSideBarOpened}>
+        <MenuWrapper isSideBarOpen={isSideBarOpen}>
             <IconWrapper>
                 {ScopesMenu.map((scopeItem, index) => (
                     <MenuIcon

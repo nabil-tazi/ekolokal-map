@@ -108,42 +108,6 @@ export function initShopFromBounds(map, scope, research, shopList) {
     else return shopList
 }
 
-// export function updateShops2(
-//     allShops,
-//     allEvents,
-//     favoriteShops,
-//     research,
-//     categories,
-//     type,
-//     map,
-//     scope
-// ) {
-//     const filteredShops = filterShopsBySearch(
-//         research,
-//         recursiveCategoryFilter(
-//             categories,
-//             filterByType(
-//                 type,
-//                 initShopFromBounds(
-//                     map,
-//                     scope,
-//                     research,
-//                     getAllShopsFromScope(
-//                         scope,
-//                         allShops,
-//                         favoriteShops,
-//                         allEvents
-//                     )
-//                 )
-//             )
-//         )
-//     )
-//         .sort(alphabetical)
-//         .slice(0, 100)
-
-//     return filteredShops
-// }
-
 export function updateShops({
     allShops,
     allEvents,
@@ -178,46 +142,12 @@ export function updateShops({
         .sort(alphabetical)
         .slice(0, 100)
 
-    console.log(`localize : ${localize}`)
+    // console.log(`localize : ${localize}`)
     if (localize) {
         localizeSearch(filteredShops, map)
     }
 
     return filteredShops
-}
-
-export function positionShopForModal(map, shopLatLng, targetZoom) {
-    const overlayWidth = 1000
-
-    var targetPoint = map
-        .project(shopLatLng, targetZoom)
-        .subtract([overlayWidth / 2, 0])
-
-    var targetLatLng = map.unproject(targetPoint, targetZoom)
-
-    map.flyTo(targetLatLng, targetZoom, { duration: 0.5 })
-}
-
-export function openModal(
-    map,
-    shopLatLng,
-    shopId,
-    setModalShopId,
-    setOverview,
-    zoomLevel
-) {
-    console.log('open modal')
-    setOverview(shopId)
-    setModalShopId(shopId)
-
-    positionShopForModal(map, shopLatLng, zoomLevel)
-    // positionShopForModal(map, shopLatLng, 14)
-}
-
-export function closeModal(setOverview, setDropdownOpen, setModalShopId) {
-    setOverview(0)
-    setDropdownOpen(false)
-    setModalShopId(0)
 }
 
 export function getNewBounds(displayedShops) {
@@ -254,9 +184,6 @@ export function getNewBounds(displayedShops) {
         [minLat, minLong],
         [maxLat, maxLong],
     ])
-
-    // console.log(displayedShops)
-
     return [
         [minLat, minLong],
         [maxLat, maxLong],
@@ -266,7 +193,7 @@ export function getNewBounds(displayedShops) {
 export function recursiveCategoryFilter(filters, shopList) {
     if (!shopList) {
         return []
-    } else if (filters.length == 0) {
+    } else if (filters.length === 0) {
         return shopList
     } else {
         const newShopList = shopList.filter((shop) => {
@@ -290,7 +217,7 @@ export function filterByType(type, shops) {
 }
 
 export function filterShopsBySearch(searchInput, shopList) {
-    if (searchInput == '') {
+    if (searchInput === '') {
         return shopList
     }
     const wordsArray = searchInput.split(' ')
@@ -379,48 +306,6 @@ export function getIconUponCategories(categories, favorite) {
     ) {
         return localStoreIcon
     } else return warningIcon
-}
-
-export function formatType(type) {
-    switch (type) {
-        case 'all':
-            return 'All shops...'
-        case 'restaurant-cafe':
-            return 'Restaurant & Cafe'
-        case 'take-out':
-            return 'Take out'
-        case 'supermarket':
-            return 'Supermarket'
-        case 'market':
-            return 'Market'
-        case 'local-store':
-            return 'Local Store'
-        default:
-            return 'All shops...'
-    }
-}
-
-export function formatCategory(category) {
-    switch (category) {
-        case 'plant-based':
-            return 'Plant based'
-        case 'organic':
-            return 'Organic'
-        case 'fairtrade':
-            return 'Fair trade'
-        case 'plastic-free':
-            return 'No plastic'
-        case 'zero-waste':
-            return 'Zero waste'
-        case 'take-out':
-            return 'Take out'
-        default:
-            return ''
-    }
-}
-
-export function isFavorite(shop, favorites) {
-    return favorites.some((favshop) => favshop.id === shop.id)
 }
 
 export function getAllShopsFromScope(

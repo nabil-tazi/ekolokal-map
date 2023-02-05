@@ -5,8 +5,8 @@ import styled from 'styled-components'
 import cross from '../../../../assets/cross.png'
 import search from '../../../../assets/search.png'
 
-import { ScopeContext } from '../../../../utils/context/ScopeContext'
-import { closeModal } from '../../../../utils/maputils'
+import { ShopsDataContext } from '../../../../utils/context/ShopsDataContext'
+import { UserInterfaceContext } from '../../../../utils/context/UserInterfaceContext'
 
 const InputFilterWrapper = styled.div`
     z-index: 500;
@@ -72,37 +72,31 @@ const RemoveSearchInput = styled.img`
             : null};
 `
 
-function InputFilter({
-    inputRef,
-    setDropdownOpen,
-    setOverview,
-    setModalShopId,
-    setSideBarOpened,
-}) {
-    const { research, setResearch, updateDisplayedShops, ACTIONS } =
-        useContext(ScopeContext)
+function InputFilter({ inputRef }) {
+    const { research, noResearch, setResearch, updateDisplayedShops, ACTIONS } =
+        useContext(ShopsDataContext)
+
+    const { openSideBar, closeDropdown, closeModal } =
+        useContext(UserInterfaceContext)
 
     function handleInputChange() {
-        closeModal(setOverview, setDropdownOpen, setModalShopId)
+        closeModal()
     }
 
     function handleSearchInput() {
-        const input = inputRef.current.value
-        setResearch(input)
-        updateDisplayedShops(ACTIONS.CHANGE_SEARCH_INPUT, input)
-
-        if (input !== '') setSideBarOpened(true)
-    }
-
-    function closeDropdown() {
-        setDropdownOpen(false)
+        setResearch(inputRef.current.value)
+        updateDisplayedShops(
+            ACTIONS.CHANGE_SEARCH_INPUT,
+            inputRef.current.value
+        )
+        if (inputRef.current.value !== '') openSideBar()
     }
 
     return (
         <InputFilterWrapper>
             <ResearchIcon
                 src={search}
-                active={research !== '' ? 'active' : 'inactive'}
+                active={noResearch ? 'inactive' : 'active'}
             ></ResearchIcon>
             <ResearchInput
                 ref={inputRef}
@@ -118,7 +112,7 @@ function InputFilter({
                         handleSearchInput()
                     }
                 }}
-                active={research !== '' ? 'active' : 'inactive'}
+                active={noResearch ? 'inactive' : 'active'}
             ></ResearchInput>
             {research && (
                 <RemoveSearchInput
@@ -127,7 +121,7 @@ function InputFilter({
                         inputRef.current.value = ''
                         handleSearchInput()
                     }}
-                    active={research !== '' ? 'active' : 'inactive'}
+                    active={noResearch ? 'inactive' : 'active'}
                 ></RemoveSearchInput>
             )}
         </InputFilterWrapper>

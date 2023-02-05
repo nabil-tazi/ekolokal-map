@@ -3,11 +3,10 @@ import styled from 'styled-components'
 import CategoryFilterButton from '../CategoryFilters/CategoryFilterButton'
 import InputFilter from '../InputFilter'
 
-import { openModal } from '../../../../utils/maputils'
-
 import { useContext, useEffect } from 'react'
-import { ScopeContext } from '../../../../utils/context/ScopeContext'
-import { TypeCategoryContext } from '../../../../utils/context/TypeCategoryMenuContext'
+import { ShopsDataContext } from '../../../../utils/context/ShopsDataContext'
+import { FiltersMenuContext } from '../../../../utils/context/FiltersMenuContext'
+import { UserInterfaceContext } from '../../../../utils/context/UserInterfaceContext'
 import TypeDropdownFilter from '../TypeFilter/TypeDropdownFilter'
 
 const FilterBarWrapper = styled.div`
@@ -35,20 +34,13 @@ const CategoryFilters = styled.div`
     overflow-x: scroll;
 `
 
-function FilterBar({
-    setModalShopId,
-    setOverview,
-    setSideBarOpened,
-    isDropdownOpen,
-    setDropdownOpen,
-    inputRef,
-}) {
-    const { research, mapRef, displayedShops } = useContext(ScopeContext)
-
-    const { CategoriesMenu } = useContext(TypeCategoryContext)
+function FilterBar({ inputRef }) {
+    const { research, mapRef, displayedShops } = useContext(ShopsDataContext)
+    const { CategoriesMenu } = useContext(FiltersMenuContext)
+    const { openModal } = useContext(UserInterfaceContext)
 
     useEffect(() => {
-        if (displayedShops.length === 1 && research !== '') {
+        if (displayedShops.length === 1 && research) {
             openModal(
                 mapRef.current,
                 [
@@ -56,8 +48,6 @@ function FilterBar({
                     parseFloat(displayedShops[0].geolocation_long[0]),
                 ],
                 displayedShops[0].id,
-                setModalShopId,
-                setOverview,
                 16
             )
         }
@@ -65,23 +55,13 @@ function FilterBar({
 
     return (
         <FilterBarWrapper>
-            <InputFilter
-                inputRef={inputRef}
-                setDropdownOpen={setDropdownOpen}
-                setOverview={setOverview}
-                setModalShopId={setModalShopId}
-                setSideBarOpened={setSideBarOpened}
-            ></InputFilter>
-            <TypeDropdownFilter
-                setDropdownOpen={setDropdownOpen}
-                isDropdownOpen={isDropdownOpen}
-            ></TypeDropdownFilter>
+            <InputFilter inputRef={inputRef}></InputFilter>
+            <TypeDropdownFilter></TypeDropdownFilter>
             <CategoryFilters>
                 {CategoriesMenu.map((cat, index) => (
                     <CategoryFilterButton
                         key={index}
                         CATEGORY={cat}
-                        setOverview={setOverview}
                     ></CategoryFilterButton>
                 ))}
             </CategoryFilters>

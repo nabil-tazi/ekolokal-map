@@ -2,17 +2,11 @@ import { useContext } from 'react'
 
 import ShopMarker from './ShopMarker'
 
-import { isFavorite } from '../../../utils/maputils'
-import { ScopeContext } from '../../../utils/context/ScopeContext'
+import { ShopsDataContext } from '../../../utils/context/ShopsDataContext'
 
-function ShopMarkersList({
-    overview,
-    modalShopId,
-    setModalShopId,
-    setOverview,
-    setDropdownOpen,
-}) {
-    const { mapRef, favoriteShops, displayedShops } = useContext(ScopeContext)
+function ShopMarkersList() {
+    const { mapRef, displayedShops, isFavorite } = useContext(ShopsDataContext)
+
     return (
         <>
             {displayedShops.map((shop) =>
@@ -24,20 +18,15 @@ function ShopMarkersList({
                     <ShopMarker
                         key={shop.id}
                         shop={shop}
-                        lat={parseFloat(shop.geolocation_lat[0])}
-                        long={parseFloat(shop.geolocation_long[0])}
-                        imgURL={shop.image_thumbnail}
-                        shopName={shop.title}
+                        // lat={parseFloat(shop.geolocation_lat[0])}
+                        // long={parseFloat(shop.geolocation_long[0])}
+                        // imgURL={shop.image_thumbnail}
+                        // shopName={shop.title}
                         shopID={shop.id}
                         categories={shop.categories}
-                        shopAddress={shop.formatted_address[0]}
-                        overview={overview}
-                        modalShopId={modalShopId}
-                        setModalShopId={setModalShopId}
-                        setOverview={setOverview}
+                        // shopAddress={shop.formatted_address[0]}
                         mapRef={mapRef}
-                        setDropdownOpen={setDropdownOpen}
-                        favorite={isFavorite(shop, favoriteShops)}
+                        favorite={isFavorite(shop)}
                     />
                 )
             )}

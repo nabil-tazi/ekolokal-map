@@ -1,8 +1,9 @@
 import { useContext } from 'react'
-import { ScopeContext } from '../../../../../utils/context/ScopeContext'
-import { TypeCategoryContext } from '../../../../../utils/context/TypeCategoryMenuContext'
+import { ShopsDataContext } from '../../../../../utils/context/ShopsDataContext'
+import { FiltersMenuContext } from '../../../../../utils/context/FiltersMenuContext'
 
 import styled from 'styled-components'
+import { UserInterfaceContext } from '../../../../../utils/context/UserInterfaceContext'
 
 const DropdownEntry = styled.div`
     background-color: #f8f8f4;
@@ -25,22 +26,17 @@ const DropdownEntry = styled.div`
         props.active === 'active' ? '#b2bdca' : '#f8f8f4'};
 `
 
-function TypeDropdownEntry({ TYPE, setDropdownOpen }) {
-    const {
-        filteredType,
-        saveFilteredType,
-        changeType,
-        ACTIONS,
-        updateDisplayedShops,
-    } = useContext(ScopeContext)
-    const { setCategoriesMenu } = useContext(TypeCategoryContext)
+function TypeDropdownEntry({ TYPE }) {
+    const { filteredType, saveFilteredType, ACTIONS, updateDisplayedShops } =
+        useContext(ShopsDataContext)
+    const { updateCategoriesMenu } = useContext(FiltersMenuContext)
+    const { closeDropdown } = useContext(UserInterfaceContext)
 
     function handleTypeSelect(newType) {
-        setDropdownOpen(false)
+        closeDropdown()
         saveFilteredType(newType)
-        // changeType(newType)
         updateDisplayedShops(ACTIONS.CHANGE_TYPE, newType)
-        setCategoriesMenu(newType)
+        updateCategoriesMenu(newType)
     }
 
     return (
