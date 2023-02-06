@@ -46,7 +46,6 @@ const DropdownMenu = styled.div`
     color: #292929;
     font-weight: 200;
     background-color: #f8f8f4;
-    z-index: 450;
     border-radius: 5px;
     position: absolute;
     padding: 5px;

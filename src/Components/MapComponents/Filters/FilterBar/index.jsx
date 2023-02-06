@@ -13,8 +13,7 @@ const FilterBarWrapper = styled.div`
     position: absolute;
     height: 40px;
     width: calc(100% - 120px);
-    left: 90px;
-    top: 10px;
+    left: calc(60px + 30px);
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -23,14 +22,11 @@ const FilterBarWrapper = styled.div`
 `
 
 const CategoryFilters = styled.div`
-    height: 40px;
     padding: 15px;
     width: calc(100%-200px);
     display: flex;
     justify-content: flex-start;
     gap: 20px;
-    z-index: 500;
-    flex-wrap: default;
     overflow-x: scroll;
 `
 
@@ -55,14 +51,11 @@ function FilterBar({ inputRef }) {
 
     return (
         <FilterBarWrapper>
-            <InputFilter inputRef={inputRef}></InputFilter>
-            <TypeDropdownFilter></TypeDropdownFilter>
+            <InputFilter inputRef={inputRef} />
+            <TypeDropdownFilter />
             <CategoryFilters>
                 {CategoriesMenu.map((cat, index) => (
-                    <CategoryFilterButton
-                        key={index}
-                        CATEGORY={cat}
-                    ></CategoryFilterButton>
+                    <CategoryFilterButton key={index} CATEGORY={cat} />
                 ))}
             </CategoryFilters>
         </FilterBarWrapper>

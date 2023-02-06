@@ -9,7 +9,6 @@ import { ShopsDataContext } from '../../../../utils/context/ShopsDataContext'
 import { UserInterfaceContext } from '../../../../utils/context/UserInterfaceContext'
 
 const InputFilterWrapper = styled.div`
-    z-index: 500;
     position: relative;
     display: flex;
     justify-content: space-between;
@@ -62,7 +61,6 @@ const RemoveSearchInput = styled.img`
 
     right: 10px;
     box-sizing: border-box;
-    z-index: 500;
     cursor: pointer;
     position: absolute;
     padding: 7.5px;

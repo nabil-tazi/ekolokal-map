@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef, useContext } from 'react'
-import ShopList from '../ShopList'
+import SideBar from '../SideBar'
 import Map from '../MapComponents/Map'
 import FilterBar from '../MapComponents/Filters/FilterBar'
 import MenuBar from '../MenuBar'
 import ShopModal from '../ShopModal'
-import LoadingScreen from '../LoadingScreen'
+import LoadingScreen from '../../utils/GenericComponents/LoadingScreen'
 import styled from 'styled-components'
 import { filterByType } from '../../utils/maputils'
 import ShopData from '../../assets/data'
@@ -95,16 +95,16 @@ function ShopBrowser() {
 
     return (
         <Container>
-            {isLoading && <LoadingScreen></LoadingScreen>}
-            <MenuBar></MenuBar>
-            {isSideBarOpen && <ShopList></ShopList>}
+            {isLoading && <LoadingScreen />}
+            <MenuBar />
+            {isSideBarOpen && <SideBar />}
             {modalShopId && (
                 <ShopModal
                     shop={allShops.filter((shop) => shop.id === modalShopId)[0]}
-                ></ShopModal>
+                />
             )}
-            <FilterBar inputRef={inputRef}></FilterBar>
-            <Map center={initCenter} inputRef={inputRef}></Map>
+            <FilterBar inputRef={inputRef} />
+            <Map center={initCenter} inputRef={inputRef} />
             <EkolokalLogo src={logo} />
         </Container>
     )

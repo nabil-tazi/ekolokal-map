@@ -4,41 +4,44 @@ import IconList from '../../CategoriesIcon/IconList'
 import { useContext } from 'react'
 import { UserInterfaceContext } from '../../../utils/context/UserInterfaceContext'
 
-const ListItemWrapper = styled.div`
-    margin-bottom: 15px;
-    cursor: pointer;
-    /* border-bottom: 1px black solid; */
-    display: flex;
-    justify-content: flex-start;
-    gap: 15px;
+const ItemContainer = styled.div`
     padding: 10px;
     padding-right: 0px;
-
+    margin-bottom: 15px;
     margin-right: 15px;
+
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 15px;
+
     border-radius: 7px;
+
+    background-color: ${(props) => (props.active ? '#b2bdca' : null)};
     &:hover {
         background-color: ${(props) => (props.active ? null : '#e9e9e9')};
     }
 
-    background-color: ${(props) => (props.active ? '#b2bdca' : null)};
+    cursor: pointer;
 `
-
 const ImageTitle = styled.div`
-    width: 200px;
+    /* width: 200px; */
     height: 120px;
     position: relative;
     font-family: sans-serif;
     font-size: 13px;
     border-radius: 5px;
+    /* flex-basis: 60%; */
+    flex-basis: 200px;
 `
-
 const RightColumn = styled.div`
     display: flex;
     flex-direction: column;
-    width: 130px;
+    /* width: 130px; */
     align-items: flex-start;
+    /* flex-basis: 40%; */
+    flex-basis: 130px;
 `
-
 const BusinessHours = styled.div`
     width: 100px;
     font-family: sans-serif;
@@ -50,10 +53,8 @@ const ImageThumbnail = styled.img`
     width: 100%;
     height: 100%;
     object-fit: cover;
-    background-color: white;
-    border-radius: 5px;
+    border-radius: 7px;
 `
-
 const TitleBackground = styled.div`
     position: absolute;
     width: 100%;
@@ -62,12 +63,9 @@ const TitleBackground = styled.div`
     color: white;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-
-    /* background: red; */
 `
 const TitleThumbnail = styled.div`
     margin: 10px;
-    /* background: blue; */
 `
 
 function ShopListItem({ shop }) {
@@ -104,7 +102,7 @@ function ShopListItem({ shop }) {
         )
     }
     return (
-        <ListItemWrapper
+        <ItemContainer
             onMouseEnter={handleHover}
             onMouseLeave={handleMouseOut}
             onClick={handleClick}
@@ -122,7 +120,7 @@ function ShopListItem({ shop }) {
                 ></BusinessHours>
                 <IconList iconSize="30px" shop={shop}></IconList>
             </RightColumn>
-        </ListItemWrapper>
+        </ItemContainer>
     )
 }
 
