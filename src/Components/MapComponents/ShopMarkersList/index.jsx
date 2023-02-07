@@ -18,13 +18,8 @@ function ShopMarkersList() {
                     <ShopMarker
                         key={shop.id}
                         shop={shop}
-                        // lat={parseFloat(shop.geolocation_lat[0])}
-                        // long={parseFloat(shop.geolocation_long[0])}
-                        // imgURL={shop.image_thumbnail}
-                        // shopName={shop.title}
                         shopID={shop.id}
                         categories={shop.categories}
-                        // shopAddress={shop.formatted_address[0]}
                         mapRef={mapRef}
                         favorite={isFavorite(shop)}
                     />
