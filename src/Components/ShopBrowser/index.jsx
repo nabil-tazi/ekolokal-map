@@ -6,14 +6,14 @@ import MenuBar from '../MenuBar'
 import ShopModal from '../ShopModal'
 import LoadingScreen from '../../utils/GenericComponents/LoadingScreen'
 import styled from 'styled-components'
-import { filterByType } from '../../utils/maputils'
+import { recursiveCategoryFilter } from '../../utils/maputils'
 import ShopData from '../../assets/data'
 import logo from '../../assets/ekolokal-logo.png'
 
-import { TYPES } from '../../utils/configuration/TypeConfig'
+import { TYPES } from '../../utils/Configuration/TypeConfig'
 
-import { ShopsDataContext } from '../../utils/context/ShopsDataContext'
-import { UserInterfaceContext } from '../../utils/context/UserInterfaceContext'
+import { ShopsDataContext } from '../../utils/Context/ShopsDataContext'
+import { UserInterfaceContext } from '../../utils/Context/UserInterfaceContext'
 
 const Container = styled.div``
 
@@ -43,6 +43,7 @@ function ShopBrowser() {
         saveFavoriteShops,
         displayedShops,
         initDisplayedShops,
+        initScope,
     } = useContext(ShopsDataContext)
 
     const { isSideBarOpen, modalShopId, resetLazyLoad } =
@@ -67,12 +68,14 @@ function ShopBrowser() {
                 )
 
                 const parsedData = await response.json()
+
                 initAllShops(parsedData)
+                initAllEvents(
+                    recursiveCategoryFilter([TYPES.EVENT], parsedData)
+                )
+                initScope(parsedData)
+                initDisplayedShops()
 
-                const events = filterByType(TYPES.EVENT, parsedData)
-                initAllEvents(events)
-
-                initDisplayedShops(parsedData, events, storedFavorites)
                 // if (inputRef.current.value === '') {
                 //     initDisplayedShops(parsedData, events, storedFavorites)
                 // }

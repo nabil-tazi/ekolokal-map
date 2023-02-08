@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import { ShopsDataContext } from '../../../utils/context/ShopsDataContext'
+import { ShopsDataContext } from '../../../utils/Context/ShopsDataContext'
 import IconList from '../../CategoriesIcon/IconList'
 import { useContext } from 'react'
-import { UserInterfaceContext } from '../../../utils/context/UserInterfaceContext'
+import { UserInterfaceContext } from '../../../utils/Context/UserInterfaceContext'
 
 const ItemContainer = styled.div`
     padding: 10px;

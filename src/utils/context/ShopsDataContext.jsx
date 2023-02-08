@@ -1,6 +1,7 @@
 import { useState, createContext, useRef, useReducer } from 'react'
-import { SCOPES } from '../configuration/ScopeConfig'
-import { TYPES } from '../configuration/TypeConfig'
+import { INITIAL_SCOPE, SCOPES } from '../Configuration/ScopeConfig'
+
+import { TYPES } from '../Configuration/TypeConfig'
 
 import { updateShops } from '../maputils'
 
@@ -9,7 +10,35 @@ export const ShopsDataContext = createContext()
 export const ShopsDataProvider = ({ children }) => {
     const mapRef = useRef()
 
-    const [currentScope, switchScope] = useState(SCOPES.NONE)
+    const [currentScope, setScope] = useState({
+        ...INITIAL_SCOPE,
+        DATA: [],
+    })
+
+    function switchScope(clickedScope) {
+        switch (clickedScope.ID) {
+            case SCOPES.NONE:
+                clickedScope.DATA = allShops
+                break
+            case SCOPES.BROWSE.ID:
+                clickedScope.DATA = allShops
+                break
+            case SCOPES.EVENTS.ID:
+                clickedScope.DATA = allEvents
+                break
+            case SCOPES.FAVORITES.ID:
+                clickedScope.DATA = favoriteShops
+                break
+            default:
+                clickedScope.DATA = allShops
+        }
+        console.log(clickedScope)
+        setScope(clickedScope)
+    }
+
+    function initScope(initialData) {
+        setScope({ ...INITIAL_SCOPE, DATA: initialData })
+    }
 
     const [allShops, setAllShops] = useState([])
     const initAllShops = (data) => {
@@ -52,9 +81,6 @@ export const ShopsDataProvider = ({ children }) => {
 
     const reducer = (state, action) => {
         const params = {
-            allShops: allShops,
-            allEvents: allEvents,
-            favoriteShops: favoriteShops,
             research: research,
             filteredCategories: filteredCategories,
             filteredType: filteredType,
@@ -86,10 +112,8 @@ export const ShopsDataProvider = ({ children }) => {
                 params.favoriteShops = action.param
                 break
             case ACTIONS.INIT:
-                params.allShops = action.allShops
-                params.allEvents = action.allEvents
-                params.favoriteShops = action.favorites
-                params.research = ''
+                break
+            default:
                 break
         }
 
@@ -108,6 +132,7 @@ export const ShopsDataProvider = ({ children }) => {
                 mapRef,
                 currentScope,
                 switchScope,
+                initScope,
                 allShops,
                 initAllShops,
                 allEvents,
@@ -129,12 +154,9 @@ export const ShopsDataProvider = ({ children }) => {
                     dispatch({ type: actionType, param: param })
                 },
 
-                initDisplayedShops: (allShops, allEvents, favorites) => {
+                initDisplayedShops: () => {
                     dispatch({
                         type: ACTIONS.INIT,
-                        allShops: allShops,
-                        allEvents: allEvents,
-                        favorites: favorites,
                     })
                 },
             }}

@@ -6,7 +6,7 @@ import {
 } from 'react-leaflet'
 
 import { useContext } from 'react'
-import { ShopsDataContext } from '../../../utils/context/ShopsDataContext'
+import { ShopsDataContext } from '../../../utils/Context/ShopsDataContext'
 
 // import MarkerClusterGroup from 'react-leaflet-cluster'
 
@@ -18,8 +18,8 @@ import 'leaflet/dist/leaflet.css'
 import styled from 'styled-components'
 
 import ShopMarkersList from '../ShopMarkersList'
-import { SCOPES } from '../../../utils/configuration/ScopeConfig'
-import { UserInterfaceContext } from '../../../utils/context/UserInterfaceContext'
+import { SCOPES } from '../../../utils/Configuration/ScopeConfig'
+import { UserInterfaceContext } from '../../../utils/Context/UserInterfaceContext'
 
 const MapWrapper = styled(MapContainer)`
     position: absolute;
@@ -40,16 +40,19 @@ function Bounds({ inputRef }) {
     } = useContext(UserInterfaceContext)
 
     const map = useMapEvent('moveend', () => {
-        if (
-            isModalClosed &&
-            noResearch &&
-            // inputRef.current.value === '' &&
-            (currentScope === SCOPES.BROWSE || currentScope === SCOPES.NONE)
-        ) {
-            console.log('MOVE')
+        // if (
+        //     isModalClosed &&
+        //     noResearch &&
+        //     // inputRef.current.value === '' &&
+        //     (currentScope.ID === SCOPES.BROWSE.ID ||
+        //         currentScope.ID === SCOPES.NONE.ID)
+        // ) {
+        //     console.log('MOVE')
 
+        //     updateDisplayedShops(ACTIONS.MOVE_MAP, map)
+        // }
+        if (currentScope.LOCALIZED && noResearch)
             updateDisplayedShops(ACTIONS.MOVE_MAP, map)
-        }
     })
 
     useMapEvent('click', () => {

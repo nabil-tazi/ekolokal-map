@@ -2,7 +2,7 @@ import { useContext } from 'react'
 
 import ShopMarker from './ShopMarker'
 
-import { ShopsDataContext } from '../../../utils/context/ShopsDataContext'
+import { ShopsDataContext } from '../../../utils/Context/ShopsDataContext'
 
 function ShopMarkersList() {
     const { mapRef, displayedShops, isFavorite } = useContext(ShopsDataContext)

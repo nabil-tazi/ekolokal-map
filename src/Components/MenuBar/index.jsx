@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-import { SCOPES, ScopesMenu } from '../../utils/configuration/ScopeConfig'
+import { SCOPES, ScopesMenu } from '../../utils/Configuration/ScopeConfig'
 import { useContext } from 'react'
-import { ShopsDataContext } from '../../utils/context/ShopsDataContext'
-import { FiltersMenuContext } from '../../utils/context/FiltersMenuContext'
-import { UserInterfaceContext } from '../../utils/context/UserInterfaceContext'
+import { ShopsDataContext } from '../../utils/Context/ShopsDataContext'
+import { FiltersMenuContext } from '../../utils/Context/FiltersMenuContext'
+import { UserInterfaceContext } from '../../utils/Context/UserInterfaceContext'
 
 const IconWrapper = styled.div`
     display: flex;
@@ -65,7 +65,8 @@ function MenuBar() {
     function handleChangeScope(clickedScope) {
         resetLazyLoad()
         closeDropdown()
-        if (clickedScope === currentScope || !isSideBarOpen) toggleSideBar()
+        if (clickedScope.ID === currentScope.ID || !isSideBarOpen)
+            toggleSideBar()
         switchScope(clickedScope)
         updateDisplayedShops(ACTIONS.CHANGE_SCOPE, clickedScope)
         updateTypesMenu(clickedScope)
@@ -81,7 +82,7 @@ function MenuBar() {
                         onClick={() => {
                             handleChangeScope(scopeItem)
                         }}
-                        active={scopeItem === currentScope}
+                        active={scopeItem.ID === currentScope.ID}
                     ></MenuIcon>
                 ))}
             </IconWrapper>

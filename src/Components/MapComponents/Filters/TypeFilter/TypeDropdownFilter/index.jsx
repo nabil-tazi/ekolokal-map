@@ -2,9 +2,9 @@ import styled from 'styled-components'
 import arrow from '../../../../../assets/down.png'
 
 import { useContext } from 'react'
-import { ShopsDataContext } from '../../../../../utils/context/ShopsDataContext'
-import { FiltersMenuContext } from '../../../../../utils/context/FiltersMenuContext'
-import { UserInterfaceContext } from '../../../../../utils/context/UserInterfaceContext'
+import { ShopsDataContext } from '../../../../../utils/Context/ShopsDataContext'
+import { FiltersMenuContext } from '../../../../../utils/Context/FiltersMenuContext'
+import { UserInterfaceContext } from '../../../../../utils/Context/UserInterfaceContext'
 import TypeDropdownEntry from '../TypeDropdownEntry'
 
 const TypeDropdownButton = styled.div`

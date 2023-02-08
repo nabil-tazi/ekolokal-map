@@ -1,6 +1,6 @@
 import { createContext, useReducer } from 'react'
-import { TYPES } from '../configuration/TypeConfig'
-import { CATEGORIES } from '../configuration/CategoriesConfig'
+import { TYPES } from '../Configuration/TypeConfig'
+import { CATEGORIES } from '../Configuration/CategoriesConfig'
 
 export const FiltersMenuContext = createContext()
 
@@ -21,10 +21,10 @@ export const FiltersMenuProvider = ({ children }) => {
         FAVORITES: 'favorites',
     }
     const reducerTypes = (state, action) => {
-        console.log(action.scope)
+        // console.log(action.scope)
 
-        switch (action.scope) {
-            case scopes.NONE:
+        switch (action.scope.ID) {
+            case scopes.NONE.ID:
                 return {
                     TypesMenu: [
                         TYPES.ALL,
@@ -33,7 +33,7 @@ export const FiltersMenuProvider = ({ children }) => {
                         TYPES.LOCALSTORE,
                     ],
                 }
-            case scopes.BROWSE:
+            case scopes.BROWSE.ID:
                 return {
                     TypesMenu: [
                         TYPES.ALL,
@@ -42,7 +42,7 @@ export const FiltersMenuProvider = ({ children }) => {
                         TYPES.LOCALSTORE,
                     ],
                 }
-            case scopes.EVENT:
+            case scopes.EVENT.ID:
                 return {
                     TypesMenu: [
                         TYPES.ALL,
@@ -51,7 +51,7 @@ export const FiltersMenuProvider = ({ children }) => {
                         TYPES.LOCALSTORE,
                     ],
                 }
-            case scopes.FAVORITES:
+            case scopes.FAVORITES.ID:
                 return {
                     TypesMenu: [
                         TYPES.ALL,

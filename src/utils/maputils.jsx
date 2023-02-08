@@ -1,34 +1,3 @@
-import Leaflet from 'leaflet'
-
-import restaurantImg from '../assets/restaurant.png'
-import localStoreImg from '../assets/local-store.png'
-import supermarketImg from '../assets/supermarket.png'
-import warningImg from '../assets/warning.png'
-import favoriteImg from '../assets/loveMarker.png'
-import { SCOPES } from './configuration/ScopeConfig'
-
-export function toRad(Value) {
-    return (Value * Math.PI) / 180
-}
-
-export function calcCrow(lat1, lon1, lat2, lon2) {
-    var R = 6371 // km
-    var dLat = toRad(lat2 - lat1)
-    var dLon = toRad(lon2 - lon1)
-    var lat1 = toRad(lat1)
-    var lat2 = toRad(lat2)
-
-    var a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.sin(dLon / 2) *
-            Math.sin(dLon / 2) *
-            Math.cos(lat1) *
-            Math.cos(lat2)
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-    var d = R * c
-    return d
-}
-
 export function alphabetical(a, b) {
     let comparison = 0
     if (a.title > b.title) {
@@ -39,58 +8,7 @@ export function alphabetical(a, b) {
     return comparison
 }
 
-export function sortById(a, b) {
-    let comparison = 0
-    if (a.id > b.id) {
-        comparison = 1
-    } else if (a.id < b.id) {
-        comparison = -1
-    }
-    return comparison
-}
-
-function filterShopsByMapBounds(bounds, shops) {
-    // console.log(bounds)
-    return shops.filter(
-        (shop) =>
-            parseFloat(shop.geolocation_lat[0]) > bounds.getSouthWest().lat &&
-            parseFloat(shop.geolocation_lat[0]) < bounds.getNorthEast().lat &&
-            parseFloat(shop.geolocation_long[0]) > bounds.getSouthWest().lng &&
-            parseFloat(shop.geolocation_long[0]) < bounds.getNorthEast().lng
-    )
-}
-
-export function updateMarkerFromBounds(bounds, center, allShops) {
-    // function distanceToCenter(a, b) {
-    //     const latA = parseFloat(a.geolocation_lat[0])
-    //     const longA = parseFloat(a.geolocation_long[0])
-    //     const latB = parseFloat(b.geolocation_lat[0])
-    //     const longB = parseFloat(b.geolocation_long[0])
-
-    //     const latCenter = center.lat
-    //     const longCenter = center.lng
-
-    //     let distanceAC = calcCrow(latA, longA, latCenter, longCenter)
-    //     let distanceBC = calcCrow(latB, longB, latCenter, longCenter)
-
-    //     let comparison = 0
-    //     if (distanceAC > distanceBC) {
-    //         comparison = 1
-    //     } else if (distanceAC < distanceBC) {
-    //         comparison = -1
-    //     }
-    //     return comparison
-    // }
-
-    // return filterShopsByMapBounds(
-    //     bounds.pad(-0.9), //Remove the markers close to the edges (10%)
-    //     filterShopsByMapBounds(bounds, allShops).sort(distanceToCenter) //Sort the markers by their distance to the center
-    // )
-
-    return filterShopsByMapBounds(bounds.pad(-0.9), allShops) //.sort(distanceToCenter) //Remove the markers close to the edges (10%)
-}
-
-export function localizeSearch(filteredShops, map) {
+export function localizeShops(filteredShops, map) {
     if (filteredShops.length === 0) return
     map.fitBounds(getNewBounds(filteredShops), {
         paddingTopLeft: L.point(500, 200),
@@ -98,20 +16,26 @@ export function localizeSearch(filteredShops, map) {
     })
 }
 
-export function initShopFromBounds(map, scope, research, shopList) {
-    if ((scope === SCOPES.NONE || scope === SCOPES.BROWSE) && research === '')
-        return updateMarkerFromBounds(
-            map.getBounds(),
-            map.getCenter(),
-            shopList
-        ).sort(alphabetical)
-    else return shopList
+export function filterShopsByMapBounds(map, scope, research) {
+    if (scope.LOCALIZED && research === '') {
+        const adjustedBounds = map.getBounds().pad(-0.9)
+        return scope.DATA.filter(
+            (shop) =>
+                parseFloat(shop.geolocation_lat[0]) >
+                    adjustedBounds.getSouthWest().lat &&
+                parseFloat(shop.geolocation_lat[0]) <
+                    adjustedBounds.getNorthEast().lat &&
+                parseFloat(shop.geolocation_long[0]) >
+                    adjustedBounds.getSouthWest().lng &&
+                parseFloat(shop.geolocation_long[0]) <
+                    adjustedBounds.getNorthEast().lng
+        )
+    } else {
+        return scope.DATA
+    }
 }
 
 export function updateShops({
-    allShops,
-    allEvents,
-    favoriteShops,
     research,
     filteredCategories,
     filteredType,
@@ -122,21 +46,8 @@ export function updateShops({
     const filteredShops = filterShopsBySearch(
         research,
         recursiveCategoryFilter(
-            filteredCategories,
-            filterByType(
-                filteredType,
-                initShopFromBounds(
-                    map,
-                    scope,
-                    research,
-                    getAllShopsFromScope(
-                        scope,
-                        allShops,
-                        favoriteShops,
-                        allEvents
-                    )
-                )
-            )
+            [...filteredCategories, filteredType],
+            filterShopsByMapBounds(map, scope, research)
         )
     )
         .sort(alphabetical)
@@ -144,7 +55,7 @@ export function updateShops({
 
     // console.log(`localize : ${localize}`)
     if (localize) {
-        localizeSearch(filteredShops, map)
+        localizeShops(filteredShops, map)
     }
 
     return filteredShops
@@ -195,6 +106,8 @@ export function recursiveCategoryFilter(filters, shopList) {
         return []
     } else if (filters.length === 0) {
         return shopList
+    } else if (filters[0].ID === 'all') {
+        return recursiveCategoryFilter(filters.slice(1), shopList)
     } else {
         const newShopList = shopList.filter((shop) => {
             if (shop.categories)
@@ -205,16 +118,15 @@ export function recursiveCategoryFilter(filters, shopList) {
     }
 }
 
-export function filterByType(type, shops) {
-    console.log(type)
-    return type.ID === 'all'
-        ? shops
-        : shops.filter((shop) => {
-              if (shop.categories)
-                  return shop.categories.some((cat) => cat.slug === type.ID)
-              else return false
-          })
-}
+// export function filterByType(type, shops) {
+//     return type.ID === 'all'
+//         ? shops
+//         : shops.filter((shop) => {
+//               if (shop.categories)
+//                   return shop.categories.some((cat) => cat.slug === type.ID)
+//               else return false
+//           })
+// }
 
 export function filterShopsBySearch(searchInput, shopList) {
     if (searchInput === '') {
@@ -246,84 +158,5 @@ function recursiveWordsSearch(wordsArray, shop) {
         return false
     } else {
         return recursiveWordsSearch(wordsArray.slice(1), shop)
-    }
-}
-
-const restaurantIcon = new Leaflet.Icon({
-    iconUrl: restaurantImg,
-    iconAnchor: [17, 35],
-    popupAnchor: [0, -35],
-    iconSize: [35, 35],
-})
-
-const localStoreIcon = new Leaflet.Icon({
-    iconUrl: localStoreImg,
-    iconAnchor: [17, 35],
-    popupAnchor: [0, -35],
-    iconSize: [35, 35],
-})
-
-const supermarketIcon = new Leaflet.Icon({
-    iconUrl: supermarketImg,
-    iconAnchor: [17, 35],
-    popupAnchor: [0, -35],
-    iconSize: [35, 35],
-})
-
-const warningIcon = new Leaflet.Icon({
-    iconUrl: warningImg,
-    iconAnchor: [17, 35],
-    popupAnchor: [0, -35],
-    iconSize: [35, 35],
-})
-
-const favoriteIcon = new Leaflet.Icon({
-    iconUrl: favoriteImg,
-    iconAnchor: [17, 35],
-    popupAnchor: [0, -35],
-    iconSize: [35, 35],
-})
-
-export function getIconUponCategories(categories, favorite) {
-    if (favorite) return favoriteIcon
-    else if (
-        categories &&
-        categories.some(
-            (cat) => cat.slug === 'restaurant-cafe' || cat.slug === 'take-out'
-        )
-    ) {
-        return restaurantIcon
-    } else if (
-        categories &&
-        categories.some(
-            (cat) => cat.slug === 'supermarket' || cat.slug === 'market'
-        )
-    ) {
-        return supermarketIcon
-    } else if (
-        categories &&
-        categories.some((cat) => cat.slug === 'local-store')
-    ) {
-        return localStoreIcon
-    } else return warningIcon
-}
-
-export function getAllShopsFromScope(
-    scope,
-    allShops,
-    favoriteShops,
-    allEvents
-) {
-    switch (scope) {
-        case SCOPES.NONE:
-            return allShops
-        case SCOPES.BROWSE:
-            return allShops
-        case SCOPES.EVENTS:
-            return allEvents
-        case SCOPES.FAVORITES:
-            return favoriteShops
-        default:
-            return allShops
     }
 }
