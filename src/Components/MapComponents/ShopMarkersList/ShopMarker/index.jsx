@@ -2,8 +2,8 @@ import { Marker } from 'react-leaflet'
 
 import ShopPopup from '../../ShopPopup'
 import { useRef, useEffect, useContext } from 'react'
-import { UserInterfaceContext } from '../../../../utils/Context/UserInterfaceContext'
-import { getIconUponCategories } from '../../../../utils/Configuration/MapMarkersConfig'
+import { UserInterfaceContext } from '../../../../utils/context/UserInterfaceContext'
+import { getIconUponCategories } from '../../../../utils/configuration/MapMarkersConfig'
 
 function ShopMarker({ shop, categories, mapRef, favorite }) {
     const markerRef = useRef(null)

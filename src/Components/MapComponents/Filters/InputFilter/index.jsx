@@ -5,8 +5,8 @@ import styled from 'styled-components'
 import cross from '../../../../assets/cross.png'
 import search from '../../../../assets/search.png'
 
-import { ShopsDataContext } from '../../../../utils/Context/ShopsDataContext'
-import { UserInterfaceContext } from '../../../../utils/Context/UserInterfaceContext'
+import { ShopsDataContext } from '../../../../utils/context/ShopsDataContext'
+import { UserInterfaceContext } from '../../../../utils/context/UserInterfaceContext'
 
 const InputFilterWrapper = styled.div`
     position: relative;

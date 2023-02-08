@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { UserInterfaceContext } from '../Context/UserInterfaceContext'
+import { UserInterfaceContext } from '../context/UserInterfaceContext'
 import { useContext } from 'react'
 
 const LoadButton = styled.div`

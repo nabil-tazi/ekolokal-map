@@ -4,9 +4,9 @@ import CategoryFilterButton from '../CategoryFilters/CategoryFilterButton'
 import InputFilter from '../InputFilter'
 
 import { useContext, useEffect } from 'react'
-import { ShopsDataContext } from '../../../../utils/Context/ShopsDataContext'
-import { FiltersMenuContext } from '../../../../utils/Context/FiltersMenuContext'
-import { UserInterfaceContext } from '../../../../utils/Context/UserInterfaceContext'
+import { ShopsDataContext } from '../../../../utils/context/ShopsDataContext'
+import { FiltersMenuContext } from '../../../../utils/context/FiltersMenuContext'
+import { UserInterfaceContext } from '../../../../utils/context/UserInterfaceContext'
 import TypeDropdownFilter from '../TypeFilter/TypeDropdownFilter'
 
 const FilterBarWrapper = styled.div`

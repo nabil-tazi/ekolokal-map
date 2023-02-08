@@ -7,10 +7,10 @@ import emptyHeart from '../../assets/emptyHeart.png'
 import fullHeart from '../../assets/fullHeart.png'
 
 import { useContext } from 'react'
-import { ShopsDataContext } from '../../utils/Context/ShopsDataContext'
+import { ShopsDataContext } from '../../utils/context/ShopsDataContext'
 
 import IconList from '../CategoriesIcon/IconList'
-import { UserInterfaceContext } from '../../utils/Context/UserInterfaceContext'
+import { UserInterfaceContext } from '../../utils/context/UserInterfaceContext'
 
 const ShopModalWrapper = styled.div`
     position: absolute;

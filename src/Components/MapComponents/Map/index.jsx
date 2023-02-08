@@ -6,7 +6,7 @@ import {
 } from 'react-leaflet'
 
 import { useContext } from 'react'
-import { ShopsDataContext } from '../../../utils/Context/ShopsDataContext'
+import { ShopsDataContext } from '../../../utils/context/ShopsDataContext'
 
 // import MarkerClusterGroup from 'react-leaflet-cluster'
 
@@ -18,8 +18,8 @@ import 'leaflet/dist/leaflet.css'
 import styled from 'styled-components'
 
 import ShopMarkersList from '../ShopMarkersList'
-import { SCOPES } from '../../../utils/Configuration/ScopeConfig'
-import { UserInterfaceContext } from '../../../utils/Context/UserInterfaceContext'
+import { SCOPES } from '../../../utils/configuration/ScopeConfig'
+import { UserInterfaceContext } from '../../../utils/context/UserInterfaceContext'
 
 const MapWrapper = styled(MapContainer)`
     position: absolute;

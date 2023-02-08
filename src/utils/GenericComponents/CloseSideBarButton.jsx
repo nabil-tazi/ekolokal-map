@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import arrow from '../../assets/left-arrow.png'
-import { UserInterfaceContext } from '../Context/UserInterfaceContext'
+import { UserInterfaceContext } from '../context/UserInterfaceContext'
 import { useContext } from 'react'
 
 const LeftArrowIcon = styled.img`

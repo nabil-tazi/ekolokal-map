@@ -6,8 +6,8 @@ import LoadMoreButton from '../../utils/GenericComponents/LoadMoreButton'
 import FilterSummary from './FilterSummary'
 import ShopListItem from './ShopListItem'
 
-import { ShopsDataContext } from '../../utils/Context/ShopsDataContext'
-import { UserInterfaceContext } from '../../utils/Context/UserInterfaceContext'
+import { ShopsDataContext } from '../../utils/context/ShopsDataContext'
+import { UserInterfaceContext } from '../../utils/context/UserInterfaceContext'
 
 const SideBarContainer = styled.div`
     position: absolute;

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { useContext } from 'react'
-import { ShopsDataContext } from '../../../utils/Context/ShopsDataContext'
+import { ShopsDataContext } from '../../../utils/context/ShopsDataContext'
 
 const Summary = styled.div`
     width: 315px;
