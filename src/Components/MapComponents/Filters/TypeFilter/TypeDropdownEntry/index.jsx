@@ -1,9 +1,9 @@
 import { useContext } from 'react'
-import { ShopsDataContext } from '../../../../../utils/context/ShopsDataContext'
-import { FiltersMenuContext } from '../../../../../utils/context/FiltersMenuContext'
+import { ShopsDataContext } from '../../../../../utils/Context/ShopsDataContext'
+import { FiltersMenuContext } from '../../../../../utils/Context/FiltersMenuContext'
 
 import styled from 'styled-components'
-import { UserInterfaceContext } from '../../../../../utils/context/UserInterfaceContext'
+import { UserInterfaceContext } from '../../../../../utils/Context/UserInterfaceContext'
 
 const DropdownEntry = styled.div`
     background-color: #f8f8f4;

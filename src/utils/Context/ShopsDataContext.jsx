@@ -1,7 +1,7 @@
 import { useState, createContext, useRef, useReducer } from 'react'
-import { INITIAL_SCOPE, SCOPES } from '../configuration/ScopeConfig'
+import { INITIAL_SCOPE, SCOPES } from '../Configuration/ScopeConfig'
 
-import { TYPES } from '../configuration/TypeConfig'
+import { TYPES } from '../Configuration/TypeConfig'
 
 import { updateShops } from '../maputils'
 

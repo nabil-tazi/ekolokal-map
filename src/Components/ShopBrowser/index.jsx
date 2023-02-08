@@ -10,10 +10,10 @@ import { recursiveCategoryFilter } from '../../utils/maputils'
 import ShopData from '../../assets/data'
 import logo from '../../assets/ekolokal-logo.png'
 
-import { TYPES } from '../../utils/configuration/TypeConfig'
+import { TYPES } from '../../utils/Configuration/TypeConfig'
 
-import { ShopsDataContext } from '../../utils/context/ShopsDataContext'
-import { UserInterfaceContext } from '../../utils/context/UserInterfaceContext'
+import { ShopsDataContext } from '../../utils/Context/ShopsDataContext'
+import { UserInterfaceContext } from '../../utils/Context/UserInterfaceContext'
 
 const Container = styled.div``
 

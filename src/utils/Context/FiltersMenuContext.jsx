@@ -1,6 +1,6 @@
 import { createContext, useReducer } from 'react'
-import { TYPES } from '../configuration/TypeConfig'
-import { CATEGORIES } from '../configuration/CategoriesConfig'
+import { TYPES } from '../Configuration/TypeConfig'
+import { CATEGORIES } from '../Configuration/CategoriesConfig'
 
 export const FiltersMenuContext = createContext()
 

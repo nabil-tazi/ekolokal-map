@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { ShopsDataContext } from '../../../../../utils/context/ShopsDataContext'
+import { ShopsDataContext } from '../../../../../utils/Context/ShopsDataContext'
 // import fairtrade from '../../../assets/fairtrade.png'
 // import nobin from '../../../assets/nobin.png'
 // import noplastic from '../../../assets/noplastic.png'
@@ -7,7 +7,7 @@ import { ShopsDataContext } from '../../../../../utils/context/ShopsDataContext'
 // import plantbased from '../../../assets/plantbased.png'
 
 import styled from 'styled-components'
-import { UserInterfaceContext } from '../../../../../utils/context/UserInterfaceContext'
+import { UserInterfaceContext } from '../../../../../utils/Context/UserInterfaceContext'
 
 const CategoryIcon = styled.img`
     width: 28px;
