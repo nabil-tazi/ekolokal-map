@@ -1,4 +1,4 @@
-import { useState, createContext, useRef, useReducer } from 'react'
+import { useState, createContext, useRef, useReducer, useEffect } from 'react'
 import { INITIAL_SCOPE, SCOPES } from '../Configuration/ScopeConfig'
 
 import { TYPES } from '../Configuration/TypeConfig'
@@ -55,6 +55,11 @@ export const ShopsDataProvider = ({ children }) => {
             ? JSON.parse(localStorage.getItem('favorites'))
             : []
     )
+
+    useEffect(() => {
+        localStorage.setItem('favorites', JSON.stringify(favoriteShops))
+    }, [favoriteShops])
+
     const [research, setResearch] = useState('')
     const [filteredCategories, saveFilteredCategories] = useState([])
     const [filteredType, saveFilteredType] = useState(TYPES.ALL)

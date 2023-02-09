@@ -27,7 +27,7 @@ const MapWrapper = styled(MapContainer)`
     left: 0;
 `
 
-function Bounds({ inputRef }) {
+function Bounds() {
     const { currentScope, updateDisplayedShops, ACTIONS, noResearch } =
         useContext(ShopsDataContext)
 

@@ -30,7 +30,7 @@ const CategoryFilters = styled.div`
     overflow-x: scroll;
 `
 
-function FilterBar({ inputRef }) {
+function FilterBar() {
     const { research, mapRef, displayedShops } = useContext(ShopsDataContext)
     const { CategoriesMenu } = useContext(FiltersMenuContext)
     const { openModal } = useContext(UserInterfaceContext)
@@ -51,7 +51,7 @@ function FilterBar({ inputRef }) {
 
     return (
         <FilterBarWrapper>
-            <InputFilter inputRef={inputRef} />
+            <InputFilter />
             <TypeDropdownFilter />
             <CategoryFilters>
                 {CategoriesMenu.map((cat, index) => (

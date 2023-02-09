@@ -4,7 +4,10 @@ export const UserInterfaceContext = createContext()
 
 export const UserInterfaceProvider = ({ children }) => {
     const [overview, openOverview] = useState(0)
-    const [modalShopId, setModalShopId] = useState(0)
+    const [modalShopId, setModalShopId] = useState({
+        shopData: {},
+        open: false,
+    })
     const [isSideBarOpen, setSideBarOpened] = useState(false)
     const [isDropdownOpen, setDropdownOpen] = useState(false)
     const [loadedItems, setLoadedItems] = useState(20)
@@ -19,19 +22,19 @@ export const UserInterfaceProvider = ({ children }) => {
         map.flyTo(targetLatLng, targetZoom, { duration: 0.5 })
     }
 
-    function openModal(map, shopLatLng, shopId, zoomLevel) {
-        openOverview(shopId)
-        setModalShopId(shopId)
+    function openModal(map, shopLatLng, shop, zoomLevel) {
+        openOverview(shop.id)
+        setModalShopId({ shopData: shop, open: true })
         flyToShop(map, shopLatLng, zoomLevel)
     }
 
     function closeModal() {
         closeOverview()
         closeDropdown()
-        setModalShopId(0)
+        setModalShopId({ ...modalShopId, open: false })
     }
 
-    const isModalClosed = modalShopId === 0
+    const isModalClosed = !modalShopId.open
 
     function closeOverview() {
         openOverview(0)

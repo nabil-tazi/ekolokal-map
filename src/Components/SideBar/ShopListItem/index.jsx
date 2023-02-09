@@ -97,7 +97,7 @@ function ShopListItem({ shop }) {
                 parseFloat(shop.geolocation_lat[0]),
                 parseFloat(shop.geolocation_long[0]),
             ],
-            shop.id,
+            shop,
             mapRef.current.getZoom()
         )
     }

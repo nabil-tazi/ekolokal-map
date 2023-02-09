@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useContext } from 'react'
+import { useEffect, useContext } from 'react'
 import SideBar from '../SideBar'
 import Map from '../MapComponents/Map'
 import FilterBar from '../MapComponents/Filters/FilterBar'
@@ -6,14 +6,13 @@ import MenuBar from '../MenuBar'
 import ShopModal from '../ShopModal'
 import LoadingScreen from '../../utils/GenericComponents/LoadingScreen'
 import styled from 'styled-components'
-import { recursiveCategoryFilter } from '../../utils/maputils'
 import ShopData from '../../assets/data'
 import logo from '../../assets/ekolokal-logo.png'
 
-import { TYPES } from '../../utils/Configuration/TypeConfig'
-
 import { ShopsDataContext } from '../../utils/Context/ShopsDataContext'
 import { UserInterfaceContext } from '../../utils/Context/UserInterfaceContext'
+import { useFetch } from '../../utils/Hooks/Fetch'
+import { useLocalStorage } from '../../utils/Hooks/LocalStorage'
 
 const Container = styled.div``
 
@@ -35,79 +34,30 @@ const EkolokalLogo = styled.img`
 `
 
 function ShopBrowser() {
-    const {
-        allShops,
-        initAllShops,
-        initAllEvents,
-        favoriteShops,
-        saveFavoriteShops,
-        displayedShops,
-        initDisplayedShops,
-        initScope,
-    } = useContext(ShopsDataContext)
+    const { saveFavoriteShops, displayedShops } = useContext(ShopsDataContext)
 
     const { isSideBarOpen, modalShopId, resetLazyLoad } =
         useContext(UserInterfaceContext)
 
-    const [isLoading, setLoading] = useState(true)
-    const inputRef = useRef(null)
-
     const initCenter = [34.67, 135.49]
 
-    useEffect(() => {
-        const storedFavorites = JSON.parse(localStorage.getItem('favorites'))
-        if (storedFavorites) {
-            saveFavoriteShops(storedFavorites)
-        }
+    const { isLoading } = useFetch(`https://ekolokal.com/wp-json/wl/v1/shops`)
 
-        const fetchShops = async () => {
-            setLoading(true)
-            try {
-                const response = await fetch(
-                    `https://ekolokal.com/wp-json/wl/v1/shops`
-                )
-
-                const parsedData = await response.json()
-
-                initAllShops(parsedData)
-                initAllEvents(
-                    recursiveCategoryFilter([TYPES.EVENT], parsedData)
-                )
-                initScope(parsedData)
-                initDisplayedShops()
-
-                // if (inputRef.current.value === '') {
-                //     initDisplayedShops(parsedData, events, storedFavorites)
-                // }
-            } catch (err) {
-                console.log(err)
-            } finally {
-                setLoading(false)
-            }
-        }
-        fetchShops()
-    }, [])
+    const { storedFavorites } = useLocalStorage('favorites')
+    if (storedFavorites) saveFavoriteShops(storedFavorites)
 
     useEffect(() => {
         resetLazyLoad()
     }, [displayedShops.length])
-
-    useEffect(() => {
-        localStorage.setItem('favorites', JSON.stringify(favoriteShops))
-    }, [favoriteShops])
 
     return (
         <Container>
             {isLoading && <LoadingScreen />}
             <MenuBar />
             {isSideBarOpen && <SideBar />}
-            {modalShopId && (
-                <ShopModal
-                    shop={allShops.filter((shop) => shop.id === modalShopId)[0]}
-                />
-            )}
-            <FilterBar inputRef={inputRef} />
-            <Map center={initCenter} inputRef={inputRef} />
+            {modalShopId.open && <ShopModal shop={modalShopId.shopData} />}
+            <FilterBar />
+            <Map center={initCenter} />
             <EkolokalLogo src={logo} />
         </Container>
     )

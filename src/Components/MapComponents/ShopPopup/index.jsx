@@ -30,7 +30,7 @@ const ShopName = styled.div`
 
 function ShopPopup({ imgUrl, shopName, shopAddress }) {
     return (
-        <PopupContainer>
+        <PopupContainer autoPan={false}>
             <OverviewImage src={imgUrl} />
             <ShopName>{shopName}</ShopName>
             <ShopName>{shopAddress}</ShopName>

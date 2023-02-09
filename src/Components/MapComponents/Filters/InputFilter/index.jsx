@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useRef } from 'react'
 
 import styled from 'styled-components'
 
@@ -70,12 +70,14 @@ const RemoveSearchInput = styled.img`
             : null};
 `
 
-function InputFilter({ inputRef }) {
+function InputFilter() {
     const { research, noResearch, setResearch, updateDisplayedShops, ACTIONS } =
         useContext(ShopsDataContext)
 
     const { openSideBar, closeDropdown, closeModal } =
         useContext(UserInterfaceContext)
+
+    const inputRef = useRef(null)
 
     function handleInputChange() {
         closeModal()
