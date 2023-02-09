@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react'
+import { useContext } from 'react'
 import SideBar from '../SideBar'
 import Map from '../MapComponents/Map'
 import FilterBar from '../MapComponents/Filters/FilterBar'
@@ -34,10 +34,8 @@ const EkolokalLogo = styled.img`
 `
 
 function ShopBrowser() {
-    const { saveFavoriteShops, displayedShops } = useContext(ShopsDataContext)
-
-    const { isSideBarOpen, modalShopId, resetLazyLoad } =
-        useContext(UserInterfaceContext)
+    const { saveFavoriteShops } = useContext(ShopsDataContext)
+    const { isSideBarOpen, modalShop } = useContext(UserInterfaceContext)
 
     const initCenter = [34.67, 135.49]
 
@@ -46,16 +44,12 @@ function ShopBrowser() {
     const { storedFavorites } = useLocalStorage('favorites')
     if (storedFavorites) saveFavoriteShops(storedFavorites)
 
-    useEffect(() => {
-        resetLazyLoad()
-    }, [displayedShops.length])
-
     return (
         <Container>
             {isLoading && <LoadingScreen />}
             <MenuBar />
             {isSideBarOpen && <SideBar />}
-            {modalShopId.open && <ShopModal shop={modalShopId.shopData} />}
+            {modalShop.id && <ShopModal shop={modalShop} />}
             <FilterBar />
             <Map center={initCenter} />
             <EkolokalLogo src={logo} />

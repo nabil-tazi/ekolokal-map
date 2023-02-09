@@ -31,26 +31,9 @@ function Bounds() {
     const { currentScope, updateDisplayedShops, ACTIONS, noResearch } =
         useContext(ShopsDataContext)
 
-    const {
-        modalShopId,
-        openOverview,
-        closeOverview,
-        closeModal,
-        isModalClosed,
-    } = useContext(UserInterfaceContext)
+    const { closeModal } = useContext(UserInterfaceContext)
 
     const map = useMapEvent('moveend', () => {
-        // if (
-        //     isModalClosed &&
-        //     noResearch &&
-        //     // inputRef.current.value === '' &&
-        //     (currentScope.ID === SCOPES.BROWSE.ID ||
-        //         currentScope.ID === SCOPES.NONE.ID)
-        // ) {
-        //     console.log('MOVE')
-
-        //     updateDisplayedShops(ACTIONS.MOVE_MAP, map)
-        // }
         if (currentScope.LOCALIZED && noResearch)
             updateDisplayedShops(ACTIONS.MOVE_MAP, map)
     })
@@ -58,9 +41,10 @@ function Bounds() {
     useMapEvent('click', () => {
         closeModal()
     })
-    useMapEvent('mouseover', () => {
-        isModalClosed ? closeOverview() : openOverview(modalShopId)
-    })
+    // Useful if popup panning is ON
+    // useMapEvent('mouseover', () => {
+    //     openOverview(modalShop.id)
+    // })
     return null
 }
 

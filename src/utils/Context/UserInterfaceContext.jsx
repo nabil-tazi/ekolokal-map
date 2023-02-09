@@ -4,10 +4,7 @@ export const UserInterfaceContext = createContext()
 
 export const UserInterfaceProvider = ({ children }) => {
     const [overview, openOverview] = useState(0)
-    const [modalShopId, setModalShopId] = useState({
-        shopData: { id: 0 },
-        open: false,
-    })
+    const [modalShop, setModalShop] = useState({ id: 0 })
     const [isSideBarOpen, setSideBarOpened] = useState(false)
     const [isDropdownOpen, setDropdownOpen] = useState(false)
     const [loadedItems, setLoadedItems] = useState(20)
@@ -24,17 +21,17 @@ export const UserInterfaceProvider = ({ children }) => {
 
     function openModal(map, shopLatLng, shop, zoomLevel) {
         openOverview(shop.id)
-        setModalShopId({ shopData: shop, open: true })
+        setModalShop(shop)
         flyToShop(map, shopLatLng, zoomLevel)
     }
 
     function closeModal() {
         closeOverview()
         closeDropdown()
-        setModalShopId({ shopData: { id: 0 }, open: false })
+        setModalShop({ id: 0 })
     }
 
-    const isModalClosed = !modalShopId.open
+    // const isModalClosed = !modalShop.id
 
     function closeOverview() {
         console.log('closing overview')
@@ -75,7 +72,7 @@ export const UserInterfaceProvider = ({ children }) => {
             value={{
                 overview,
                 openOverview,
-                modalShopId,
+                modalShop,
                 isSideBarOpen,
                 openSideBar,
                 toggleSideBar,
@@ -83,7 +80,7 @@ export const UserInterfaceProvider = ({ children }) => {
                 loadedItems,
                 openModal,
                 closeModal,
-                isModalClosed,
+                // isModalClosed,
                 closeOverview,
                 toggleDropdown,
                 closeDropdown,

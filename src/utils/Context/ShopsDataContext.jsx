@@ -1,5 +1,14 @@
-import { useState, createContext, useRef, useReducer, useEffect } from 'react'
+import {
+    useState,
+    createContext,
+    useRef,
+    useReducer,
+    useEffect,
+    useContext,
+} from 'react'
 import { INITIAL_SCOPE, SCOPES } from '../Configuration/ScopeConfig'
+
+import { UserInterfaceContext } from './UserInterfaceContext'
 
 import { TYPES } from '../Configuration/TypeConfig'
 
@@ -8,6 +17,8 @@ import { updateShops } from '../maputils'
 export const ShopsDataContext = createContext()
 
 export const ShopsDataProvider = ({ children }) => {
+    const { resetLazyLoad } = useContext(UserInterfaceContext)
+
     const mapRef = useRef()
 
     const [currentScope, setScope] = useState({
@@ -106,15 +117,19 @@ export const ShopsDataProvider = ({ children }) => {
                 params.research = action.param
                 params.localize = true
                 params.openModal = true
+                resetLazyLoad()
                 break
             case ACTIONS.CHANGE_TYPE:
                 params.filteredType = action.param
+                resetLazyLoad()
                 break
             case ACTIONS.CHANGE_CATEGORIES:
                 params.filteredCategories = action.param
+                resetLazyLoad()
                 break
             case ACTIONS.CHANGE_FAVORITES:
                 params.favoriteShops = action.param
+                resetLazyLoad()
                 break
             case ACTIONS.INIT:
                 break

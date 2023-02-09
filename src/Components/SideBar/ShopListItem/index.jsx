@@ -70,22 +70,17 @@ const TitleThumbnail = styled.div`
 
 function ShopListItem({ shop }) {
     const { mapRef } = useContext(ShopsDataContext)
-    const {
-        openOverview,
-        modalShopId,
-        openModal,
-        closeOverview,
-        isModalClosed,
-    } = useContext(UserInterfaceContext)
+    const { openOverview, modalShop, openModal, closeOverview } =
+        useContext(UserInterfaceContext)
 
     function handleHover() {
-        if (isModalClosed) {
+        if (!modalShop.id) {
             openOverview(shop.id)
         }
     }
 
     function handleMouseOut() {
-        if (isModalClosed) {
+        if (!modalShop.id) {
             closeOverview()
         }
     }
@@ -106,7 +101,7 @@ function ShopListItem({ shop }) {
             onMouseEnter={handleHover}
             onMouseLeave={handleMouseOut}
             onClick={handleClick}
-            active={modalShopId.shopData.id === shop.id}
+            active={modalShop.id === shop.id}
         >
             <ImageTitle>
                 <ImageThumbnail src={shop.image_thumbnail} />
