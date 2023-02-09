@@ -5,7 +5,7 @@ export const UserInterfaceContext = createContext()
 export const UserInterfaceProvider = ({ children }) => {
     const [overview, openOverview] = useState(0)
     const [modalShopId, setModalShopId] = useState({
-        shopData: {},
+        shopData: { id: 0 },
         open: false,
     })
     const [isSideBarOpen, setSideBarOpened] = useState(false)
@@ -31,12 +31,13 @@ export const UserInterfaceProvider = ({ children }) => {
     function closeModal() {
         closeOverview()
         closeDropdown()
-        setModalShopId({ ...modalShopId, open: false })
+        setModalShopId({ shopData: { id: 0 }, open: false })
     }
 
     const isModalClosed = !modalShopId.open
 
     function closeOverview() {
+        console.log('closing overview')
         openOverview(0)
     }
 

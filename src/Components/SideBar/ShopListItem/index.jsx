@@ -106,7 +106,7 @@ function ShopListItem({ shop }) {
             onMouseEnter={handleHover}
             onMouseLeave={handleMouseOut}
             onClick={handleClick}
-            active={modalShopId === shop.id}
+            active={modalShopId.shopData.id === shop.id}
         >
             <ImageTitle>
                 <ImageThumbnail src={shop.image_thumbnail} />

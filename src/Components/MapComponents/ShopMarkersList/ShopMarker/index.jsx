@@ -12,6 +12,7 @@ function ShopMarker({ shop, categories, mapRef, favorite }) {
         overview,
         modalShopId,
         openOverview,
+        closeOverview,
         closeDropdown,
         openModal,
         isModalClosed,
@@ -48,12 +49,12 @@ function ShopMarker({ shop, categories, mapRef, favorite }) {
             icon={getIconUponCategories(categories, favorite)}
             eventHandlers={{
                 mouseover: () => {
-                    if (isModalClosed || modalShopId === shop.id) {
+                    if (isModalClosed || modalShopId.shopData.id === shop.id) {
                         openOverview(shop.id)
                     }
                 },
                 mouseout: () => {
-                    openOverview(modalShopId)
+                    openOverview(modalShopId.shopData.id)
                 },
                 click: (event) => {
                     event.target.openPopup()
