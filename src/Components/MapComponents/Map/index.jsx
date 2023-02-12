@@ -20,6 +20,7 @@ import styled from 'styled-components'
 import ShopMarkersList from '../ShopMarkersList'
 import { SCOPES } from '../../../utils/Configuration/ScopeConfig'
 import { UserInterfaceContext } from '../../../utils/Context/UserInterfaceContext'
+import { ScopeContext } from '../../../utils/Context/ScopeContext'
 
 const MapWrapper = styled(MapContainer)`
     position: absolute;
@@ -28,8 +29,10 @@ const MapWrapper = styled(MapContainer)`
 `
 
 function Bounds() {
-    const { currentScope, updateDisplayedShops, ACTIONS, noResearch } =
+    const { updateDisplayedShops, ACTIONS, noResearch } =
         useContext(ShopsDataContext)
+
+    const { currentScope } = useContext(ScopeContext)
 
     const { closeModal } = useContext(UserInterfaceContext)
 

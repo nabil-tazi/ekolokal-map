@@ -1,26 +1,46 @@
-import { useContext, useEffect, useState } from 'react'
-import { ShopsDataContext } from '../Context/ShopsDataContext'
+import { useEffect, useState } from 'react'
 
-export function useLocalStorage(id) {
-    const [data, setData] = useState()
-    // const { saveFavoriteShops } = useContext(ShopsDataContext)
+// export function useLocalStorage(id) {
+//     const [data, setData] = useState()
+
+//     useEffect(() => {
+//         if (!id) return
+
+//         async function getStoredData() {
+//             try {
+//                 const storedData = await JSON.parse(localStorage.getItem(id))
+//                 setData(storedData)
+//             } catch (err) {
+//                 console.log(err)
+//             } finally {
+//             }
+//         }
+//         getStoredData()
+//     }, [id])
+
+//     return { data }
+// }
+
+export const useLocalStorage = (key, defaultValue) => {
+    const [value, setValue] = useState(() => {
+        try {
+            const saved = localStorage.getItem(key)
+            if (saved !== null) {
+                return JSON.parse(saved)
+            }
+            return defaultValue
+        } catch {
+            return defaultValue
+        }
+    })
+
+    console.log('inside useLocalStorage')
+    console.log(value)
 
     useEffect(() => {
-        if (!id) return
+        const rawValue = JSON.stringify(value)
+        localStorage.setItem(key, rawValue)
+    }, [value])
 
-        async function getStoredData() {
-            try {
-                const storedFavorites = await JSON.parse(
-                    localStorage.getItem(id)
-                )
-                setData(storedFavorites)
-            } catch (err) {
-                console.log(err)
-            } finally {
-            }
-        }
-        getStoredData()
-    }, [id])
-
-    return { data }
+    return [value, setValue]
 }

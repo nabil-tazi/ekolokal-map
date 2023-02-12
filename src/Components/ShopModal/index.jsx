@@ -11,6 +11,7 @@ import { ShopsDataContext } from '../../utils/Context/ShopsDataContext'
 
 import IconList from '../CategoriesIcon/IconList'
 import { UserInterfaceContext } from '../../utils/Context/UserInterfaceContext'
+import { ScopeContext } from '../../utils/Context/ScopeContext'
 
 const ShopModalWrapper = styled.div`
     position: absolute;
@@ -208,14 +209,14 @@ const AddressWrapper = styled.div`
 `
 
 function ShopModal({ shop }) {
-    const {
-        mapRef,
-        favoriteShops,
-        saveFavoriteShops,
-        ACTIONS,
-        updateDisplayedShops,
-        isFavorite,
-    } = useContext(ShopsDataContext)
+    const { mapRef, ACTIONS, updateDisplayedShops } =
+        useContext(ShopsDataContext)
+
+    const { favoriteShops, saveFavoriteShops, isFavorite } =
+        useContext(ScopeContext)
+
+    console.log('Modal Component')
+    console.log(favoriteShops)
 
     const { closeModal, flyToShop } = useContext(UserInterfaceContext)
 

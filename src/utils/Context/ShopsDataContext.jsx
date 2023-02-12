@@ -1,14 +1,7 @@
-import {
-    useState,
-    createContext,
-    useRef,
-    useReducer,
-    useEffect,
-    useContext,
-} from 'react'
-import { INITIAL_SCOPE, SCOPES } from '../Configuration/ScopeConfig'
+import { useState, createContext, useRef, useReducer, useContext } from 'react'
 
 import { UserInterfaceContext } from './UserInterfaceContext'
+import { ScopeContext } from './ScopeContext'
 
 import { TYPES } from '../Configuration/TypeConfig'
 
@@ -18,68 +11,15 @@ export const ShopsDataContext = createContext()
 
 export const ShopsDataProvider = ({ children }) => {
     const { resetLazyLoad } = useContext(UserInterfaceContext)
+    const { currentScope } = useContext(ScopeContext)
 
     const mapRef = useRef()
-
-    const [currentScope, setScope] = useState({
-        ...INITIAL_SCOPE,
-        DATA: [],
-    })
-
-    function switchScope(clickedScope) {
-        switch (clickedScope.ID) {
-            case SCOPES.NONE:
-                clickedScope.DATA = allShops
-                break
-            case SCOPES.BROWSE.ID:
-                clickedScope.DATA = allShops
-                break
-            case SCOPES.EVENTS.ID:
-                clickedScope.DATA = allEvents
-                break
-            case SCOPES.FAVORITES.ID:
-                clickedScope.DATA = favoriteShops
-                break
-            default:
-                clickedScope.DATA = allShops
-        }
-        console.log(clickedScope)
-        setScope(clickedScope)
-    }
-
-    function initScope(initialData) {
-        setScope({ ...INITIAL_SCOPE, DATA: initialData })
-    }
-
-    const [allShops, setAllShops] = useState([])
-    const initAllShops = (data) => {
-        setAllShops(data)
-    }
-
-    const [allEvents, setAllEvents] = useState([])
-    const initAllEvents = (data) => {
-        setAllEvents(data)
-    }
-
-    const [favoriteShops, saveFavoriteShops] = useState(
-        localStorage.getItem('favorites') != null
-            ? JSON.parse(localStorage.getItem('favorites'))
-            : []
-    )
-
-    useEffect(() => {
-        localStorage.setItem('favorites', JSON.stringify(favoriteShops))
-    }, [favoriteShops])
 
     const [research, setResearch] = useState('')
     const [filteredCategories, saveFilteredCategories] = useState([])
     const [filteredType, saveFilteredType] = useState(TYPES.ALL)
 
     const noResearch = research === ''
-
-    function isFavorite(shop) {
-        return favoriteShops.some((favshop) => favshop.id === shop.id)
-    }
 
     const initialState = {
         displayedShops: [],
@@ -150,15 +90,6 @@ export const ShopsDataProvider = ({ children }) => {
         <ShopsDataContext.Provider
             value={{
                 mapRef,
-                currentScope,
-                switchScope,
-                initScope,
-                allShops,
-                initAllShops,
-                allEvents,
-                initAllEvents,
-                favoriteShops,
-                saveFavoriteShops,
                 research,
                 setResearch,
                 filteredCategories,
@@ -167,7 +98,6 @@ export const ShopsDataProvider = ({ children }) => {
                 saveFilteredType,
                 ACTIONS,
                 noResearch,
-                isFavorite,
                 displayedShops: state.displayedShops,
 
                 updateDisplayedShops: (actionType, param) => {

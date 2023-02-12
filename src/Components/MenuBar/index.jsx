@@ -4,6 +4,7 @@ import { useContext } from 'react'
 import { ShopsDataContext } from '../../utils/Context/ShopsDataContext'
 import { FiltersMenuContext } from '../../utils/Context/FiltersMenuContext'
 import { UserInterfaceContext } from '../../utils/Context/UserInterfaceContext'
+import { ScopeContext } from '../../utils/Context/ScopeContext'
 
 const IconWrapper = styled.div`
     display: flex;
@@ -54,8 +55,12 @@ const LanguageButton = styled.div`
 `
 
 function MenuBar() {
-    const { currentScope, switchScope, updateDisplayedShops, ACTIONS } =
-        useContext(ShopsDataContext)
+    // const { currentScope, switchScope, updateDisplayedShops, ACTIONS } =
+    //     useContext(ShopsDataContext)
+
+    const { updateDisplayedShops, ACTIONS } = useContext(ShopsDataContext)
+
+    const { currentScope, switchScope } = useContext(ScopeContext)
 
     const { updateTypesMenu } = useContext(FiltersMenuContext)
 

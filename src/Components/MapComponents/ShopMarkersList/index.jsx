@@ -3,9 +3,11 @@ import { useContext } from 'react'
 import ShopMarker from './ShopMarker'
 
 import { ShopsDataContext } from '../../../utils/Context/ShopsDataContext'
+import { ScopeContext } from '../../../utils/Context/ScopeContext'
 
 function ShopMarkersList() {
-    const { mapRef, displayedShops, isFavorite } = useContext(ShopsDataContext)
+    const { mapRef, displayedShops } = useContext(ShopsDataContext)
+    const { isFavorite } = useContext(ScopeContext)
 
     return (
         <>
