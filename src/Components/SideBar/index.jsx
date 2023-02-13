@@ -6,27 +6,31 @@ import LoadMoreButton from '../../utils/GenericComponents/LoadMoreButton'
 import FilterSummary from './FilterSummary'
 import ShopListItem from './ShopListItem'
 
+import layout from '../../utils/Style/Layout'
+import colors from '../../utils/Style/Colors'
+
 import { ShopsDataContext } from '../../utils/Context/ShopsDataContext'
 import { UserInterfaceContext } from '../../utils/Context/UserInterfaceContext'
 
 const SideBarContainer = styled.div`
     position: absolute;
     top: 0;
-    left: 60px;
-    width: 380px;
+    left: ${layout.menuBarWidth};
+    width: ${layout.SideBarWidth};
     height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: #f8f8f4f1;
+    background-color: ${colors.transparentBackground};
     box-shadow: 0px 0px 10px gray;
     z-index: 500;
 `
 
 const ShopListContainer = styled.div`
-    padding-left: 10px;
-    width: 370px;
-    background-color: #f8f8f4f1;
+    width: calc(${layout.SideBarWidth});
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 `
 
 function SideBar() {

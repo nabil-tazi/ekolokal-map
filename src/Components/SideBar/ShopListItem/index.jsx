@@ -3,12 +3,17 @@ import { ShopsDataContext } from '../../../utils/Context/ShopsDataContext'
 import IconList from '../../CategoriesIcon/IconList'
 import { useContext } from 'react'
 import { UserInterfaceContext } from '../../../utils/Context/UserInterfaceContext'
+import colors from '../../../utils/Style/Colors'
+import font from '../../../utils/Style/Font'
 
 const ItemContainer = styled.div`
+    width: 88%;
     padding: 10px;
     padding-right: 0px;
     margin-bottom: 15px;
-    margin-right: 15px;
+    margin: auto;
+
+    font-size: ${font.textSize};
 
     display: flex;
     justify-content: flex-start;
@@ -17,9 +22,11 @@ const ItemContainer = styled.div`
 
     border-radius: 7px;
 
-    background-color: ${(props) => (props.active ? '#b2bdca' : null)};
+    background-color: ${(props) =>
+        props.active ? colors.activeBackground : 'null'};
     &:hover {
-        background-color: ${(props) => (props.active ? null : '#e9e9e9')};
+        background-color: ${(props) =>
+            props.active ? null : colors.hoverBackground};
     }
 
     cursor: pointer;
@@ -27,8 +34,6 @@ const ItemContainer = styled.div`
 const ImageTitle = styled.div`
     height: 120px;
     position: relative;
-    font-family: sans-serif;
-    font-size: 13px;
     border-radius: 5px;
     flex-basis: 200px;
 `
@@ -36,14 +41,10 @@ const RightColumn = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    flex-basis: 130px;
+    flex-basis: 100px;
 `
 const BusinessHours = styled.div`
     width: 100px;
-    font-family: sans-serif;
-    font-size: 13px;
-    font-weight: 200;
-    color: #292929;
 `
 const ImageThumbnail = styled.img`
     width: 100%;
@@ -55,13 +56,14 @@ const TitleBackground = styled.div`
     position: absolute;
     width: 100%;
     bottom: 0px;
-    background-color: #00000068;
-    color: white;
+    background-color: ${colors.darkTransparent};
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 `
 const TitleThumbnail = styled.div`
     margin: 10px;
+    color: ${colors.activeText};
+    font-weight: ${font.activeWeight};
 `
 
 function ShopListItem({ shop }) {

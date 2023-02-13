@@ -2,6 +2,8 @@ import styled from 'styled-components'
 import arrow from '../../assets/left-arrow.png'
 import { UserInterfaceContext } from '../Context/UserInterfaceContext'
 import { useContext } from 'react'
+import layout from '../Style/Layout'
+import colors from '../Style/Colors'
 
 const LeftArrowIcon = styled.img`
     padding: 5px;
@@ -11,7 +13,7 @@ const LeftArrowIcon = styled.img`
 const CloseButton = styled.div`
     position: absolute;
     top: calc(50% - ${(props) => props.SIZE.HEIGHT} / 2);
-    left: calc(380px - ${(props) => props.SIZE.WIDTH} / 2);
+    left: calc(${layout.SideBarWidth} - ${(props) => props.SIZE.WIDTH} / 2);
 
     height: ${(props) => props.SIZE.HEIGHT};
     width: ${(props) => props.SIZE.WIDTH};
@@ -22,12 +24,12 @@ const CloseButton = styled.div`
 
     z-index: 600;
 
-    background-color: #f8f8f4;
+    background-color: ${colors.primaryBackground};
     border-radius: 5px;
     box-shadow: 0px 0px 5px gray;
     cursor: pointer;
     &:hover {
-        background-color: #e9e9e9;
+        background-color: ${colors.hoverBackground};
     }
 `
 

@@ -1,17 +1,17 @@
 import styled from 'styled-components'
-
 import CategoryFilterButton from '../CategoryFilters/CategoryFilterButton'
 import InputFilter from '../InputFilter'
 
 import { useContext } from 'react'
 import { FiltersMenuContext } from '../../../../utils/Context/FiltersMenuContext'
 import TypeDropdownFilter from '../TypeFilter/TypeDropdownFilter'
+import layout from '../../../../utils/Style/Layout'
 
 const FilterBarWrapper = styled.div`
     position: absolute;
-    height: 40px;
-    width: calc(100% - 120px);
-    left: calc(60px + 30px);
+    top: 5px;
+    width: calc(100% - ${layout.menuBarWidth} - 30px);
+    left: calc(${layout.menuBarWidth} + 20px);
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -21,7 +21,7 @@ const FilterBarWrapper = styled.div`
 
 const CategoryFilters = styled.div`
     padding: 15px;
-    width: calc(100%-200px);
+    /* width: calc(100%); */
     display: flex;
     justify-content: flex-start;
     gap: 20px;

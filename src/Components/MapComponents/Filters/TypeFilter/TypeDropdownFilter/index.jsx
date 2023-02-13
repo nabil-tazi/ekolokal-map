@@ -6,10 +6,13 @@ import { ShopsDataContext } from '../../../../../utils/Context/ShopsDataContext'
 import { FiltersMenuContext } from '../../../../../utils/Context/FiltersMenuContext'
 import { UserInterfaceContext } from '../../../../../utils/Context/UserInterfaceContext'
 import TypeDropdownEntry from '../TypeDropdownEntry'
+import layout from '../../../../../utils/Style/Layout'
 
 const TypeDropdownButton = styled.div`
     height: 37px;
-    min-width: 130px;
+    width: calc(((${layout.SideBarWidth} - 30px) / 2) - 40px);
+
+    /* min-width: 130px; */
     line-height: 13px;
     background-color: #f8f8f4;
 
@@ -24,11 +27,13 @@ const TypeDropdownButton = styled.div`
     align-items: center;
     cursor: pointer;
     padding-right: 10px;
+    padding-left: 10px;
     box-shadow: 0px 0px 10px gray;
     z-index: 500;
     position: relative;
     margin-right: 40px;
-    padding-left: 10px;
+    flex-shrink: 0;
+
     background-color: ${(props) =>
         props.type !== 'all' ? '#b2bdca' : '#f8f8f4'};
 
@@ -38,7 +43,7 @@ const TypeDropdownButton = styled.div`
     color: ${(props) => (props.type !== 'all' ? 'white' : '#292929')};
 `
 const DropdownMenu = styled.div`
-    width: 120px;
+    width: calc(((${layout.SideBarWidth} - 30px) / 2) - 40px);
     height: 124px;
     font-family: sans-serif;
     font-size: 13px;
@@ -52,7 +57,9 @@ const DropdownMenu = styled.div`
     display: flex;
     flex-direction: column;
     box-shadow: 0px 0px 10px gray;
-    transform: translateY(82px) translateX(177px);
+    /* transform: translateY(82px) translateX(177px); */
+    transform: translateY(82px)
+        translateX(calc(((${layout.SideBarWidth} - 30px) / 2) + 20px));
 `
 
 const ArrowDownIcon = styled.img`

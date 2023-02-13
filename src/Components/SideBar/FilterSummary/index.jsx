@@ -1,19 +1,20 @@
 import styled from 'styled-components'
 import { useContext } from 'react'
 import { ShopsDataContext } from '../../../utils/Context/ShopsDataContext'
+import colors from '../../../utils/Style/Colors'
+import font from '../../../utils/Style/Font'
 
 const Summary = styled.div`
-    width: 315px;
+    width: 80%;
+    margin: auto;
     padding: 12px 20px 12px 20px;
-    margin: 10px;
     margin-top: 70px;
+    margin-bottom: 10px;
+
     border-radius: 7px;
-    font-family: sans-serif;
-    font-size: 13px;
-    line-height: 17px;
-    font-weight: 200;
-    color: #292929;
-    background-color: #e9e9e9;
+    font-size: ${font.textSize};
+    color: ${colors.primaryText};
+    background-color: ${colors.hoverBackground};
 `
 
 function FilterSummary() {

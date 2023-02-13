@@ -1,6 +1,8 @@
 import { useContext } from 'react'
 import { ShopsDataContext } from '../../../../../utils/Context/ShopsDataContext'
 import styled from 'styled-components'
+import colors from '../../../../../utils/Style/Colors'
+import font from '../../../../../utils/Style/Font'
 
 const CategoryIcon = styled.img`
     width: 28px;
@@ -14,15 +16,15 @@ const CategoryIcon = styled.img`
 const CategoryFilter = styled.div`
     max-width: 100px;
     height: 37px;
-    line-height: 13px;
+    line-height: ${font.textSize};
     border-radius: 20px;
-    color: ${(props) => (props.active === 'active' ? 'white' : '#292929')};
-    font-family: sans-serif;
-    font-size: 13px;
-    font-weight: 200;
+    color: ${(props) =>
+        props.active === 'active' ? colors.activeText : colors.primaryText};
+    font-size: ${font.textSize};
     text-shadow: ${(props) =>
         props.active === 'active' ? '-0.1px 0 #fff, 0.1px 0 #fff' : null};
 
+    flex-shrink: 0;
     user-select: none;
     display: flex;
     justify-content: flex-start;
@@ -31,11 +33,15 @@ const CategoryFilter = styled.div`
     padding-right: 10px;
     box-shadow: 0px 0px 10px gray;
     background-color: ${(props) =>
-        props.active === 'active' ? '#b2bdca' : '#f8f8f4'};
+        props.active === 'active'
+            ? colors.activeBackground
+            : colors.primaryBackground};
 
     &:hover {
         background-color: ${(props) =>
-            props.active === 'active' ? '#b2bdca' : '#e9e9e9'};
+            props.active === 'active'
+                ? colors.activeBackground
+                : colors.hoverBackground};
     }
 `
 

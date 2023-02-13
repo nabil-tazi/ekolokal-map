@@ -5,6 +5,9 @@ import { ShopsDataContext } from '../../utils/Context/ShopsDataContext'
 import { FiltersMenuContext } from '../../utils/Context/FiltersMenuContext'
 import { UserInterfaceContext } from '../../utils/Context/UserInterfaceContext'
 import { ScopeContext } from '../../utils/Context/ScopeContext'
+import layout from '../../utils/Style/Layout'
+import colors from '../../utils/Style/Colors'
+import font from '../../utils/Style/Font'
 
 const IconWrapper = styled.div`
     display: flex;
@@ -25,9 +28,9 @@ const MenuWrapper = styled.div`
     position: absolute;
     left: 0;
     top: 0;
-    width: 60px;
+    width: ${layout.menuBarWidth};
     height: 100vh;
-    background-color: #f8f8f4;
+    background-color: ${colors.primaryBackground};
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -40,10 +43,8 @@ const MenuWrapper = styled.div`
         props.isSideBarOpen ? '.2px solid #a0a0a0' : '0px 0px 10px gray'};
 `
 const LanguageContainer = styled.div`
-    font-family: sans-serif;
-    font-size: 13px;
-    color: #292929;
-    font-weight: 200;
+    color: ${colors.primaryText};
+    font-size: ${font.textSize};
     margin: 10px;
     display: flex;
     justify-content: space-between;

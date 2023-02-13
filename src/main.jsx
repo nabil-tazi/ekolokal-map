@@ -5,9 +5,11 @@ import { ShopsDataProvider } from './utils/Context/ShopsDataContext'
 import { FiltersMenuProvider } from './utils/Context/FiltersMenuContext'
 import { UserInterfaceProvider } from './utils/Context/UserInterfaceContext'
 import { ScopeProvider } from './utils/Context/ScopeContext'
+import GlobalStyle from './utils/Style/GlobalStyle'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
+        <GlobalStyle />
         <UserInterfaceProvider>
             <ScopeProvider>
                 <ShopsDataProvider>

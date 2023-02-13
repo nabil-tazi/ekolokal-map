@@ -5,6 +5,8 @@ import target from '../../assets/target.png'
 import link from '../../assets/link.png'
 import emptyHeart from '../../assets/emptyHeart.png'
 import fullHeart from '../../assets/fullHeart.png'
+import font from '../../utils/Style/Font'
+import colors from '../../utils/Style/Colors'
 
 import { useContext } from 'react'
 import { ShopsDataContext } from '../../utils/Context/ShopsDataContext'
@@ -18,33 +20,30 @@ const ShopModalWrapper = styled.div`
     display: flex;
     flex-direction: column;
     border-radius: 5px;
-
     left: 470px;
     top: 10vh;
     width: 600px;
     height: 80vh;
-    background-color: #f8f8f4;
+    background-color: ${colors.primaryBackground};
     z-index: 500;
     opacity: 95%;
     box-shadow: 0px 0px 10px gray;
+    font-size: ${font.textSize};
 `
-
 const FirstLine = styled.div`
     display: flex;
     justify-content: flex-start;
     align-items: center;
     margin-top: 20px;
 `
-
 const CloseIcon = styled.img`
     cursor: pointer;
     width: 11px;
     padding: 7px;
     margin: 10px;
     border-radius: 100%;
-    /* align-self: flex-start; */
     &:hover {
-        background-color: #00000010;
+        background-color: ${colors.hoverBackground};
     }
 `
 const PhoneIcon = styled.img`
@@ -60,41 +59,33 @@ const ModalContent = styled.div`
     flex-direction: column;
     justify-content: space-between;
 `
-
-const TopWrapper = styled.div`
-    /* height: 200px; */
-`
+const TopWrapper = styled.div``
 const BottomWrapper = styled.div`
-    /* margin-bottom: 40px; */
     height: 90px;
 `
-
 const ShopName = styled.h2`
-    color: #f6af3c;
-    font-size: 22px;
+    color: ${colors.titleText};
+    font-size: ${font.titleSize};
+    font-family: ${font.titleFamily};
+    font-weight: ${font.titleWeight};
     margin: 0;
     line-height: 30px;
-    /* margin-top: 30px; */
     margin-left: 20px;
-    width: 450px;
+    width: 75%;
 `
-
-const Tagline = styled.h3`
-    font-size: 15px;
+const Tagline = styled.div`
     max-width: 250px;
     margin-top: 20px;
-    font-family: sans-serif;
-    font-weight: 200;
-    color: #282828;
 `
 const ImagesWrapper = styled.div`
+    margin: auto;
     margin-top: 10px;
-    width: 530px;
+    margin-bottom: 10px;
+    width: 100%;
     display: flex;
 `
-
 const ImageSingle = styled.div`
-    width: 69%;
+    width: 70%;
     margin: auto;
 `
 const ImageDuo = styled.div`
@@ -103,18 +94,16 @@ const ImageDuo = styled.div`
     width: 50%;
 `
 const ImageLeft = styled.div`
-    width: 69%;
+    width: 70%;
     padding: 5px;
 `
 const ImageRight = styled.div`
-    width: 33%;
+    width: 30%;
     display: flex;
     flex-direction: column;
 `
 const ImageOne = styled.img`
     width: 100%;
-    /* margin: 5px; */
-
     aspect-ratio: 3/2;
     object-fit: cover;
 `
@@ -130,42 +119,24 @@ const ContactInformation = styled.div`
     flex-direction: column;
     justify-content: center;
 `
-
 const PhoneNumber = styled.div`
-    font-size: 15px;
-    font-family: sans-serif;
-    font-weight: 200;
-    color: #282828;
     width: 200px;
 `
-
 const Website = styled.a`
-    font-size: 15px;
     margin-top: 5px;
-    font-family: sans-serif;
-    font-weight: 200;
-    color: #282828;
     text-align: left;
 `
-
 const Content = styled.div`
     height: 120px;
     overflow: scroll;
     margin-top: 10px;
     margin-bottom: 20px;
-
-    font-family: sans-serif;
-    font-size: 15px;
-    color: #282828;
-    font-weight: 200;
 `
-
 const LocalizeIcon = styled.img`
     width: 20px;
     height: 20px;
     margin: 10px;
 `
-
 const FavoriteIcon = styled.img`
     width: 25px;
     height: 25px;
@@ -178,27 +149,19 @@ const FavoriteIcon = styled.img`
         background-color: #00000010;
     }
 `
-
 const SecondLine = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
 `
-
 const ThirdLine = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* margin-top: 30px; */
 `
-
 const Address = styled.div`
     text-align: right;
     width: 250px;
-    font-size: 15px;
-    font-family: sans-serif;
-    font-weight: 200;
-    color: #282828;
     margin-left: auto;
 `
 
@@ -214,9 +177,6 @@ function ShopModal({ shop }) {
 
     const { favoriteShops, saveFavoriteShops, isFavorite } =
         useContext(ScopeContext)
-
-    console.log('Modal Component')
-    console.log(favoriteShops)
 
     const { closeModal, flyToShop } = useContext(UserInterfaceContext)
 

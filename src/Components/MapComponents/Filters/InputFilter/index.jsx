@@ -7,6 +7,7 @@ import search from '../../../../assets/search.png'
 
 import { ShopsDataContext } from '../../../../utils/Context/ShopsDataContext'
 import { UserInterfaceContext } from '../../../../utils/Context/UserInterfaceContext'
+import layout from '../../../../utils/Style/Layout'
 
 const InputFilterWrapper = styled.div`
     position: relative;
@@ -28,13 +29,15 @@ const ResearchIcon = styled.img`
 `
 
 const ResearchInput = styled.input`
-    width: 90px;
+    width: calc(((${layout.SideBarWidth} - 30px) / 2) - 60px);
+    /* width: 110px; */
+    /* width: 90px; */
     height: 35px;
     border-radius: 20px;
     margin-right: 5px;
     border: 0;
     box-shadow: 0px 0px 10px gray;
-    padding-left: 2rem;
+    padding-left: 30px;
     padding-right: 30px;
     color: #292929;
     font-family: sans-serif;
