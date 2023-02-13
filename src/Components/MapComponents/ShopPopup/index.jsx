@@ -11,17 +11,13 @@ const PopupContainer = styled(Popup)`
     .leaflet-popup-content {
         margin: 0;
     }
-
-    .leaflet-popup-tip-container {
-    }
 `
 const OverviewImage = styled.img`
-    width: 250px;
+    width: 100%;
     height: 150px;
+    object-fit: cover;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-
-    object-fit: cover;
 `
 
 const ShopName = styled.div`

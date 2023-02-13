@@ -13,7 +13,6 @@ const TypeDropdownButton = styled.div`
     line-height: 13px;
     background-color: #f8f8f4;
 
-    z-index: 500;
     border-radius: 20px;
     color: #292929;
     font-family: sans-serif;
@@ -58,13 +57,13 @@ const DropdownMenu = styled.div`
 
 const ArrowDownIcon = styled.img`
     width: 15px;
+    padding: 5px;
+    margin-right: -5px;
+    border-radius: 15px;
+
     &:hover {
         background-color: #00000015;
     }
-    border-radius: 15px;
-    padding: 5px;
-    margin-left: -5px;
-    margin-right: -5px;
     filter: ${(props) =>
         props.type !== 'all'
             ? ' drop-shadow(.2px .2px 0px #fff) brightness(0) invert(1) '

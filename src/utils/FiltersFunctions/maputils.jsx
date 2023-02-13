@@ -35,32 +35,6 @@ export function filterShopsByMapBounds(map, scope, research) {
     }
 }
 
-export function updateShops({
-    research,
-    filteredCategories,
-    filteredType,
-    map,
-    scope,
-    localize,
-}) {
-    const filteredShops = filterShopsBySearch(
-        research,
-        recursiveCategoryFilter(
-            [...filteredCategories, filteredType],
-            filterShopsByMapBounds(map, scope, research)
-        )
-    )
-        .sort(alphabetical)
-        .slice(0, 100)
-
-    // console.log(`localize : ${localize}`)
-    if (localize) {
-        localizeShops(filteredShops, map)
-    }
-
-    return filteredShops
-}
-
 export function getNewBounds(displayedShops) {
     const maxLat = Math.max(
         ...displayedShops.map((shop) => {
@@ -117,16 +91,6 @@ export function recursiveCategoryFilter(filters, shopList) {
         return recursiveCategoryFilter(filters.slice(1), newShopList)
     }
 }
-
-// export function filterByType(type, shops) {
-//     return type.ID === 'all'
-//         ? shops
-//         : shops.filter((shop) => {
-//               if (shop.categories)
-//                   return shop.categories.some((cat) => cat.slug === type.ID)
-//               else return false
-//           })
-// }
 
 export function filterShopsBySearch(searchInput, shopList) {
     if (searchInput === '') {

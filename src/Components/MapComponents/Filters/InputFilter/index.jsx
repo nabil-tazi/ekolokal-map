@@ -79,17 +79,11 @@ function InputFilter() {
 
     const inputRef = useRef(null)
 
-    function handleInputChange() {
-        closeModal()
-    }
-
     function handleSearchInput() {
-        setResearch(inputRef.current.value)
-        updateDisplayedShops(
-            ACTIONS.CHANGE_SEARCH_INPUT,
-            inputRef.current.value
-        )
-        if (inputRef.current.value !== '') openSideBar()
+        const currentInput = inputRef.current.value
+        setResearch(currentInput)
+        updateDisplayedShops(ACTIONS.CHANGE_SEARCH_INPUT, currentInput)
+        currentInput !== '' && openSideBar()
     }
 
     return (
@@ -102,15 +96,11 @@ function InputFilter() {
                 ref={inputRef}
                 type="text"
                 placeholder="Search"
-                onBlur={() => {
-                    handleSearchInput()
-                }}
+                onBlur={handleSearchInput}
                 onClick={closeDropdown}
-                onChange={handleInputChange}
+                onChange={closeModal}
                 onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                        handleSearchInput()
-                    }
+                    e.key === 'Enter' && handleSearchInput()
                 }}
                 active={noResearch ? 'inactive' : 'active'}
             ></ResearchInput>

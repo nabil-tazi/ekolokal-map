@@ -1,29 +1,13 @@
 import { useEffect, useState } from 'react'
 
-// export function useLocalStorage(id) {
-//     const [data, setData] = useState()
-
-//     useEffect(() => {
-//         if (!id) return
-
-//         async function getStoredData() {
-//             try {
-//                 const storedData = await JSON.parse(localStorage.getItem(id))
-//                 setData(storedData)
-//             } catch (err) {
-//                 console.log(err)
-//             } finally {
-//             }
-//         }
-//         getStoredData()
-//     }, [id])
-
-//     return { data }
-// }
-
 export const useLocalStorage = (key, defaultValue) => {
+    const [isLoadingStorage, setLoadingStorage] = useState(true)
+
     const [value, setValue] = useState(() => {
+        setLoadingStorage(true)
         try {
+            console.log('reading')
+
             const saved = localStorage.getItem(key)
             if (saved !== null) {
                 return JSON.parse(saved)
@@ -31,16 +15,15 @@ export const useLocalStorage = (key, defaultValue) => {
             return defaultValue
         } catch {
             return defaultValue
+        } finally {
+            setLoadingStorage(false)
         }
     })
-
-    console.log('inside useLocalStorage')
-    console.log(value)
 
     useEffect(() => {
         const rawValue = JSON.stringify(value)
         localStorage.setItem(key, rawValue)
     }, [value])
 
-    return [value, setValue]
+    return [isLoadingStorage, value, setValue]
 }

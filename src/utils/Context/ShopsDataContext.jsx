@@ -1,19 +1,32 @@
-import { useState, createContext, useRef, useReducer, useContext } from 'react'
+import {
+    useState,
+    createContext,
+    useRef,
+    useReducer,
+    useContext,
+    useEffect,
+} from 'react'
 
 import { UserInterfaceContext } from './UserInterfaceContext'
 import { ScopeContext } from './ScopeContext'
 
 import { TYPES } from '../Configuration/TypeConfig'
 
-import { updateShops } from '../maputils'
+import {
+    filterShopsBySearch,
+    recursiveCategoryFilter,
+    filterShopsByMapBounds,
+    alphabetical,
+    localizeShops,
+} from '../FiltersFunctions/maputils'
 
 export const ShopsDataContext = createContext()
 
 export const ShopsDataProvider = ({ children }) => {
-    const { resetLazyLoad } = useContext(UserInterfaceContext)
-    const { currentScope } = useContext(ScopeContext)
-
     const mapRef = useRef()
+
+    const { resetLazyLoad, openModal } = useContext(UserInterfaceContext)
+    const { fetchedData, currentScope } = useContext(ScopeContext)
 
     const [research, setResearch] = useState('')
     const [filteredCategories, saveFilteredCategories] = useState([])
@@ -23,6 +36,38 @@ export const ShopsDataProvider = ({ children }) => {
 
     const initialState = {
         displayedShops: [],
+    }
+
+    useEffect(() => {
+        dispatch({
+            type: ACTIONS.INIT,
+        })
+    }, [fetchedData])
+
+    function updateShops({
+        research,
+        filteredCategories,
+        filteredType,
+        map,
+        scope,
+        localize,
+        openSingleResultModal,
+    }) {
+        const filteredShops = filterShopsBySearch(
+            research,
+            recursiveCategoryFilter(
+                [...filteredCategories, filteredType],
+                filterShopsByMapBounds(map, scope, research)
+            )
+        )
+            .sort(alphabetical)
+            .slice(0, 100)
+
+        openSingleResultModal && filteredShops.length === 1
+            ? openModal(map, filteredShops[0], 16)
+            : localize && localizeShops(filteredShops, map)
+
+        return filteredShops
     }
 
     const ACTIONS = {
@@ -43,7 +88,7 @@ export const ShopsDataProvider = ({ children }) => {
             map: mapRef.current,
             scope: currentScope,
             localize: false,
-            openModal: false,
+            openSingleResultModal: false,
         }
 
         switch (action.type) {
@@ -52,11 +97,12 @@ export const ShopsDataProvider = ({ children }) => {
                 break
             case ACTIONS.CHANGE_SCOPE:
                 params.scope = action.param
+                params.localize = true
                 break
             case ACTIONS.CHANGE_SEARCH_INPUT:
                 params.research = action.param
                 params.localize = true
-                params.openModal = true
+                params.openSingleResultModal = true
                 resetLazyLoad()
                 break
             case ACTIONS.CHANGE_TYPE:
@@ -84,8 +130,6 @@ export const ShopsDataProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(reducer, initialState)
 
-    //Comme scope sera utilisé par le ShopsDataContext et le Menu/Category/Type Context, il devrait être son propre Hook,
-    //et les deux contextes le consomment
     return (
         <ShopsDataContext.Provider
             value={{

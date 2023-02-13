@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { SCOPES, ScopesMenu } from '../../utils/Configuration/ScopeConfig'
+import { ScopesMenu } from '../../utils/Configuration/ScopeConfig'
 import { useContext } from 'react'
 import { ShopsDataContext } from '../../utils/Context/ShopsDataContext'
 import { FiltersMenuContext } from '../../utils/Context/FiltersMenuContext'
@@ -55,13 +55,8 @@ const LanguageButton = styled.div`
 `
 
 function MenuBar() {
-    // const { currentScope, switchScope, updateDisplayedShops, ACTIONS } =
-    //     useContext(ShopsDataContext)
-
     const { updateDisplayedShops, ACTIONS } = useContext(ShopsDataContext)
-
     const { currentScope, switchScope } = useContext(ScopeContext)
-
     const { updateTypesMenu } = useContext(FiltersMenuContext)
 
     const { isSideBarOpen, toggleSideBar, closeDropdown, resetLazyLoad } =

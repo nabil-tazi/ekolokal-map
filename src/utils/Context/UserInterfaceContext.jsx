@@ -19,19 +19,29 @@ export const UserInterfaceProvider = ({ children }) => {
         map.flyTo(targetLatLng, targetZoom, { duration: 0.5 })
     }
 
-    function openModal(map, shopLatLng, shop, zoomLevel) {
+    function openModal(map, shop, zoomLevel) {
+        console.log('Opening Modal function')
+        console.log(shop)
         openOverview(shop.id)
         setModalShop(shop)
-        flyToShop(map, shopLatLng, zoomLevel)
+        flyToShop(
+            map,
+            [
+                parseFloat(shop.geolocation_lat[0]),
+                parseFloat(shop.geolocation_long[0]),
+            ],
+            zoomLevel
+        )
     }
 
     function closeModal() {
+        console.log('Closing Modal function')
         closeOverview()
         closeDropdown()
         setModalShop({ id: 0 })
     }
 
-    // const isModalClosed = !modalShop.id
+    const isModalClosed = !modalShop.id
 
     function closeOverview() {
         console.log('closing overview')
@@ -80,7 +90,7 @@ export const UserInterfaceProvider = ({ children }) => {
                 loadedItems,
                 openModal,
                 closeModal,
-                // isModalClosed,
+                isModalClosed,
                 closeOverview,
                 toggleDropdown,
                 closeDropdown,

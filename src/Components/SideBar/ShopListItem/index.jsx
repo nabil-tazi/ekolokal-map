@@ -25,21 +25,17 @@ const ItemContainer = styled.div`
     cursor: pointer;
 `
 const ImageTitle = styled.div`
-    /* width: 200px; */
     height: 120px;
     position: relative;
     font-family: sans-serif;
     font-size: 13px;
     border-radius: 5px;
-    /* flex-basis: 60%; */
     flex-basis: 200px;
 `
 const RightColumn = styled.div`
     display: flex;
     flex-direction: column;
-    /* width: 130px; */
     align-items: flex-start;
-    /* flex-basis: 40%; */
     flex-basis: 130px;
 `
 const BusinessHours = styled.div`
@@ -70,37 +66,16 @@ const TitleThumbnail = styled.div`
 
 function ShopListItem({ shop }) {
     const { mapRef } = useContext(ShopsDataContext)
-    const { openOverview, modalShop, openModal, closeOverview } =
+    const { openOverview, modalShop, openModal, closeOverview, isModalClosed } =
         useContext(UserInterfaceContext)
 
-    function handleHover() {
-        if (!modalShop.id) {
-            openOverview(shop.id)
-        }
-    }
-
-    function handleMouseOut() {
-        if (!modalShop.id) {
-            closeOverview()
-        }
-    }
-
-    function handleClick() {
-        openModal(
-            mapRef.current,
-            [
-                parseFloat(shop.geolocation_lat[0]),
-                parseFloat(shop.geolocation_long[0]),
-            ],
-            shop,
-            mapRef.current.getZoom()
-        )
-    }
     return (
         <ItemContainer
-            onMouseEnter={handleHover}
-            onMouseLeave={handleMouseOut}
-            onClick={handleClick}
+            onMouseEnter={() => isModalClosed && openOverview(shop.id)}
+            onMouseLeave={() => isModalClosed && closeOverview()}
+            onClick={() => {
+                openModal(mapRef.current, shop, mapRef.current.getZoom())
+            }}
             active={modalShop.id === shop.id}
         >
             <ImageTitle>

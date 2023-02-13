@@ -1,40 +1,29 @@
-import { useState, useContext, useEffect } from 'react'
-import { ShopsDataContext } from '../Context/ShopsDataContext'
-import { recursiveCategoryFilter } from '../maputils'
-import { TYPES } from '../Configuration/TypeConfig'
-import { ScopeContext } from '../Context/ScopeContext'
+import { useState, useEffect } from 'react'
 
 export function useFetch(url) {
-    const [isLoading, setLoading] = useState(true)
+    const [isLoadingFetch, setLoadingFetch] = useState(true)
     const [error, setError] = useState(false)
 
-    const { initDisplayedShops } = useContext(ShopsDataContext)
-
-    const { initAllShops, initAllEvents, initScope } = useContext(ScopeContext)
+    const [fetchedData, setData] = useState([])
 
     useEffect(() => {
         if (!url) return
-        setLoading(true)
+        setLoadingFetch(true)
 
-        async function fetchShops() {
+        async function fetchData() {
             try {
                 const response = await fetch(url)
                 const parsedData = await response.json()
-                initAllShops(parsedData)
-                initAllEvents(
-                    recursiveCategoryFilter([TYPES.EVENT], parsedData)
-                )
-                initScope(parsedData)
-                initDisplayedShops()
+                setData(parsedData)
             } catch (err) {
                 console.log(err)
                 setError(true)
             } finally {
-                setLoading(false)
+                setLoadingFetch(false)
             }
         }
-        fetchShops()
+        fetchData()
     }, [url])
 
-    return { isLoading }
+    return { isLoadingFetch, fetchedData }
 }

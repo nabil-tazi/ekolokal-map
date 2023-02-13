@@ -1,6 +1,9 @@
 import { createContext, useState, useEffect } from 'react'
 import { INITIAL_SCOPE, SCOPES } from '../Configuration/ScopeConfig'
+import { useFetch } from '../Hooks/Fetch'
 import { useLocalStorage } from '../Hooks/LocalStorage'
+import { recursiveCategoryFilter } from '../FiltersFunctions/maputils'
+import { TYPES } from '../Configuration/TypeConfig'
 
 export const ScopeContext = createContext()
 
@@ -24,22 +27,21 @@ export const ScopeProvider = ({ children }) => {
         setAllEvents(data)
     }
 
-    const [favoriteShops, saveFavoriteShops] = useLocalStorage('favorites', [])
+    const { isLoadingFetch, fetchedData } = useFetch(
+        `https://ekolokal.com/wp-json/wl/v1/shops`
+    )
 
-    console.log('ScopeContext')
-    console.log(favoriteShops)
+    useEffect(() => {
+        initAllShops(fetchedData)
+        initAllEvents(recursiveCategoryFilter([TYPES.EVENT], fetchedData))
+        initScope(fetchedData)
+        console.log('init scope and data')
+    }, [fetchedData])
 
-    // const [favoriteShops, setfav] = useState(storedFavorites)
+    const [isLoadingStorage, favoriteShops, saveFavoriteShops] =
+        useLocalStorage('favorites', [])
 
-    // const [favoriteShops, setfav] = useState(
-    //     localStorage.getItem('favorites') != null
-    //         ? JSON.parse(localStorage.getItem('favorites'))
-    //         : []
-    // )
-
-    // function saveFavoriteShops(newfav) {
-    //     setfav(newfav)
-    // }
+    const isLoading = isLoadingStorage || isLoadingFetch
 
     function isFavorite(shop) {
         return favoriteShops
@@ -70,6 +72,7 @@ export const ScopeProvider = ({ children }) => {
     return (
         <ScopeContext.Provider
             value={{
+                fetchedData,
                 currentScope,
                 switchScope,
                 initScope,
@@ -80,6 +83,7 @@ export const ScopeProvider = ({ children }) => {
                 favoriteShops,
                 saveFavoriteShops,
                 isFavorite,
+                isLoading,
             }}
         >
             {children}

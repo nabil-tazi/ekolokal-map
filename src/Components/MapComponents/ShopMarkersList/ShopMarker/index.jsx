@@ -14,7 +14,7 @@ function ShopMarker({ shop, categories, mapRef, favorite }) {
         openOverview,
         closeDropdown,
         openModal,
-        // isModalClosed,
+        isModalClosed,
     } = useContext(UserInterfaceContext)
 
     useEffect(() => {
@@ -24,19 +24,6 @@ function ShopMarker({ shop, categories, mapRef, favorite }) {
             markerRef.current.closePopup()
         }
     }, [overview])
-
-    function handleClick() {
-        openModal(
-            mapRef.current,
-            [
-                parseFloat(shop.geolocation_lat[0]),
-                parseFloat(shop.geolocation_long[0]),
-            ],
-            shop,
-            mapRef.current.getZoom()
-        )
-        closeDropdown()
-    }
 
     return (
         <Marker
@@ -48,7 +35,7 @@ function ShopMarker({ shop, categories, mapRef, favorite }) {
             icon={getIconUponCategories(categories, favorite)}
             eventHandlers={{
                 mouseover: () => {
-                    if (!modalShop.id || modalShop.id === shop.id) {
+                    if (isModalClosed || modalShop.id === shop.id) {
                         openOverview(shop.id)
                     }
                 },
@@ -57,7 +44,8 @@ function ShopMarker({ shop, categories, mapRef, favorite }) {
                 },
                 click: (event) => {
                     event.target.openPopup()
-                    handleClick()
+                    openModal(mapRef.current, shop, mapRef.current.getZoom())
+                    closeDropdown()
                 },
             }}
         >

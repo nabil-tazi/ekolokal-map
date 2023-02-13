@@ -1,13 +1,6 @@
 import { useContext } from 'react'
 import { ShopsDataContext } from '../../../../../utils/Context/ShopsDataContext'
-// import fairtrade from '../../../assets/fairtrade.png'
-// import nobin from '../../../assets/nobin.png'
-// import noplastic from '../../../assets/noplastic.png'
-// import organic from '../../../assets/organic.png'
-// import plantbased from '../../../assets/plantbased.png'
-
 import styled from 'styled-components'
-import { UserInterfaceContext } from '../../../../../utils/Context/UserInterfaceContext'
 
 const CategoryIcon = styled.img`
     width: 28px;
@@ -22,10 +15,7 @@ const CategoryFilter = styled.div`
     max-width: 100px;
     height: 37px;
     line-height: 13px;
-    /* background-color: #f8f8f4; */
-    z-index: 500;
     border-radius: 20px;
-    /* color: #292929; */
     color: ${(props) => (props.active === 'active' ? 'white' : '#292929')};
     font-family: sans-serif;
     font-size: 13px;
@@ -57,8 +47,6 @@ function CategoryFilterButton({ CATEGORY }) {
         updateDisplayedShops,
     } = useContext(ShopsDataContext)
 
-    const { closeOverview } = useContext(UserInterfaceContext)
-
     function handleCategoryClick(clickedCategory) {
         const filteringDown = !filteredCategories.includes(clickedCategory)
 
@@ -67,8 +55,6 @@ function CategoryFilterButton({ CATEGORY }) {
             : filteredCategories.filter((e) => e.ID !== clickedCategory.ID)
 
         saveFilteredCategories(newFilters)
-        closeOverview()
-
         updateDisplayedShops(ACTIONS.CHANGE_CATEGORIES, newFilters)
     }
 

@@ -3,10 +3,8 @@ import styled from 'styled-components'
 import CategoryFilterButton from '../CategoryFilters/CategoryFilterButton'
 import InputFilter from '../InputFilter'
 
-import { useContext, useEffect } from 'react'
-import { ShopsDataContext } from '../../../../utils/Context/ShopsDataContext'
+import { useContext } from 'react'
 import { FiltersMenuContext } from '../../../../utils/Context/FiltersMenuContext'
-import { UserInterfaceContext } from '../../../../utils/Context/UserInterfaceContext'
 import TypeDropdownFilter from '../TypeFilter/TypeDropdownFilter'
 
 const FilterBarWrapper = styled.div`
@@ -31,23 +29,7 @@ const CategoryFilters = styled.div`
 `
 
 function FilterBar() {
-    const { research, mapRef, displayedShops } = useContext(ShopsDataContext)
     const { CategoriesMenu } = useContext(FiltersMenuContext)
-    const { openModal } = useContext(UserInterfaceContext)
-
-    useEffect(() => {
-        if (displayedShops.length === 1 && research) {
-            openModal(
-                mapRef.current,
-                [
-                    parseFloat(displayedShops[0].geolocation_lat[0]),
-                    parseFloat(displayedShops[0].geolocation_long[0]),
-                ],
-                displayedShops[0].id,
-                16
-            )
-        }
-    }, [displayedShops])
 
     return (
         <FilterBarWrapper>
