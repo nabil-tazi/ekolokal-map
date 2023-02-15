@@ -18,6 +18,7 @@ import {
     filterShopsByMapBounds,
     alphabetical,
     localizeShops,
+    isContained,
 } from '../FiltersFunctions/maputils'
 
 export const ShopsDataContext = createContext()
@@ -25,7 +26,8 @@ export const ShopsDataContext = createContext()
 export const ShopsDataProvider = ({ children }) => {
     const mapRef = useRef()
 
-    const { resetLazyLoad, openModal } = useContext(UserInterfaceContext)
+    const { resetLazyLoad, openModal, modalShop, closeModal } =
+        useContext(UserInterfaceContext)
     const { fetchedData, currentScope } = useContext(ScopeContext)
 
     const [research, setResearch] = useState('')
@@ -67,6 +69,8 @@ export const ShopsDataProvider = ({ children }) => {
             ? openModal(map, filteredShops[0], 16)
             : localize && localizeShops(filteredShops, map)
 
+        modalShop.id && !isContained(modalShop, filteredShops) && closeModal()
+
         return filteredShops
     }
 
@@ -96,8 +100,8 @@ export const ShopsDataProvider = ({ children }) => {
                 params.map = action.param
                 break
             case ACTIONS.CHANGE_SCOPE:
-                params.scope = action.param
-                params.localize = true
+                params.scope = action.param.clickedScope
+                params.localize = !action.param.isNewScope
                 break
             case ACTIONS.CHANGE_SEARCH_INPUT:
                 params.research = action.param
@@ -145,6 +149,8 @@ export const ShopsDataProvider = ({ children }) => {
                 displayedShops: state.displayedShops,
 
                 updateDisplayedShops: (actionType, param) => {
+                    console.log('reducer')
+
                     dispatch({ type: actionType, param: param })
                 },
 

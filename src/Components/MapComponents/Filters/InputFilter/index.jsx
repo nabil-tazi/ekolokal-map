@@ -8,6 +8,8 @@ import search from '../../../../assets/search.png'
 import { ShopsDataContext } from '../../../../utils/Context/ShopsDataContext'
 import { UserInterfaceContext } from '../../../../utils/Context/UserInterfaceContext'
 import layout from '../../../../utils/Style/Layout'
+import colors from '../../../../utils/Style/Colors'
+import font from '../../../../utils/Style/Font'
 
 const InputFilterWrapper = styled.div`
     position: relative;
@@ -30,8 +32,6 @@ const ResearchIcon = styled.img`
 
 const ResearchInput = styled.input`
     width: calc(((${layout.SideBarWidth} - 30px) / 2) - 60px);
-    /* width: 110px; */
-    /* width: 90px; */
     height: 35px;
     border-radius: 20px;
     margin-right: 5px;
@@ -39,20 +39,20 @@ const ResearchInput = styled.input`
     box-shadow: 0px 0px 10px gray;
     padding-left: 30px;
     padding-right: 30px;
-    color: #292929;
-    font-family: sans-serif;
-    font-size: 13px;
-    font-weight: 200;
+    font-size: ${font.textSize};
 
     &:focus {
         outline: none;
     }
     text-shadow: ${(props) =>
         props.active === 'active' ? '-0.1px 0 #fff, 0.1px 0 #fff' : null};
-    color: ${(props) => (props.active === 'active' ? 'white' : '#292929')};
+    color: ${(props) =>
+        props.active === 'active' ? colors.activeText : colors.primaryText};
 
     background-color: ${(props) =>
-        props.active === 'active' ? '#b2bdca' : '#f8f8f4'};
+        props.active === 'active'
+            ? colors.activeBackground
+            : colors.primaryBackground};
 `
 
 const RemoveSearchInput = styled.img`

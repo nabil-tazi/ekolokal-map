@@ -9,6 +9,7 @@ export function alphabetical(a, b) {
 }
 
 export function localizeShops(filteredShops, map) {
+    console.log('LOCALIZE')
     if (filteredShops.length === 0) return
     map.fitBounds(getNewBounds(filteredShops), {
         paddingTopLeft: L.point(500, 200),
@@ -16,9 +17,17 @@ export function localizeShops(filteredShops, map) {
     })
 }
 
+export function isContained(shop, shopList) {
+    return shopList
+        ? shopList.some((dispShop) => dispShop.id === shop.id)
+        : false
+}
+
 export function filterShopsByMapBounds(map, scope, research) {
     if (scope.LOCALIZED && research === '') {
-        const adjustedBounds = map.getBounds().pad(-0.9)
+        // const adjustedBounds = map.getBounds().pad(-0.9)
+        const adjustedBounds = map.getBounds().pad(0)
+
         return scope.DATA.filter(
             (shop) =>
                 parseFloat(shop.geolocation_lat[0]) >

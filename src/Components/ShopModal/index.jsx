@@ -15,18 +15,21 @@ import IconList from '../CategoriesIcon/IconList'
 import { UserInterfaceContext } from '../../utils/Context/UserInterfaceContext'
 import { ScopeContext } from '../../utils/Context/ScopeContext'
 
+import layout from '../../utils/Style/Layout'
+
 const ShopModalWrapper = styled.div`
     position: absolute;
     display: flex;
     flex-direction: column;
-    border-radius: 5px;
-    left: 470px;
+    border-radius: ${layout.slightBorderRadius};
+    // prettier-ignore
+    left: calc(${layout.menuBarWidth} + ${layout.SideBarWidth} + ${layout.overlaysSpacing});
     top: 10vh;
-    width: 600px;
+    width: ${layout.baseModalWidth};
+    max-width: ${layout.maxOverlayWidth};
     height: 80vh;
-    background-color: ${colors.primaryBackground};
+    background-color: ${colors.transparentBackground};
     z-index: 500;
-    opacity: 95%;
     box-shadow: 0px 0px 10px gray;
     font-size: ${font.textSize};
 `
@@ -64,10 +67,6 @@ const BottomWrapper = styled.div`
     height: 90px;
 `
 const ShopName = styled.h2`
-    color: ${colors.titleText};
-    font-size: ${font.titleSize};
-    font-family: ${font.titleFamily};
-    font-weight: ${font.titleWeight};
     margin: 0;
     line-height: 30px;
     margin-left: 20px;
@@ -94,7 +93,7 @@ const ImageDuo = styled.div`
     width: 50%;
 `
 const ImageLeft = styled.div`
-    width: 70%;
+    width: 63%;
     padding: 5px;
 `
 const ImageRight = styled.div`
@@ -180,12 +179,16 @@ function ShopModal({ shop }) {
 
     const { closeModal, flyToShop } = useContext(UserInterfaceContext)
 
+    const isModalShopFavorite = isFavorite(shop)
+
     function handleCloseModal() {
         closeModal()
     }
 
+    console.log(layout.maxOverlayWidth)
+
     function handleFavoriteClick() {
-        const newFavorites = isFavorite(shop)
+        const newFavorites = isModalShopFavorite
             ? favoriteShops.filter((e) => e.id !== shop.id)
             : [...favoriteShops, shop]
 
@@ -197,7 +200,7 @@ function ShopModal({ shop }) {
         <ShopModalWrapper>
             <FirstLine>
                 <FavoriteIcon
-                    src={isFavorite(shop) ? fullHeart : emptyHeart}
+                    src={isModalShopFavorite ? fullHeart : emptyHeart}
                     onClick={handleFavoriteClick}
                 ></FavoriteIcon>
                 <ShopName>{shop.title.toUpperCase()}</ShopName>

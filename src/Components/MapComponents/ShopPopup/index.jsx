@@ -5,8 +5,8 @@ const PopupContainer = styled(Popup)`
     .leaflet-popup-content-wrapper {
         padding: 0;
         border-radius: 5px;
-        height: 250px;
-        width: 250px;
+        height: 230px;
+        width: 200px;
     }
     .leaflet-popup-content {
         margin: 0;
@@ -14,7 +14,7 @@ const PopupContainer = styled(Popup)`
 `
 const OverviewImage = styled.img`
     width: 100%;
-    height: 150px;
+    height: 120px;
     object-fit: cover;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;

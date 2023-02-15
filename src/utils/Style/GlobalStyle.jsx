@@ -13,6 +13,13 @@ const StyledGlobalStyle = createGlobalStyle`
         color: ${colors.primaryText};
     }
 
+    h2 {
+        font-family: ${font.titleFamily};
+        font-weight: ${font.titleWeight};
+        color: ${colors.titleText};
+        font-size: ${font.titleSize};
+    }
+
     .leaflet-control-attribution {
         display: none;
     }

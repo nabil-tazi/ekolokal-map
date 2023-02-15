@@ -4,26 +4,30 @@ import { FiltersMenuContext } from '../../../../../utils/Context/FiltersMenuCont
 
 import styled from 'styled-components'
 import { UserInterfaceContext } from '../../../../../utils/Context/UserInterfaceContext'
+import layout from '../../../../../utils/Style/Layout'
+import colors from '../../../../../utils/Style/Colors'
 
 const DropdownEntry = styled.div`
-    background-color: #f8f8f4;
     padding: 3px;
     text-align: center;
-    font-family: sans-serif;
-    font-size: 13px;
-    font-weight: 200;
-    color: ${(props) => (props.active === 'active' ? 'white' : '#292929')};
-    border-radius: 5px;
+
+    color: ${(props) =>
+        props.active === 'active' ? colors.activeText : colors.primaryText};
+    border-radius: ${layout.slightBorderRadius};
     border: 5px solid transparent;
 
     cursor: pointer;
     &:hover {
         background-color: ${(props) =>
-            props.active === 'active' ? '#b2bdca' : '#00000010'};
+            props.active === 'active'
+                ? colors.activeBackground
+                : colors.hoverBackground};
     }
 
     background-color: ${(props) =>
-        props.active === 'active' ? '#b2bdca' : '#f8f8f4'};
+        props.active === 'active'
+            ? colors.activeBackground
+            : colors.primaryBackground};
 `
 
 function TypeDropdownEntry({ TYPE }) {
@@ -42,7 +46,7 @@ function TypeDropdownEntry({ TYPE }) {
     return (
         <DropdownEntry
             onClick={() => handleTypeSelect(TYPE)}
-            active={filteredType === TYPE.ID ? 'active' : 'inactive'}
+            active={filteredType.ID === TYPE.ID ? 'active' : 'inactive'}
         >
             {TYPE.ENGLISH}
         </DropdownEntry>

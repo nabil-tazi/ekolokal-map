@@ -1,4 +1,5 @@
 import { createContext, useState } from 'react'
+import layout from '../Style/Layout'
 
 export const UserInterfaceContext = createContext()
 
@@ -10,7 +11,10 @@ export const UserInterfaceProvider = ({ children }) => {
     const [loadedItems, setLoadedItems] = useState(20)
 
     function flyToShop(map, shopLatLng, targetZoom) {
-        const overlayWidth = 1000
+        // const overlayWidth = 1000
+        console.log(layout.maxOverlayWidth)
+        // console.log(maxOverlayWidth)
+        const overlayWidth = Math.min(layout.widthTaken, 600 + layout.leftBLock)
         var targetPoint = map
             .project(shopLatLng, targetZoom)
             .subtract([overlayWidth / 2, 0])

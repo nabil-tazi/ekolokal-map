@@ -10,8 +10,8 @@ import layout from '../../../../utils/Style/Layout'
 const FilterBarWrapper = styled.div`
     position: absolute;
     top: 5px;
-    width: calc(100% - ${layout.menuBarWidth} - 30px);
-    left: calc(${layout.menuBarWidth} + 20px);
+    width: calc(100% - ${layout.menuBarWidth} - 2 * ${layout.overlaysSpacing});
+    left: calc(${layout.menuBarWidth} + ${layout.overlaysSpacing});
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -21,7 +21,6 @@ const FilterBarWrapper = styled.div`
 
 const CategoryFilters = styled.div`
     padding: 15px;
-    /* width: calc(100%); */
     display: flex;
     justify-content: flex-start;
     gap: 20px;

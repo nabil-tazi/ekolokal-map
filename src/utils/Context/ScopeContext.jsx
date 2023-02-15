@@ -5,6 +5,8 @@ import { useLocalStorage } from '../Hooks/LocalStorage'
 import { recursiveCategoryFilter } from '../FiltersFunctions/maputils'
 import { TYPES } from '../Configuration/TypeConfig'
 
+import { isContained } from '../FiltersFunctions/maputils'
+
 export const ScopeContext = createContext()
 
 export const ScopeProvider = ({ children }) => {
@@ -44,10 +46,14 @@ export const ScopeProvider = ({ children }) => {
     const isLoading = isLoadingStorage || isLoadingFetch
 
     function isFavorite(shop) {
-        return favoriteShops
-            ? favoriteShops.some((favshop) => favshop.id === shop.id)
-            : false
+        return isContained(shop, favoriteShops)
     }
+
+    // function isFavorite(shop) {
+    //     return favoriteShops
+    //         ? favoriteShops.some((favshop) => favshop.id === shop.id)
+    //         : false
+    // }
 
     function switchScope(clickedScope) {
         switch (clickedScope.ID) {

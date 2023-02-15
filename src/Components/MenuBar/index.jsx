@@ -68,9 +68,12 @@ function MenuBar() {
         closeDropdown()
         if (clickedScope.ID === currentScope.ID || !isSideBarOpen)
             toggleSideBar()
-        switchScope(clickedScope)
-        updateDisplayedShops(ACTIONS.CHANGE_SCOPE, clickedScope)
+        updateDisplayedShops(ACTIONS.CHANGE_SCOPE, {
+            clickedScope: clickedScope,
+            isNewScope: clickedScope.ID === currentScope.ID,
+        })
         updateTypesMenu(clickedScope)
+        switchScope(clickedScope)
     }
 
     return (

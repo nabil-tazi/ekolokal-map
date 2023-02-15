@@ -7,20 +7,15 @@ import { FiltersMenuContext } from '../../../../../utils/Context/FiltersMenuCont
 import { UserInterfaceContext } from '../../../../../utils/Context/UserInterfaceContext'
 import TypeDropdownEntry from '../TypeDropdownEntry'
 import layout from '../../../../../utils/Style/Layout'
+import colors from '../../../../../utils/Style/Colors'
+import font from '../../../../../utils/Style/Font'
 
 const TypeDropdownButton = styled.div`
     height: 37px;
     width: calc(((${layout.SideBarWidth} - 30px) / 2) - 40px);
-
-    /* min-width: 130px; */
     line-height: 13px;
-    background-color: #f8f8f4;
-
     border-radius: 20px;
-    color: #292929;
-    font-family: sans-serif;
-    font-size: 13px;
-    font-weight: 200;
+    font-size: ${font.textSize};
     user-select: none;
     display: flex;
     justify-content: space-between;
@@ -35,29 +30,29 @@ const TypeDropdownButton = styled.div`
     flex-shrink: 0;
 
     background-color: ${(props) =>
-        props.type !== 'all' ? '#b2bdca' : '#f8f8f4'};
+        props.type !== 'all'
+            ? colors.activeBackground
+            : colors.primaryBackground};
 
     text-shadow: ${(props) =>
         props.type !== 'all' ? '-0.1px 0 #fff, 0.1px 0 #fff' : null};
 
-    color: ${(props) => (props.type !== 'all' ? 'white' : '#292929')};
+    color: ${(props) =>
+        props.type !== 'all' ? colors.activeText : colors.primaryText};
 `
 const DropdownMenu = styled.div`
     width: calc(((${layout.SideBarWidth} - 30px) / 2) - 40px);
     height: 124px;
-    font-family: sans-serif;
     font-size: 13px;
-    color: #292929;
-    font-weight: 200;
-    background-color: #f8f8f4;
-    border-radius: 5px;
+    color: ${colors.primaryText};
+    background-color: ${colors.primaryBackground};
+    border-radius: ${layout.slightBorderRadius};
     position: absolute;
     padding: 5px;
     padding-top: 15px;
     display: flex;
     flex-direction: column;
     box-shadow: 0px 0px 10px gray;
-    /* transform: translateY(82px) translateX(177px); */
     transform: translateY(82px)
         translateX(calc(((${layout.SideBarWidth} - 30px) / 2) + 20px));
 `

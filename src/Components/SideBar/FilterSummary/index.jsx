@@ -3,6 +3,7 @@ import { useContext } from 'react'
 import { ShopsDataContext } from '../../../utils/Context/ShopsDataContext'
 import colors from '../../../utils/Style/Colors'
 import font from '../../../utils/Style/Font'
+import layout from '../../../utils/Style/Layout'
 
 const Summary = styled.div`
     width: 80%;
@@ -11,7 +12,7 @@ const Summary = styled.div`
     margin-top: 70px;
     margin-bottom: 10px;
 
-    border-radius: 7px;
+    border-radius: ${layout.slightBorderRadius};
     font-size: ${font.textSize};
     color: ${colors.primaryText};
     background-color: ${colors.hoverBackground};

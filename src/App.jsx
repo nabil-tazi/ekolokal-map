@@ -10,6 +10,17 @@ import Logo from './utils/GenericComponents/Logo'
 import { UserInterfaceContext } from './utils/Context/UserInterfaceContext'
 import { ScopeContext } from './utils/Context/ScopeContext'
 
+import styled from 'styled-components'
+
+const Test = styled.div`
+    position: absolute;
+    left: 1200px;
+    top: 0;
+    width: 1px;
+    height: 100vh;
+    background-color: red;
+    z-index: 700;
+`
 function App() {
     const { isLoading } = useContext(ScopeContext)
     const { isSideBarOpen, modalShop } = useContext(UserInterfaceContext)
@@ -17,6 +28,7 @@ function App() {
 
     return (
         <>
+            {/* <Test></Test> */}
             {isLoading && <LoadingScreen />}
             <MenuBar />
             {isSideBarOpen && <SideBar />}

@@ -6,21 +6,17 @@ import { UserInterfaceContext } from '../../../utils/Context/UserInterfaceContex
 import colors from '../../../utils/Style/Colors'
 import font from '../../../utils/Style/Font'
 
+import layout from '../../../utils/Style/Layout'
+
 const ItemContainer = styled.div`
-    width: 88%;
+    width: 160px;
+    height: 170px;
     padding: 10px;
-    padding-right: 0px;
-    margin-bottom: 15px;
-    margin: auto;
+    flex: 1 1 40%;
 
     font-size: ${font.textSize};
 
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    gap: 15px;
-
-    border-radius: 7px;
+    border-radius: ${layout.slightBorderRadius};
 
     background-color: ${(props) =>
         props.active ? colors.activeBackground : 'null'};
@@ -32,16 +28,16 @@ const ItemContainer = styled.div`
     cursor: pointer;
 `
 const ImageTitle = styled.div`
-    height: 120px;
+    width: 160px;
+    height: 130px;
     position: relative;
-    border-radius: 5px;
-    flex-basis: 200px;
+    border-radius: ${layout.slightBorderRadius};
 `
 const RightColumn = styled.div`
-    display: flex;
+    /* display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    flex-basis: 100px;
+    align-items: flex-start; */
+    /* flex-basis: 100px; */
 `
 const BusinessHours = styled.div`
     width: 100px;
@@ -50,15 +46,15 @@ const ImageThumbnail = styled.img`
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 7px;
+    border-radius: ${layout.slightBorderRadius};
 `
 const TitleBackground = styled.div`
     position: absolute;
     width: 100%;
     bottom: 0px;
     background-color: ${colors.darkTransparent};
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: ${layout.slightBorderRadius};
+    border-bottom-right-radius: ${layout.slightBorderRadius};
 `
 const TitleThumbnail = styled.div`
     margin: 10px;
@@ -87,9 +83,9 @@ function ShopListItem({ shop }) {
                 </TitleBackground>
             </ImageTitle>
             <RightColumn>
-                <BusinessHours
+                {/* <BusinessHours
                     dangerouslySetInnerHTML={{ __html: shop.opening_hours[0] }}
-                ></BusinessHours>
+                ></BusinessHours> */}
                 <IconList iconSize="30px" shop={shop}></IconList>
             </RightColumn>
         </ItemContainer>

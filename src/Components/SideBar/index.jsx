@@ -26,11 +26,16 @@ const SideBarContainer = styled.div`
 `
 
 const ShopListContainer = styled.div`
-    width: calc(${layout.SideBarWidth});
+    width: calc(${layout.SideBarWidth} - ${layout.overlaysSpacing});
+    height: 100vh;
     overflow-x: hidden;
     display: flex;
-    flex-direction: column;
-    gap: 5px;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    align-content: flex-start;
+    gap: 5px 0px;
+    flex-wrap: wrap;
+    padding: 10px;
 `
 
 function SideBar() {
