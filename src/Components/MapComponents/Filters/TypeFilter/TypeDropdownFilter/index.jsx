@@ -12,7 +12,7 @@ import font from '../../../../../utils/Style/Font'
 
 const TypeDropdownButton = styled.div`
     height: 37px;
-    width: calc(((${layout.SideBarWidth} - 30px) / 2) - 40px);
+    width: calc(((${layout.SideBarWidthPx} - 30px) / 2) - 40px);
     line-height: 13px;
     border-radius: 20px;
     font-size: ${font.textSize};
@@ -41,7 +41,7 @@ const TypeDropdownButton = styled.div`
         props.type !== 'all' ? colors.activeText : colors.primaryText};
 `
 const DropdownMenu = styled.div`
-    width: calc(((${layout.SideBarWidth} - 30px) / 2) - 40px);
+    width: calc(((${layout.SideBarWidthPx} - 30px) / 2) - 40px);
     height: 124px;
     font-size: 13px;
     color: ${colors.primaryText};
@@ -54,7 +54,7 @@ const DropdownMenu = styled.div`
     flex-direction: column;
     box-shadow: 0px 0px 10px gray;
     transform: translateY(82px)
-        translateX(calc(((${layout.SideBarWidth} - 30px) / 2) + 20px));
+        translateX(calc(((${layout.SideBarWidthPx} - 30px) / 2) + 20px));
 `
 
 const ArrowDownIcon = styled.img`

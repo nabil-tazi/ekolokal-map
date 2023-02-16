@@ -31,7 +31,7 @@ const ResearchIcon = styled.img`
 `
 
 const ResearchInput = styled.input`
-    width: calc(((${layout.SideBarWidth} - 30px) / 2) - 60px);
+    width: calc(((${layout.SideBarWidthPx} - 30px) / 2) - 60px);
     height: 35px;
     border-radius: 20px;
     margin-right: 5px;

@@ -1,7 +1,6 @@
 import { createContext, useContext, useState } from 'react'
 import layout from '../Style/Layout'
 import { LayoutContext } from './LayoutContext'
-import { useWindowSize } from '../Hooks/WindowSize'
 
 export const UserInterfaceContext = createContext()
 
@@ -12,15 +11,7 @@ export const UserInterfaceProvider = ({ children }) => {
     const [isDropdownOpen, setDropdownOpen] = useState(false)
     const [loadedItems, setLoadedItems] = useState(20)
 
-    const windowSize = useWindowSize()
-
-    const widthTaken =
-        windowSize.width - layout.popupWidth - 2 * layout.overlaysSpacing
-
-    const maxOverlayWidth = Math.min(
-        widthTaken - layout.leftBLock,
-        layout.baseModalWidth
-    )
+    const { widthTaken } = useContext(LayoutContext)
 
     function flyToShop(map, shopLatLng, targetZoom) {
         const overlayWidth = Math.min(
@@ -36,8 +27,6 @@ export const UserInterfaceProvider = ({ children }) => {
     }
 
     function openModal(map, shop, zoomLevel) {
-        console.log('Opening Modal function')
-        console.log(shop)
         openOverview(shop.id)
         setModalShop(shop)
         flyToShop(
@@ -51,7 +40,6 @@ export const UserInterfaceProvider = ({ children }) => {
     }
 
     function closeModal() {
-        console.log('Closing Modal function')
         closeOverview()
         closeDropdown()
         setModalShop({ id: 0 })
@@ -60,7 +48,6 @@ export const UserInterfaceProvider = ({ children }) => {
     const isModalClosed = !modalShop.id
 
     function closeOverview() {
-        console.log('closing overview')
         openOverview(0)
     }
 
@@ -114,7 +101,6 @@ export const UserInterfaceProvider = ({ children }) => {
                 loadMoreShops,
                 resetLazyLoad,
                 flyToShop,
-                maxOverlayWidth,
             }}
         >
             {children}

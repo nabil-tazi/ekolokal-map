@@ -12,8 +12,8 @@ const maxOverlayWidth = Math.min(widthTaken - leftBLock, baseModalWidth)
 console.log(maxOverlayWidth)
 
 const layout = {
-    menuBarWidth: menuBarWidth.toString() + 'px',
-    SideBarWidth: SideBarWidth.toString() + 'px',
+    menuBarWidthPx: menuBarWidth.toString() + 'px',
+    SideBarWidthPx: SideBarWidth.toString() + 'px',
     popupWidth: popupWidth,
     baseModalWidthPx: baseModalWidth.toString() + 'px',
     baseModalWidth: baseModalWidth,

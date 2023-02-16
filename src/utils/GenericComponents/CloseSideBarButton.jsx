@@ -13,7 +13,7 @@ const LeftArrowIcon = styled.img`
 const CloseButton = styled.div`
     position: absolute;
     top: calc(50% - ${(props) => props.SIZE.HEIGHT} / 2);
-    left: calc(${layout.SideBarWidth} - ${(props) => props.SIZE.WIDTH} / 2);
+    left: calc(${layout.SideBarWidthPx} - ${(props) => props.SIZE.WIDTH} / 2);
 
     height: ${(props) => props.SIZE.HEIGHT};
     width: ${(props) => props.SIZE.WIDTH};

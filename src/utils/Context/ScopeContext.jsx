@@ -49,12 +49,6 @@ export const ScopeProvider = ({ children }) => {
         return isContained(shop, favoriteShops)
     }
 
-    // function isFavorite(shop) {
-    //     return favoriteShops
-    //         ? favoriteShops.some((favshop) => favshop.id === shop.id)
-    //         : false
-    // }
-
     function switchScope(clickedScope) {
         switch (clickedScope.ID) {
             case SCOPES.NONE:

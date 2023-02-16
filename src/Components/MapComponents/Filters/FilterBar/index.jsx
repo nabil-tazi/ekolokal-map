@@ -10,8 +10,10 @@ import layout from '../../../../utils/Style/Layout'
 const FilterBarWrapper = styled.div`
     position: absolute;
     top: 5px;
-    width: calc(100% - ${layout.menuBarWidth} - 2 * ${layout.overlaysSpacing});
-    left: calc(${layout.menuBarWidth} + ${layout.overlaysSpacingPx});
+    width: calc(
+        100% - ${layout.menuBarWidthPx} - 2 * ${layout.overlaysSpacingPx}
+    );
+    left: calc(${layout.menuBarWidthPx} + ${layout.overlaysSpacingPx});
     display: flex;
     justify-content: flex-start;
     align-items: center;

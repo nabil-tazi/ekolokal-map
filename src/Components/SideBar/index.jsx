@@ -15,8 +15,8 @@ import { UserInterfaceContext } from '../../utils/Context/UserInterfaceContext'
 const SideBarContainer = styled.div`
     position: absolute;
     top: 0;
-    left: ${layout.menuBarWidth};
-    width: ${layout.SideBarWidth};
+    left: ${layout.menuBarWidthPx};
+    width: ${layout.SideBarWidthPx};
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -26,7 +26,7 @@ const SideBarContainer = styled.div`
 `
 
 const ShopListContainer = styled.div`
-    width: calc(${layout.SideBarWidth} - ${layout.overlaysSpacing});
+    width: calc(${layout.SideBarWidthPx} - ${layout.overlaysSpacing});
     height: 100vh;
     overflow-x: hidden;
     display: flex;

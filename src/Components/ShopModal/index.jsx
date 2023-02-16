@@ -16,7 +16,7 @@ import { UserInterfaceContext } from '../../utils/Context/UserInterfaceContext'
 import { ScopeContext } from '../../utils/Context/ScopeContext'
 
 import layout from '../../utils/Style/Layout'
-import { LayoutContext } from '../../utils/context/LayoutContext'
+import { LayoutContext } from '../../utils/Context/LayoutContext'
 
 const ShopModalWrapper = styled.div`
     position: absolute;
@@ -24,7 +24,7 @@ const ShopModalWrapper = styled.div`
     flex-direction: column;
     border-radius: ${layout.slightBorderRadius};
     // prettier-ignore
-    left: calc(${layout.menuBarWidth} + ${layout.SideBarWidth} + ${layout.overlaysSpacingPx});
+    left: calc(${layout.menuBarWidthPx} + ${layout.SideBarWidthPx} + ${layout.overlaysSpacingPx});
     top: 10vh;
     width: ${layout.baseModalWidthPx};
     max-width: ${(props) => props.maxOverlayWidth + 'px'};
@@ -172,7 +172,8 @@ const AddressWrapper = styled.div`
 `
 
 function ShopModal({ shop }) {
-    const { maxOverlayWidth } = useContext(UserInterfaceContext)
+    // const { maxOverlayWidth } = useContext(UserInterfaceContext)
+    const { maxOverlayWidth } = useContext(LayoutContext)
 
     console.log('maxOverlayWidth')
     console.log(maxOverlayWidth)

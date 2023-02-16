@@ -28,7 +28,7 @@ const MenuWrapper = styled.div`
     position: absolute;
     left: 0;
     top: 0;
-    width: ${layout.menuBarWidth};
+    width: ${layout.menuBarWidthPx};
     height: 100vh;
     background-color: ${colors.primaryBackground};
     display: flex;
