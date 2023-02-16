@@ -11,7 +11,7 @@ const FilterBarWrapper = styled.div`
     position: absolute;
     top: 5px;
     width: calc(100% - ${layout.menuBarWidth} - 2 * ${layout.overlaysSpacing});
-    left: calc(${layout.menuBarWidth} + ${layout.overlaysSpacing});
+    left: calc(${layout.menuBarWidth} + ${layout.overlaysSpacingPx});
     display: flex;
     justify-content: flex-start;
     align-items: center;

@@ -1,5 +1,7 @@
-import { createContext, useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 import layout from '../Style/Layout'
+import { LayoutContext } from './LayoutContext'
+import { useWindowSize } from '../Hooks/WindowSize'
 
 export const UserInterfaceContext = createContext()
 
@@ -10,11 +12,21 @@ export const UserInterfaceProvider = ({ children }) => {
     const [isDropdownOpen, setDropdownOpen] = useState(false)
     const [loadedItems, setLoadedItems] = useState(20)
 
+    const windowSize = useWindowSize()
+
+    const widthTaken =
+        windowSize.width - layout.popupWidth - 2 * layout.overlaysSpacing
+
+    const maxOverlayWidth = Math.min(
+        widthTaken - layout.leftBLock,
+        layout.baseModalWidth
+    )
+
     function flyToShop(map, shopLatLng, targetZoom) {
-        // const overlayWidth = 1000
-        console.log(layout.maxOverlayWidth)
-        // console.log(maxOverlayWidth)
-        const overlayWidth = Math.min(layout.widthTaken, 600 + layout.leftBLock)
+        const overlayWidth = Math.min(
+            widthTaken,
+            layout.baseModalWidth + layout.leftBLock
+        )
         var targetPoint = map
             .project(shopLatLng, targetZoom)
             .subtract([overlayWidth / 2, 0])
@@ -102,6 +114,7 @@ export const UserInterfaceProvider = ({ children }) => {
                 loadMoreShops,
                 resetLazyLoad,
                 flyToShop,
+                maxOverlayWidth,
             }}
         >
             {children}

@@ -16,6 +16,7 @@ import { UserInterfaceContext } from '../../utils/Context/UserInterfaceContext'
 import { ScopeContext } from '../../utils/Context/ScopeContext'
 
 import layout from '../../utils/Style/Layout'
+import { LayoutContext } from '../../utils/context/LayoutContext'
 
 const ShopModalWrapper = styled.div`
     position: absolute;
@@ -23,10 +24,10 @@ const ShopModalWrapper = styled.div`
     flex-direction: column;
     border-radius: ${layout.slightBorderRadius};
     // prettier-ignore
-    left: calc(${layout.menuBarWidth} + ${layout.SideBarWidth} + ${layout.overlaysSpacing});
+    left: calc(${layout.menuBarWidth} + ${layout.SideBarWidth} + ${layout.overlaysSpacingPx});
     top: 10vh;
-    width: ${layout.baseModalWidth};
-    max-width: ${layout.maxOverlayWidth};
+    width: ${layout.baseModalWidthPx};
+    max-width: ${(props) => props.maxOverlayWidth + 'px'};
     height: 80vh;
     background-color: ${colors.transparentBackground};
     z-index: 500;
@@ -171,6 +172,11 @@ const AddressWrapper = styled.div`
 `
 
 function ShopModal({ shop }) {
+    const { maxOverlayWidth } = useContext(UserInterfaceContext)
+
+    console.log('maxOverlayWidth')
+    console.log(maxOverlayWidth)
+
     const { mapRef, ACTIONS, updateDisplayedShops } =
         useContext(ShopsDataContext)
 
@@ -184,8 +190,8 @@ function ShopModal({ shop }) {
     function handleCloseModal() {
         closeModal()
     }
-
-    console.log(layout.maxOverlayWidth)
+    console.log('basemodalWidth')
+    console.log(layout.baseModalWidthPx)
 
     function handleFavoriteClick() {
         const newFavorites = isModalShopFavorite
@@ -197,7 +203,7 @@ function ShopModal({ shop }) {
     }
 
     return (
-        <ShopModalWrapper>
+        <ShopModalWrapper maxOverlayWidth={maxOverlayWidth}>
             <FirstLine>
                 <FavoriteIcon
                     src={isModalShopFavorite ? fullHeart : emptyHeart}

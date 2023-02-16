@@ -1,11 +1,3 @@
-// const resizeObserver = new ResizeObserver((e) => {
-//     windowWidth = window.innerWidth
-// })
-
-// resizeObserver.observe(document.body)
-
-// addEventListener('resize', (event) => {})
-
 const windowWidth = window.innerWidth
 const overlaysSpacing = 15
 const menuBarWidth = 60
@@ -22,14 +14,13 @@ console.log(maxOverlayWidth)
 const layout = {
     menuBarWidth: menuBarWidth.toString() + 'px',
     SideBarWidth: SideBarWidth.toString() + 'px',
-    screenWidth: windowWidth,
     popupWidth: popupWidth,
-    baseModalWidth: baseModalWidth.toString + 'px',
-    maxOverlayWidth: maxOverlayWidth.toString() + 'px',
-    widthTaken: widthTaken,
+    baseModalWidthPx: baseModalWidth.toString() + 'px',
+    baseModalWidth: baseModalWidth,
     leftBLock: leftBLock,
     slightBorderRadius: '7px',
-    overlaysSpacing: overlaysSpacing.toString() + 'px',
+    overlaysSpacing: overlaysSpacing,
+    overlaysSpacingPx: overlaysSpacing.toString() + 'px',
 }
 
 export default layout
