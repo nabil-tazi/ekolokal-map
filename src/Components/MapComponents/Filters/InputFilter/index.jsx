@@ -11,6 +11,9 @@ import layout from '../../../../utils/Style/Layout'
 import colors from '../../../../utils/Style/Colors'
 import font from '../../../../utils/Style/Font'
 
+import { translations } from './InputFilterTranslations'
+import { useLanguage } from '../../../../utils/Hooks/Language'
+
 const InputFilterWrapper = styled.div`
     position: relative;
     display: flex;
@@ -80,6 +83,8 @@ function InputFilter() {
     const { openSideBar, closeDropdown, closeModal } =
         useContext(UserInterfaceContext)
 
+    const { currentLanguage } = useLanguage()
+
     const inputRef = useRef(null)
 
     function handleSearchInput() {
@@ -98,7 +103,7 @@ function InputFilter() {
             <ResearchInput
                 ref={inputRef}
                 type="text"
-                placeholder="Search"
+                placeholder={translations.PlaceHolder[currentLanguage.ID]}
                 onBlur={handleSearchInput}
                 onClick={closeDropdown}
                 onChange={closeModal}

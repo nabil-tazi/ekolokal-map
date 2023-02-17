@@ -1,4 +1,5 @@
 import { useContext } from 'react'
+import { useLanguage } from '../../../../../utils/Hooks/Language'
 import { ShopsDataContext } from '../../../../../utils/Context/ShopsDataContext'
 import styled from 'styled-components'
 import colors from '../../../../../utils/Style/Colors'
@@ -53,6 +54,8 @@ function CategoryFilterButton({ CATEGORY }) {
         updateDisplayedShops,
     } = useContext(ShopsDataContext)
 
+    const { currentLanguage } = useLanguage()
+
     function handleCategoryClick(clickedCategory) {
         const filteringDown = !filteredCategories.includes(clickedCategory)
 
@@ -80,7 +83,7 @@ function CategoryFilterButton({ CATEGORY }) {
                         : 'inactive'
                 }
             ></CategoryIcon>
-            {CATEGORY.ENGLISH}
+            {CATEGORY[currentLanguage.ID]}
         </CategoryFilter>
     )
 }

@@ -8,6 +8,8 @@ import { ScopeContext } from '../../utils/Context/ScopeContext'
 import layout from '../../utils/Style/Layout'
 import colors from '../../utils/Style/Colors'
 import font from '../../utils/Style/Font'
+import { LanguagesMenu } from '../../utils/Configuration/LanguagesConfig'
+import { useLanguage } from '../../utils/Hooks/Language'
 
 const IconWrapper = styled.div`
     display: flex;
@@ -22,7 +24,8 @@ const MenuIcon = styled.img`
     cursor: pointer;
     z-index: 700;
     border-radius: 7px;
-    background-color: ${(props) => (props.active ? '#b2bdca' : null)};
+    background-color: ${(props) =>
+        props.active ? colors.activeBackground : null};
 `
 const MenuWrapper = styled.div`
     position: absolute;
@@ -45,23 +48,35 @@ const MenuWrapper = styled.div`
 const LanguageContainer = styled.div`
     color: ${colors.primaryText};
     font-size: ${font.textSize};
-    margin: 10px;
-    display: flex;
-    justify-content: space-between;
+    margin-bottom: 10px;
 `
 const LanguageButton = styled.div`
     margin: 5px;
     user-select: none;
     cursor: pointer;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: ${(props) =>
+        props.active ? colors.activeBackground : null};
+
+    color: ${(props) =>
+        props.active ? colors.activeText : colors.primaryText};
 `
 
 function MenuBar() {
     const { updateDisplayedShops, ACTIONS } = useContext(ShopsDataContext)
     const { currentScope, switchScope } = useContext(ScopeContext)
     const { updateTypesMenu } = useContext(FiltersMenuContext)
-
     const { isSideBarOpen, toggleSideBar, closeDropdown, resetLazyLoad } =
         useContext(UserInterfaceContext)
+
+    const { currentLanguage, setLanguage } = useLanguage()
 
     function handleChangeScope(clickedScope) {
         resetLazyLoad()
@@ -91,8 +106,14 @@ function MenuBar() {
                 ))}
             </IconWrapper>
             <LanguageContainer>
-                <LanguageButton>EN</LanguageButton>
-                <LanguageButton>JP</LanguageButton>
+                {LanguagesMenu.map((lang) => (
+                    <LanguageButton
+                        onClick={() => setLanguage(lang)}
+                        active={currentLanguage.ID === lang.ID}
+                    >
+                        {lang.SHORT}
+                    </LanguageButton>
+                ))}
             </LanguageContainer>
         </MenuWrapper>
     )

@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import arrow from '../../../../../assets/down.png'
 
 import { useContext } from 'react'
+import { useLanguage } from '../../../../../utils/Hooks/Language'
 import { ShopsDataContext } from '../../../../../utils/Context/ShopsDataContext'
 import { FiltersMenuContext } from '../../../../../utils/Context/FiltersMenuContext'
 import { UserInterfaceContext } from '../../../../../utils/Context/UserInterfaceContext'
@@ -42,7 +43,7 @@ const TypeDropdownButton = styled.div`
 `
 const DropdownMenu = styled.div`
     width: calc(((${layout.SideBarWidthPx} - 30px) / 2) - 40px);
-    height: 124px;
+    /* height: 124px; */
     font-size: 13px;
     color: ${colors.primaryText};
     background-color: ${colors.primaryBackground};
@@ -77,10 +78,12 @@ function TypeDropdownFilter() {
     const { TypesMenu } = useContext(FiltersMenuContext)
     const { isDropdownOpen, toggleDropdown } = useContext(UserInterfaceContext)
 
+    const { currentLanguage } = useLanguage()
+
     return (
         <>
             <TypeDropdownButton onClick={toggleDropdown} type={filteredType.ID}>
-                {filteredType.ENGLISH}
+                {filteredType[currentLanguage.ID]}
                 <ArrowDownIcon
                     src={arrow}
                     title="Down-arroarrow-downw"

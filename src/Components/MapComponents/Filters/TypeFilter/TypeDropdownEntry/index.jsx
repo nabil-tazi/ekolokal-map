@@ -1,9 +1,11 @@
 import { useContext } from 'react'
+import { useLanguage } from '../../../../../utils/Hooks/Language'
+
 import { ShopsDataContext } from '../../../../../utils/Context/ShopsDataContext'
 import { FiltersMenuContext } from '../../../../../utils/Context/FiltersMenuContext'
+import { UserInterfaceContext } from '../../../../../utils/Context/UserInterfaceContext'
 
 import styled from 'styled-components'
-import { UserInterfaceContext } from '../../../../../utils/Context/UserInterfaceContext'
 import layout from '../../../../../utils/Style/Layout'
 import colors from '../../../../../utils/Style/Colors'
 
@@ -36,6 +38,8 @@ function TypeDropdownEntry({ TYPE }) {
     const { updateCategoriesMenu } = useContext(FiltersMenuContext)
     const { closeDropdown } = useContext(UserInterfaceContext)
 
+    const { currentLanguage } = useLanguage()
+
     function handleTypeSelect(newType) {
         closeDropdown()
         saveFilteredType(newType)
@@ -48,7 +52,7 @@ function TypeDropdownEntry({ TYPE }) {
             onClick={() => handleTypeSelect(TYPE)}
             active={filteredType.ID === TYPE.ID ? 'active' : 'inactive'}
         >
-            {TYPE.ENGLISH}
+            {TYPE[currentLanguage.ID]}
         </DropdownEntry>
     )
 }

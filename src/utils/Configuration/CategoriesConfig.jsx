@@ -9,25 +9,30 @@ export const CATEGORIES = {
         ID: 'plant-based',
         IMG: plantbased,
         ENGLISH: 'Plant based',
+        JAPANESE: 'Plant based',
     },
     ORGANIC: {
         ID: 'organic',
         IMG: organic,
         ENGLISH: 'Organic',
+        JAPANESE: 'オーガニック',
     },
     FAIRTRADE: {
         ID: 'fairtrade',
         IMG: fairtrade,
         ENGLISH: 'Fair trade',
+        JAPANESE: '公正取引',
     },
     ZEROWASTE: {
         ID: 'zero-waste',
         IMG: nobin,
         ENGLISH: 'Zero waste',
+        JAPANESE: 'Zero waste',
     },
     TAKEOUT: {
         ID: 'take-out',
         IMG: nobin,
         ENGLISH: 'Take out',
+        JAPANESE: 'テイクアウト',
     },
 }
