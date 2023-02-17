@@ -50,12 +50,12 @@ const DropdownMenu = styled.div`
     border-radius: ${layout.slightBorderRadius};
     position: absolute;
     padding: 5px;
+    top: 42px;
     padding-top: 15px;
     display: flex;
     flex-direction: column;
     box-shadow: 0px 0px 10px gray;
-    transform: translateY(82px)
-        translateX(calc(((${layout.SideBarWidthPx} - 30px) / 2) + 20px));
+    transform: translateX(calc(((${layout.SideBarWidthPx} - 30px) / 2) + 20px));
 `
 
 const ArrowDownIcon = styled.img`

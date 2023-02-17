@@ -86,7 +86,7 @@ function ShopListItem({ shop }) {
                 {/* <BusinessHours
                     dangerouslySetInnerHTML={{ __html: shop.opening_hours[0] }}
                 ></BusinessHours> */}
-                <IconList iconSize="30px" shop={shop}></IconList>
+                <IconList iconSize={'30px'} shop={shop}></IconList>
             </RightColumn>
         </ItemContainer>
     )

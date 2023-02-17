@@ -242,7 +242,7 @@ function ShopModal({ shop }) {
                     </ImagesWrapper>
                     <SecondLine>
                         <Tagline>{shop.tagline}</Tagline>
-                        <IconList shop={shop}></IconList>
+                        <IconList shop={shop} iconSize={'30px'}></IconList>
                     </SecondLine>
                     <Content
                         dangerouslySetInnerHTML={{ __html: shop.content }}

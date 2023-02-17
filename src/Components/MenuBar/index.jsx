@@ -108,6 +108,7 @@ function MenuBar() {
             <LanguageContainer>
                 {LanguagesMenu.map((lang) => (
                     <LanguageButton
+                        key={lang.ID}
                         onClick={() => setLanguage(lang)}
                         active={currentLanguage.ID === lang.ID}
                     >

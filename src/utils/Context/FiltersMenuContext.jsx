@@ -1,6 +1,7 @@
 import { createContext, useReducer } from 'react'
 import { TYPES } from '../Configuration/TypeConfig'
 import { CATEGORIES } from '../Configuration/CategoriesConfig'
+import { SCOPES } from '../Configuration/ScopeConfig'
 
 export const FiltersMenuContext = createContext()
 
@@ -14,17 +15,17 @@ export const FiltersMenuProvider = ({ children }) => {
         ],
     }
 
-    const scopes = {
-        NONE: '',
-        BROWSE: 'browse',
-        EVENT: 'events',
-        FAVORITES: 'favorites',
-    }
+    // const scopes = {
+    //     NONE: '',
+    //     BROWSE: 'browse',
+    //     EVENT: 'events',
+    //     FAVORITES: 'favorites',
+    // }
     const reducerTypes = (state, action) => {
         // console.log(action.scope)
 
         switch (action.scope.ID) {
-            case scopes.NONE.ID:
+            case SCOPES.NONE.ID:
                 return {
                     TypesMenu: [
                         TYPES.ALL,
@@ -33,7 +34,25 @@ export const FiltersMenuProvider = ({ children }) => {
                         TYPES.LOCALSTORE,
                     ],
                 }
-            case scopes.BROWSE.ID:
+            case SCOPES.EATING.ID:
+                return {
+                    TypesMenu: [
+                        // TYPES.ALL,
+                        // TYPES.RESTAURANTCAFE,
+                        // TYPES.SUPERMARKET,
+                        TYPES.LOCALSTORE,
+                    ],
+                }
+            case SCOPES.SHOPPING.ID:
+                return {
+                    TypesMenu: [
+                        TYPES.ALL,
+                        // TYPES.RESTAURANTCAFE,
+                        // TYPES.SUPERMARKET,
+                        // TYPES.LOCALSTORE,
+                    ],
+                }
+            case SCOPES.DISCOVER.ID:
                 return {
                     TypesMenu: [
                         TYPES.ALL,
@@ -42,16 +61,7 @@ export const FiltersMenuProvider = ({ children }) => {
                         TYPES.LOCALSTORE,
                     ],
                 }
-            case scopes.EVENT.ID:
-                return {
-                    TypesMenu: [
-                        TYPES.ALL,
-                        TYPES.RESTAURANTCAFE,
-                        TYPES.SUPERMARKET,
-                        TYPES.LOCALSTORE,
-                    ],
-                }
-            case scopes.FAVORITES.ID:
+            case SCOPES.FAVORITES.ID:
                 return {
                     TypesMenu: [
                         TYPES.ALL,

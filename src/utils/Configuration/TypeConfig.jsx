@@ -14,10 +14,10 @@ export const TYPES = {
         ENGLISH: 'Supermarket',
         JAPANESE: 'スーパー',
     },
-    EVENT: {
+    DISCOVER: {
         ID: 'market',
-        ENGLISH: 'Events',
-        JAPANESE: 'Events',
+        ENGLISH: 'Discover',
+        JAPANESE: 'Discover',
     },
     LOCALSTORE: {
         ID: 'local-store',

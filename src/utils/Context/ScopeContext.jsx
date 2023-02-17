@@ -24,9 +24,19 @@ export const ScopeProvider = ({ children }) => {
         setAllShops(data)
     }
 
-    const [allEvents, setAllEvents] = useState([])
-    const initAllEvents = (data) => {
-        setAllEvents(data)
+    const [allDiscovers, setAllDiscovers] = useState([])
+    const initAllDiscovers = (data) => {
+        setAllDiscovers(data)
+    }
+
+    const [allEatingShops, setAllEatingShops] = useState([])
+    const initAllEatingShops = (data) => {
+        setAllEatingShops(data)
+    }
+
+    const [allShoppingShops, setAllShoppingShops] = useState([])
+    const initAllShoppingShops = (data) => {
+        setAllShoppingShops(data)
     }
 
     const { isLoadingFetch, fetchedData } = useFetch(
@@ -35,7 +45,16 @@ export const ScopeProvider = ({ children }) => {
 
     useEffect(() => {
         initAllShops(fetchedData)
-        initAllEvents(recursiveCategoryFilter([TYPES.EVENT], fetchedData))
+        initAllDiscovers(recursiveCategoryFilter([TYPES.DISCOVER], fetchedData))
+        initAllEatingShops(
+            recursiveCategoryFilter([TYPES.RESTAURANTCAFE], fetchedData)
+        )
+        initAllShoppingShops([
+            ...new Set([
+                ...recursiveCategoryFilter([TYPES.SUPERMARKET], fetchedData),
+                ...recursiveCategoryFilter([TYPES.LOCALSTORE], fetchedData),
+            ]),
+        ])
         initScope(fetchedData)
         console.log('init scope and data')
     }, [fetchedData])
@@ -54,11 +73,14 @@ export const ScopeProvider = ({ children }) => {
             case SCOPES.NONE:
                 clickedScope.DATA = allShops
                 break
-            case SCOPES.BROWSE.ID:
-                clickedScope.DATA = allShops
+            case SCOPES.EATING.ID:
+                clickedScope.DATA = allEatingShops
                 break
-            case SCOPES.EVENTS.ID:
-                clickedScope.DATA = allEvents
+            case SCOPES.SHOPPING.ID:
+                clickedScope.DATA = allShoppingShops
+                break
+            case SCOPES.DISCOVER.ID:
+                clickedScope.DATA = allDiscovers
                 break
             case SCOPES.FAVORITES.ID:
                 clickedScope.DATA = favoriteShops
@@ -75,11 +97,11 @@ export const ScopeProvider = ({ children }) => {
                 fetchedData,
                 currentScope,
                 switchScope,
-                initScope,
-                allShops,
-                initAllShops,
-                allEvents,
-                initAllEvents,
+                // initScope,
+                // allShops,
+                // initAllShops,
+                // allDiscovers,
+                // initAllDiscovers,
                 favoriteShops,
                 saveFavoriteShops,
                 isFavorite,
