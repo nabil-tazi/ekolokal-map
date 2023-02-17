@@ -20,7 +20,7 @@ export const SCOPES = {
     SHOPPING: {
         ID: 'shopping',
         IMG: shop,
-        LOCALIZED: true,
+        LOCALIZED: false,
         ENGLISH: 'Shop',
         JAPANESE: 'Shop',
     },
