@@ -24,4 +24,50 @@ export const TYPES = {
         ENGLISH: 'Local store',
         JAPANESE: 'Local store',
     },
+    TAKEOUT: {
+        ID: 'take-out',
+        ENGLISH: 'Take out',
+        JAPANESE: 'テイクアウト',
+    },
+    EATIN: {
+        ID: 'restaurant-cafe',
+        ENGLISH: 'Eat-in',
+        JAPANESE: 'Eat-in',
+    },
+
+    FRESHPRODUCE: {
+        ID: 'fresh-produce',
+        ENGLISH: 'Fresh produce',
+        JAPANESE: 'Fresh produce',
+    },
+
+    PANTRY: {
+        ID: 'pantry',
+        ENGLISH: 'Pantry',
+        JAPANESE: 'Pantry',
+    },
+
+    COSMETICS: {
+        ID: 'cosmetics',
+        ENGLISH: 'Cosmetics & Personal Care',
+        JAPANESE: 'Cosmetics & Personal Care',
+    },
+
+    HOMECARE: {
+        ID: 'home-care',
+        ENGLISH: 'Home care',
+        JAPANESE: 'Home care',
+    },
+
+    SUSTAINABLEFASHION: {
+        ID: 'sustainable-fashion',
+        ENGLISH: 'Sustainable Fashion',
+        JAPANESE: 'Sustainable Fashion',
+    },
+
+    PRELOVEDFASHION: {
+        ID: 'preloved-fashion',
+        ENGLISH: 'Pre-loved Fashion',
+        JAPANESE: 'Pre-loved Fashion',
+    },
 }

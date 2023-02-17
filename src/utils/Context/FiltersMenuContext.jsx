@@ -36,20 +36,18 @@ export const FiltersMenuProvider = ({ children }) => {
                 }
             case SCOPES.EATING.ID:
                 return {
-                    TypesMenu: [
-                        // TYPES.ALL,
-                        // TYPES.RESTAURANTCAFE,
-                        // TYPES.SUPERMARKET,
-                        TYPES.LOCALSTORE,
-                    ],
+                    TypesMenu: [TYPES.ALL, TYPES.EATIN, TYPES.TAKEOUT],
                 }
             case SCOPES.SHOPPING.ID:
                 return {
                     TypesMenu: [
                         TYPES.ALL,
-                        // TYPES.RESTAURANTCAFE,
-                        // TYPES.SUPERMARKET,
-                        // TYPES.LOCALSTORE,
+                        TYPES.FRESHPRODUCE,
+                        TYPES.PANTRY,
+                        TYPES.COSMETICS,
+                        TYPES.HOMECARE,
+                        TYPES.SUSTAINABLEFASHION,
+                        TYPES.PRELOVEDFASHION,
                     ],
                 }
             case SCOPES.DISCOVER.ID:
