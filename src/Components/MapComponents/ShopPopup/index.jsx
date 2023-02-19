@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { Popup } from 'react-leaflet'
+import { useLanguage } from '../../../utils/Hooks/Language'
 
 const PopupContainer = styled(Popup)`
     .leaflet-popup-content-wrapper {
@@ -24,12 +25,25 @@ const ShopName = styled.div`
     margin: 5px 10px 0px 10px;
 `
 
-function ShopPopup({ imgUrl, shopName, shopAddress }) {
+function ShopPopup({ imgUrl, shop }) {
+    const { currentLanguage } = useLanguage()
     return (
         <PopupContainer autoPan={false}>
             <OverviewImage src={imgUrl} />
-            <ShopName>{shopName}</ShopName>
-            <ShopName>{shopAddress}</ShopName>
+            {shop.shopname[currentLanguage.ID] ? (
+                <ShopName>{shop.shopname[currentLanguage.ID]}</ShopName>
+            ) : (
+                <ShopName>{shop.title}</ShopName>
+            )}
+            {/* <ShopName>{shopName}</ShopName> */}
+            {/* <ShopName>{shopAddress}</ShopName> */}
+            {shop.full_address[currentLanguage.ID] ? (
+                <ShopName>{shop.full_address[currentLanguage.ID]}</ShopName>
+            ) : (
+                shop.formatted_address && (
+                    <ShopName>{shop.formatted_address}</ShopName>
+                )
+            )}
         </PopupContainer>
     )
 }

@@ -7,9 +7,10 @@ import colors from '../../../utils/Style/Colors'
 import font from '../../../utils/Style/Font'
 
 import layout from '../../../utils/Style/Layout'
+import { useLanguage } from '../../../utils/Hooks/Language'
 
 const ItemContainer = styled.div`
-    width: 160px;
+    max-width: 160px;
     height: 170px;
     padding: 10px;
     flex: 1 1 40%;
@@ -67,6 +68,10 @@ function ShopListItem({ shop }) {
     const { openOverview, modalShop, openModal, closeOverview, isModalClosed } =
         useContext(UserInterfaceContext)
 
+    const { currentLanguage } = useLanguage()
+
+    console.log(shop)
+
     return (
         <ItemContainer
             onMouseEnter={() => isModalClosed && openOverview(shop.id)}
@@ -79,7 +84,13 @@ function ShopListItem({ shop }) {
             <ImageTitle>
                 <ImageThumbnail src={shop.image_thumbnail} />
                 <TitleBackground>
-                    <TitleThumbnail>{shop.title}</TitleThumbnail>
+                    {shop.shopname[currentLanguage.ID] ? (
+                        <TitleThumbnail>
+                            {shop.shopname[currentLanguage.ID]}
+                        </TitleThumbnail>
+                    ) : (
+                        <TitleThumbnail>{shop.title}</TitleThumbnail>
+                    )}
                 </TitleBackground>
             </ImageTitle>
             <RightColumn>

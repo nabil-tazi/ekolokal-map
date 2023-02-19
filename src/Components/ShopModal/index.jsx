@@ -17,6 +17,7 @@ import { ScopeContext } from '../../utils/Context/ScopeContext'
 
 import layout from '../../utils/Style/Layout'
 import { LayoutContext } from '../../utils/Context/LayoutContext'
+import { useLanguage } from '../../utils/Hooks/Language'
 
 const ShopModalWrapper = styled.div`
     position: absolute;
@@ -50,7 +51,7 @@ const CloseIcon = styled.img`
         background-color: ${colors.hoverBackground};
     }
 `
-const PhoneIcon = styled.img`
+const Icon = styled.img`
     cursor: pointer;
     width: 10px;
     margin-right: 5px;
@@ -184,6 +185,8 @@ function ShopModal({ shop }) {
     const { favoriteShops, saveFavoriteShops, isFavorite } =
         useContext(ScopeContext)
 
+    const { currentLanguage } = useLanguage()
+
     const { closeModal, flyToShop } = useContext(UserInterfaceContext)
 
     const isModalShopFavorite = isFavorite(shop)
@@ -191,8 +194,8 @@ function ShopModal({ shop }) {
     function handleCloseModal() {
         closeModal()
     }
-    console.log('basemodalWidth')
-    console.log(layout.baseModalWidthPx)
+    console.log('content')
+    console.log(shop.tagline_new[currentLanguage.ID])
 
     function handleFavoriteClick() {
         const newFavorites = isModalShopFavorite
@@ -210,7 +213,14 @@ function ShopModal({ shop }) {
                     src={isModalShopFavorite ? fullHeart : emptyHeart}
                     onClick={handleFavoriteClick}
                 ></FavoriteIcon>
-                <ShopName>{shop.title.toUpperCase()}</ShopName>
+                {shop.shopname[currentLanguage.ID] ? (
+                    <ShopName>
+                        {shop.shopname[currentLanguage.ID].toUpperCase()}
+                    </ShopName>
+                ) : (
+                    <ShopName>{shop.title.toUpperCase()}</ShopName>
+                )}
+
                 <CloseIcon src={cross} onClick={handleCloseModal}></CloseIcon>
             </FirstLine>
 
@@ -241,26 +251,44 @@ function ShopModal({ shop }) {
                         )}
                     </ImagesWrapper>
                     <SecondLine>
-                        <Tagline>{shop.tagline}</Tagline>
+                        {shop.tagline_new[currentLanguage.ID] ? (
+                            <Tagline>
+                                {shop.tagline_new[currentLanguage.ID]}
+                            </Tagline>
+                        ) : (
+                            <Tagline>{shop.tagline}</Tagline>
+                        )}
+
                         <IconList shop={shop} iconSize={'30px'}></IconList>
                     </SecondLine>
-                    <Content
-                        dangerouslySetInnerHTML={{ __html: shop.content }}
-                    ></Content>
+
+                    {shop.content_new[currentLanguage.ID] ? (
+                        <Content>
+                            {shop.content_new[currentLanguage.ID]}
+                        </Content>
+                    ) : (
+                        <Content
+                            dangerouslySetInnerHTML={{ __html: shop.content }}
+                        ></Content>
+                    )}
                 </TopWrapper>
                 <BottomWrapper>
                     <ThirdLine>
                         <ContactInformation>
                             {shop.phone_number && (
                                 <PhoneNumber>
-                                    <PhoneIcon src={phone}></PhoneIcon>
+                                    <Icon src={phone}></Icon>
                                     {shop.phone_number}
                                 </PhoneNumber>
                             )}
-                            {shop.website && (
+                            {shop.website[0] && (
                                 <Website href={shop.website} target="_blank">
-                                    <PhoneIcon src={link}></PhoneIcon>Visit
-                                    website
+                                    <Icon src={link}></Icon>Visit website
+                                </Website>
+                            )}
+                            {shop.instagram[0] && (
+                                <Website href={shop.instagram} target="_blank">
+                                    <Icon src={link}></Icon>Instagram
                                 </Website>
                             )}
                         </ContactInformation>
@@ -276,8 +304,14 @@ function ShopModal({ shop }) {
                                 )
                             }}
                         >
-                            {shop.formatted_address && (
-                                <Address>{shop.formatted_address}</Address>
+                            {shop.full_address[currentLanguage.ID] ? (
+                                <Address>
+                                    {shop.full_address[currentLanguage.ID]}
+                                </Address>
+                            ) : (
+                                shop.formatted_address && (
+                                    <Address>{shop.formatted_address}</Address>
+                                )
                             )}
                             <LocalizeIcon src={target}></LocalizeIcon>
                         </AddressWrapper>

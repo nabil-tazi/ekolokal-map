@@ -22,7 +22,7 @@ export const TYPES = {
     LOCALSTORE: {
         ID: 'local-store',
         ENGLISH: 'Local store',
-        JAPANESE: 'Local store',
+        JAPANESE: '物産店',
     },
     TAKEOUT: {
         ID: 'take-out',
@@ -32,7 +32,7 @@ export const TYPES = {
     EATIN: {
         ID: 'restaurant-cafe',
         ENGLISH: 'Eat-in',
-        JAPANESE: 'Eat-in',
+        JAPANESE: '店内',
     },
 
     FRESHPRODUCE: {

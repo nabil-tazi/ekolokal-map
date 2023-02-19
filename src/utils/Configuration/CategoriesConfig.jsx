@@ -9,7 +9,7 @@ export const CATEGORIES = {
         ID: 'plant-based',
         IMG: plantbased,
         ENGLISH: 'Plant based',
-        JAPANESE: 'Plant based',
+        JAPANESE: 'ヴィーガン',
     },
     ORGANIC: {
         ID: 'organic',
@@ -27,7 +27,7 @@ export const CATEGORIES = {
         ID: 'zero-waste',
         IMG: nobin,
         ENGLISH: 'Zero waste',
-        JAPANESE: 'Zero waste',
+        JAPANESE: 'ゼロウェイスト',
     },
     TAKEOUT: {
         ID: 'take-out',

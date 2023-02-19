@@ -49,11 +49,7 @@ function ShopMarker({ shop, categories, mapRef, favorite }) {
                 },
             }}
         >
-            <ShopPopup
-                imgUrl={shop.image_thumbnail}
-                shopName={shop.title}
-                shopAddress={shop.formatted_address[0]}
-            ></ShopPopup>
+            <ShopPopup imgUrl={shop.image_thumbnail} shop={shop}></ShopPopup>
         </Marker>
     )
 }
