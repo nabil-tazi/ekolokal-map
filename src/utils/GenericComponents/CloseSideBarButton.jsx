@@ -4,6 +4,7 @@ import { UserInterfaceContext } from '../Context/UserInterfaceContext'
 import { useContext } from 'react'
 import layout from '../Style/Layout'
 import colors from '../Style/Colors'
+import { devices } from '../Style/Layout'
 
 const LeftArrowIcon = styled.img`
     padding: 5px;
@@ -18,7 +19,12 @@ const CloseButton = styled.div`
     height: ${(props) => props.SIZE.HEIGHT};
     width: ${(props) => props.SIZE.WIDTH};
 
-    display: flex;
+    @media ${devices.mobileS} {
+        display: none;
+    }
+    @media ${devices.tablet} {
+        display: flex;
+    }
     justify-content: center;
     align-items: center;
 

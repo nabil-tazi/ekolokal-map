@@ -10,6 +10,7 @@ import TypeDropdownEntry from '../TypeDropdownEntry'
 import layout from '../../../../../utils/Style/Layout'
 import colors from '../../../../../utils/Style/Colors'
 import font from '../../../../../utils/Style/Font'
+import { devices } from '../../../../../utils/Style/Layout'
 
 const TypeDropdownButton = styled.div`
     height: 37px;
@@ -27,8 +28,16 @@ const TypeDropdownButton = styled.div`
     box-shadow: 0px 0px 10px gray;
     z-index: 500;
     position: relative;
-    margin-right: 40px;
+    /* margin-right: 40px; */
     flex-shrink: 0;
+
+    @media ${devices.mobileS} {
+        width: calc(((100vw - 110px) / 2) - 40px);
+        /* width: 100vw; */
+    }
+    @media ${devices.tablet} {
+        width: calc(((${layout.SideBarWidthPx} - 30px) / 2) - 40px);
+    }
 
     background-color: ${(props) =>
         props.type !== 'all'

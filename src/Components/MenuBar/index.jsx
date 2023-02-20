@@ -6,49 +6,84 @@ import { FiltersMenuContext } from '../../utils/Context/FiltersMenuContext'
 import { UserInterfaceContext } from '../../utils/Context/UserInterfaceContext'
 import { ScopeContext } from '../../utils/Context/ScopeContext'
 import layout from '../../utils/Style/Layout'
+import { devices } from '../../utils/Style/Layout'
 import colors from '../../utils/Style/Colors'
 import font from '../../utils/Style/Font'
 import { LanguagesMenu } from '../../utils/Configuration/LanguagesConfig'
 import { useLanguage } from '../../utils/Hooks/Language'
 
-const IconWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-`
-const MenuIcon = styled.img`
-    width: 35px;
-    margin: 10px;
-    margin-top: 17px;
-    padding: 7px;
-    cursor: pointer;
-    z-index: 700;
-    border-radius: 7px;
-    background-color: ${(props) =>
-        props.active ? colors.activeBackground : null};
-`
 const MenuWrapper = styled.div`
     position: absolute;
-    left: 0;
-    top: 0;
-    width: ${layout.menuBarWidthPx};
-    height: 100vh;
     background-color: ${colors.primaryBackground};
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     z-index: 700;
+
+    @media ${devices.mobileS} {
+        bottom: 0;
+        width: 100%;
+        height: ${layout.menuBarWidthPx};
+        flex-direction: row;
+    }
+    @media ${devices.tablet} {
+        left: 0;
+        top: 0;
+        height: 100vh;
+        width: ${layout.menuBarWidthPx};
+        flex-direction: column;
+    }
 
     box-shadow: ${(props) =>
         props.isSideBarOpen ? '0px 0px 0px gray' : '0px 0px 10px gray'};
     border-right: ${(props) =>
         props.isSideBarOpen ? '.2px solid #a0a0a0' : '0px 0px 10px gray'};
 `
+
+const IconWrapper = styled.div`
+    display: flex;
+    gap: 40px;
+    align-items: center;
+
+    @media ${devices.mobileS} {
+        width: 100%;
+        margin: 50px 50px;
+        height: ${layout.menuBarWidthPx};
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    @media ${devices.tablet} {
+        margin-top: 15px;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+`
+const MenuIcon = styled.img`
+    width: 35px;
+    padding: 7px;
+    cursor: pointer;
+    z-index: 700;
+    border-radius: ${layout.slightBorderRadius};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: ${(props) =>
+        props.active ? colors.activeBackground : null};
+`
+
 const LanguageContainer = styled.div`
     color: ${colors.primaryText};
     font-size: ${font.textSize};
-    margin-bottom: 10px;
+    margin: 10px;
+    display: flex;
+    @media ${devices.mobileS} {
+        flex-direction: row;
+        display: none;
+    }
+    @media ${devices.tablet} {
+        flex-direction: column;
+        display: block;
+    }
 `
 const LanguageButton = styled.div`
     margin: 5px;

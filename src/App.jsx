@@ -11,15 +11,21 @@ import { UserInterfaceContext } from './utils/Context/UserInterfaceContext'
 import { ScopeContext } from './utils/Context/ScopeContext'
 
 import styled from 'styled-components'
+import { devices } from './utils/Style/Layout'
+import colors from './utils/Style/Colors'
 
-const Test = styled.div`
+const ToggleMode = styled.div`
     position: absolute;
-    left: 1200px;
-    top: 0;
-    width: 1px;
-    height: 100vh;
-    background-color: red;
-    z-index: 700;
+    left: 20px;
+    bottom: 80px;
+    width: 80px;
+    height: 80px;
+
+    border-radius: 100%;
+    background-color: ${colors.primaryBackground};
+    @media ${devices.tablet} {
+        display: none;
+    }
 `
 function App() {
     const { isLoading } = useContext(ScopeContext)
@@ -36,6 +42,7 @@ function App() {
             <FilterBar />
             <Map center={initCenter} />
             <Logo />
+            <ToggleMode></ToggleMode>
         </>
     )
 }

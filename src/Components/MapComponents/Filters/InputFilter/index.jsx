@@ -7,7 +7,7 @@ import search from '../../../../assets/search.png'
 
 import { ShopsDataContext } from '../../../../utils/Context/ShopsDataContext'
 import { UserInterfaceContext } from '../../../../utils/Context/UserInterfaceContext'
-import layout from '../../../../utils/Style/Layout'
+import layout, { devices } from '../../../../utils/Style/Layout'
 import colors from '../../../../utils/Style/Colors'
 import font from '../../../../utils/Style/Font'
 
@@ -34,7 +34,15 @@ const ResearchIcon = styled.img`
 `
 
 const ResearchInput = styled.input`
-    width: calc(((${layout.SideBarWidthPx} - 30px) / 2) - 60px);
+    @media ${devices.mobileS} {
+        width: calc(((100vw - 110px) / 2) - 60px);
+        /* width: 100vw; */
+    }
+    @media ${devices.tablet} {
+        width: calc(((${layout.SideBarWidthPx} - 30px) / 2) - 60px);
+    }
+    /* width: calc(((${layout.SideBarWidthPx} - 30px) / 2) - 60px); */
+
     height: 35px;
     border-radius: 20px;
     margin-right: 5px;

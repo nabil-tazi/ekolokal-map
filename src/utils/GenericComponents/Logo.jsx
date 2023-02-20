@@ -1,11 +1,18 @@
 import styled from 'styled-components'
 import logo from '../../assets/ekolokal-logo.png'
+import { devices } from '../Style/Layout'
 
 const EkolokalLogo = styled.img`
     position: absolute;
-    bottom: 20px;
+    @media ${devices.mobileS} {
+        bottom: 80px;
+        width: 80px;
+    }
+    @media ${devices.tablet} {
+        bottom: 20px;
+        width: 100px;
+    }
     right: 20px;
-    width: 100px;
     z-index: 900;
     border-radius: 100%;
     box-shadow: 0px 0px 10px gray;

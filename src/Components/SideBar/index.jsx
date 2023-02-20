@@ -7,6 +7,7 @@ import FilterSummary from './FilterSummary'
 import ShopListItem from './ShopListItem'
 
 import layout from '../../utils/Style/Layout'
+import { devices } from '../../utils/Style/Layout'
 import colors from '../../utils/Style/Colors'
 
 import { ShopsDataContext } from '../../utils/Context/ShopsDataContext'
@@ -15,8 +16,14 @@ import { UserInterfaceContext } from '../../utils/Context/UserInterfaceContext'
 const SideBarContainer = styled.div`
     position: absolute;
     top: 0;
-    left: ${layout.menuBarWidthPx};
-    width: ${layout.SideBarWidthPx};
+    @media ${devices.mobileS} {
+        left: 0;
+        width: 100%;
+    }
+    @media ${devices.tablet} {
+        left: ${layout.menuBarWidthPx};
+        width: ${layout.SideBarWidthPx};
+    }
     height: 100vh;
     display: flex;
     flex-direction: column;
