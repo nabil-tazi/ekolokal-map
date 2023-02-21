@@ -15,6 +15,8 @@ const CategoryIcon = styled.img`
             : null};
 `
 const CategoryFilter = styled.div`
+    pointer-events: auto;
+
     max-width: 100px;
     height: 37px;
     line-height: ${font.textSize};

@@ -70,8 +70,6 @@ function ShopListItem({ shop }) {
 
     const { currentLanguage } = useLanguage()
 
-    console.log(shop)
-
     return (
         <ItemContainer
             onMouseEnter={() => isModalClosed && openOverview(shop.id)}

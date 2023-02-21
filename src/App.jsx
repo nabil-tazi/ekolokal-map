@@ -13,6 +13,8 @@ import { ScopeContext } from './utils/Context/ScopeContext'
 import styled from 'styled-components'
 import { devices } from './utils/Style/Layout'
 import colors from './utils/Style/Colors'
+import BrowsingModal from './Components/BrowsingModal'
+import { useWindowSize } from './utils/Hooks/WindowSize'
 
 const ToggleMode = styled.div`
     position: absolute;
@@ -32,14 +34,20 @@ function App() {
     const { isSideBarOpen, modalShop } = useContext(UserInterfaceContext)
     const initCenter = [34.67, 135.49]
 
+    const { mode } = useWindowSize()
+
+    console.log(`MODE : ${mode}`)
+
     return (
         <>
-            {/* <Test></Test> */}
             {isLoading && <LoadingScreen />}
-            <MenuBar />
+            {mode !== 'mobile' && <MenuBar />}
             {isSideBarOpen && <SideBar />}
             {modalShop.id && <ShopModal shop={modalShop} />}
-            <FilterBar />
+            <FilterBar>
+                {isSideBarOpen && mode === 'mobile' && <BrowsingModal />}{' '}
+                {mode === 'mobile' && <MenuBar />}
+            </FilterBar>
             <Map center={initCenter} />
             <Logo />
             <ToggleMode></ToggleMode>

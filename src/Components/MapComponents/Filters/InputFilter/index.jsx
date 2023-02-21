@@ -19,6 +19,7 @@ const InputFilterWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    pointer-events: auto;
 `
 const ResearchIcon = styled.img`
     height: 17px;

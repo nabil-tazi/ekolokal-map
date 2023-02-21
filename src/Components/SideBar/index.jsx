@@ -2,15 +2,13 @@ import { useContext } from 'react'
 import styled from 'styled-components'
 
 import CloseSideBarButton from '../../utils/GenericComponents/CloseSideBarButton'
-import LoadMoreButton from '../../utils/GenericComponents/LoadMoreButton'
 import FilterSummary from './FilterSummary'
-import ShopListItem from './ShopListItem'
+import ShopList from '../ShopList'
 
 import layout from '../../utils/Style/Layout'
 import { devices } from '../../utils/Style/Layout'
 import colors from '../../utils/Style/Colors'
 
-import { ShopsDataContext } from '../../utils/Context/ShopsDataContext'
 import { UserInterfaceContext } from '../../utils/Context/UserInterfaceContext'
 
 const SideBarContainer = styled.div`
@@ -18,47 +16,30 @@ const SideBarContainer = styled.div`
     top: 0;
     @media ${devices.mobileS} {
         left: 0;
-        width: 100%;
+        width: 0%;
+        display: none;
     }
     @media ${devices.tablet} {
         left: ${layout.menuBarWidthPx};
         width: ${layout.SideBarWidthPx};
+        display: flex;
     }
     height: 100vh;
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
     background-color: ${colors.transparentBackground};
     box-shadow: 0px 0px 10px gray;
     z-index: 500;
 `
 
-const ShopListContainer = styled.div`
-    width: calc(${layout.SideBarWidthPx} - ${layout.overlaysSpacing});
-    height: 100vh;
-    overflow-x: hidden;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: flex-start;
-    align-content: flex-start;
-    gap: 5px 0px;
-    flex-wrap: wrap;
-    padding: 10px;
-`
-
 function SideBar() {
-    const { displayedShops } = useContext(ShopsDataContext)
-    const { closeDropdown, loadedItems } = useContext(UserInterfaceContext)
+    const { closeDropdown } = useContext(UserInterfaceContext)
 
     return (
         <SideBarContainer onClick={closeDropdown}>
             <CloseSideBarButton />
             <FilterSummary />
-            <ShopListContainer>
-                {displayedShops.slice(0, loadedItems).map((shop) => (
-                    <ShopListItem key={shop.id} shop={shop}></ShopListItem>
-                ))}
-                {loadedItems < displayedShops.length && <LoadMoreButton />}
-            </ShopListContainer>
+            <ShopList />
         </SideBarContainer>
     )
 }

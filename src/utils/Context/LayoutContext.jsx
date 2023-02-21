@@ -5,7 +5,10 @@ import layout from '../Style/Layout'
 export const LayoutContext = createContext()
 
 export const LayoutProvider = ({ children }) => {
-    const windowSize = useWindowSize()
+    const { windowSize } = useWindowSize()
+
+    console.log('PROVIDER')
+    console.log(windowSize)
 
     const widthTaken =
         windowSize.width - layout.popupWidth - 2 * layout.overlaysSpacing

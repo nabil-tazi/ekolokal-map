@@ -23,6 +23,7 @@ const TypeDropdownButton = styled.div`
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
+    pointer-events: auto;
     padding-right: 10px;
     padding-left: 10px;
     box-shadow: 0px 0px 10px gray;
@@ -65,6 +66,7 @@ const DropdownMenu = styled.div`
     flex-direction: column;
     box-shadow: 0px 0px 10px gray;
     transform: translateX(calc(((${layout.SideBarWidthPx} - 30px) / 2) + 20px));
+    pointer-events: auto;
 `
 
 const ArrowDownIcon = styled.img`

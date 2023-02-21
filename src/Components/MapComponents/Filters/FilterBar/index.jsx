@@ -6,7 +6,9 @@ import { useContext } from 'react'
 import { FiltersMenuContext } from '../../../../utils/Context/FiltersMenuContext'
 import TypeDropdownFilter from '../TypeFilter/TypeDropdownFilter'
 import layout, { devices } from '../../../../utils/Style/Layout'
+import colors from '../../../../utils/Style/Colors'
 import Logo from '../../../../utils/GenericComponents/Logo'
+import { UserInterfaceContext } from '../../../../utils/Context/UserInterfaceContext'
 
 const LeftFilters = styled.div`
     padding: 15px;
@@ -25,26 +27,32 @@ const LeftFilters = styled.div`
 `
 
 const FilterBarWrapper = styled.div`
+    /* pointer-events: none; */
+
     position: absolute;
     top: 0px;
-    /* padding: 15px; */
 
-    width: calc(
-        100% - ${layout.menuBarWidthPx} - 2 * ${layout.overlaysSpacingPx}
-    );
     display: flex;
-    /* align-items: flex-start; */
-    /* align-content: flex-start; */
-    /* gap: 10px; */
-    z-index: 600;
+    flex-direction: column;
+    z-index: 900;
+    height: 100%;
+
+    justify-content: space-between;
+    left: ${layout.menuBarWidthPx};
 
     @media ${devices.mobileS} {
+        width: 100%;
         flex-wrap: wrap;
-        left: 10px;
+        left: 0px;
+        pointer-events: ${(props) => props.pointer};
     }
     @media ${devices.tablet} {
+        width: calc(
+            100% - ${layout.menuBarWidthPx} - 2 * ${layout.overlaysSpacingPx}
+        );
         flex-wrap: nowrap;
-        left: calc(${layout.menuBarWidthPx} + ${layout.overlaysSpacingPx});
+        pointer-events: none;
+        left: ${layout.menuBarWidthPx};
     }
 `
 
@@ -66,21 +74,47 @@ const CategoryFilters = styled.div`
     }
 `
 
-function FilterBar() {
+const FiltersContainer = styled.div`
+    display: flex;
+    align-self: start;
+    /* left: calc(${layout.menuBarWidthPx} + ${layout.overlaysSpacingPx}); */
+
+    @media ${devices.mobileS} {
+        width: 100%;
+        flex-wrap: wrap;
+        left: 0px;
+        background-color: ${(props) =>
+            props.isSideBarOpen ? colors.primaryBackground : null};
+    }
+    @media ${devices.tablet} {
+        width: calc(
+            100% - ${layout.menuBarWidthPx} - 2 * ${layout.overlaysSpacingPx}
+        );
+        flex-wrap: nowrap;
+        /* left: calc(${layout.menuBarWidthPx} + ${layout.overlaysSpacingPx}); */
+        background-color: transparent;
+    }
+`
+
+function FilterBar({ children }) {
     const { CategoriesMenu } = useContext(FiltersMenuContext)
+    const { isSideBarOpen } = useContext(UserInterfaceContext)
 
+    console.log(isSideBarOpen)
     return (
-        <FilterBarWrapper>
-            <LeftFilters>
-                <InputFilter />
-                <TypeDropdownFilter />
-            </LeftFilters>
-
-            <CategoryFilters>
-                {CategoriesMenu.map((cat, index) => (
-                    <CategoryFilterButton key={index} CATEGORY={cat} />
-                ))}
-            </CategoryFilters>
+        <FilterBarWrapper pointer={isSideBarOpen ? 'auto' : 'none'}>
+            <FiltersContainer isSideBarOpen={isSideBarOpen}>
+                <LeftFilters>
+                    <InputFilter />
+                    <TypeDropdownFilter />
+                </LeftFilters>
+                <CategoryFilters>
+                    {CategoriesMenu.map((cat, index) => (
+                        <CategoryFilterButton key={index} CATEGORY={cat} />
+                    ))}
+                </CategoryFilters>
+            </FiltersContainer>
+            {children}
         </FilterBarWrapper>
     )
 }

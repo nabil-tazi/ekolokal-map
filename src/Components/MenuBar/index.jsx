@@ -14,6 +14,8 @@ import { useLanguage } from '../../utils/Hooks/Language'
 
 const MenuWrapper = styled.div`
     position: absolute;
+    pointer-events: auto;
+
     background-color: ${colors.primaryBackground};
     display: flex;
     justify-content: space-between;
@@ -62,7 +64,7 @@ const MenuIcon = styled.img`
     width: 35px;
     padding: 7px;
     cursor: pointer;
-    z-index: 700;
+    /* z-index: 700; */
     border-radius: ${layout.slightBorderRadius};
     display: flex;
     justify-content: center;
