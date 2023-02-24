@@ -24,6 +24,7 @@ const BrowsingBarContainer = styled.div`
         align-self: stretch;
         flex-grow: 1;
         overflow-x: hidden;
+        overflow-y: visible;
 
         background-color: ${colors.primaryBackground};
         margin-bottom: ${layout.menuBarWidthPx};
@@ -38,6 +39,7 @@ const BrowsingBarContainer = styled.div`
 
         display: flex;
         flex-direction: column;
+        overflow-x: visible;
 
         background-color: ${colors.transparentBackground};
         box-shadow: 0px 0px 10px gray;
