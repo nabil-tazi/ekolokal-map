@@ -14,6 +14,7 @@ import { UserInterfaceContext } from '../../utils/Context/UserInterfaceContext'
 const SideBarContainer = styled.div`
     position: absolute;
     top: 0;
+    pointer-events: auto;
     @media ${devices.mobileS} {
         left: 0;
         width: 0%;
@@ -24,8 +25,7 @@ const SideBarContainer = styled.div`
         width: ${layout.SideBarWidthPx};
         display: flex;
     }
-    height: 100vh;
-    /* display: flex; */
+    height: 100%;
     flex-direction: column;
     background-color: ${colors.transparentBackground};
     box-shadow: 0px 0px 10px gray;

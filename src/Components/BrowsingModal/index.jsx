@@ -9,8 +9,6 @@ import layout, { devices } from '../../utils/Style/Layout'
 import colors from '../../utils/Style/Colors'
 
 const BrowsingModalContainer = styled.div`
-    /* position: relative; */
-
     align-self: stretch;
     flex-grow: 1;
     background-color: ${colors.primaryBackground};

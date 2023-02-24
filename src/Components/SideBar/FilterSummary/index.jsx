@@ -28,6 +28,7 @@ const Summary = styled.div`
 
 const SummaryContainer = styled.div`
     width: 100%;
+    z-index: 600;
     background-color: ${(props) =>
         props.isSideBarOpen ? colors.primaryBackground : null};
 `

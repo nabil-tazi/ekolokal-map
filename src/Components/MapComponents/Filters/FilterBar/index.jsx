@@ -27,14 +27,11 @@ const LeftFilters = styled.div`
 `
 
 const FilterBarWrapper = styled.div`
-    /* pointer-events: none; */
-
     position: absolute;
     top: 0px;
 
     display: flex;
     flex-direction: column;
-    z-index: 900;
     height: 100%;
 
     justify-content: space-between;
@@ -52,7 +49,7 @@ const FilterBarWrapper = styled.div`
         );
         flex-wrap: nowrap;
         pointer-events: none;
-        left: ${layout.menuBarWidthPx};
+        padding-left: ${layout.menuBarWidthPx};
     }
 `
 
@@ -77,7 +74,7 @@ const CategoryFilters = styled.div`
 const FiltersContainer = styled.div`
     display: flex;
     align-self: start;
-    /* left: calc(${layout.menuBarWidthPx} + ${layout.overlaysSpacingPx}); */
+    z-index: 900;
 
     @media ${devices.mobileS} {
         width: 100%;
@@ -91,7 +88,6 @@ const FiltersContainer = styled.div`
             100% - ${layout.menuBarWidthPx} - 2 * ${layout.overlaysSpacingPx}
         );
         flex-wrap: nowrap;
-        /* left: calc(${layout.menuBarWidthPx} + ${layout.overlaysSpacingPx}); */
         background-color: transparent;
     }
 `

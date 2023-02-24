@@ -31,7 +31,7 @@ const MenuWrapper = styled.div`
     @media ${devices.tablet} {
         left: 0;
         top: 0;
-        height: 100vh;
+        height: 100%;
         width: ${layout.menuBarWidthPx};
         flex-direction: column;
     }
@@ -44,19 +44,18 @@ const MenuWrapper = styled.div`
 
 const IconWrapper = styled.div`
     display: flex;
-    gap: 40px;
     align-items: center;
 
     @media ${devices.mobileS} {
         width: 100%;
-        margin: 50px 50px;
         height: ${layout.menuBarWidthPx};
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: space-evenly;
     }
     @media ${devices.tablet} {
         margin-top: 15px;
         flex-direction: column;
+        gap: 30px;
         justify-content: flex-start;
     }
 `
@@ -64,7 +63,6 @@ const MenuIcon = styled.img`
     width: 35px;
     padding: 7px;
     cursor: pointer;
-    /* z-index: 700; */
     border-radius: ${layout.slightBorderRadius};
     display: flex;
     justify-content: center;

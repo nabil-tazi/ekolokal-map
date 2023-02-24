@@ -41,12 +41,11 @@ function App() {
     return (
         <>
             {isLoading && <LoadingScreen />}
-            {mode !== 'mobile' && <MenuBar />}
-            {isSideBarOpen && <SideBar />}
             {modalShop.id && <ShopModal shop={modalShop} />}
             <FilterBar>
                 {isSideBarOpen && mode === 'mobile' && <BrowsingModal />}{' '}
-                {mode === 'mobile' && <MenuBar />}
+                {isSideBarOpen && <SideBar />}
+                <MenuBar />
             </FilterBar>
             <Map center={initCenter} />
             <Logo />
