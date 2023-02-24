@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import SideBar from './Components/SideBar'
+import BrowsingBar from './Components/BrowsingBar'
 import Map from './Components/MapComponents/Map'
 import FilterBar from './Components/MapComponents/Filters/FilterBar'
 import MenuBar from './Components/MenuBar'
@@ -13,7 +13,6 @@ import { ScopeContext } from './utils/Context/ScopeContext'
 import styled from 'styled-components'
 import { devices } from './utils/Style/Layout'
 import colors from './utils/Style/Colors'
-import BrowsingModal from './Components/BrowsingModal'
 import { useWindowSize } from './utils/Hooks/WindowSize'
 
 const ToggleMode = styled.div`
@@ -43,12 +42,11 @@ function App() {
             {isLoading && <LoadingScreen />}
             {modalShop.id && <ShopModal shop={modalShop} />}
             <FilterBar>
-                {isSideBarOpen && mode === 'mobile' && <BrowsingModal />}{' '}
-                {isSideBarOpen && <SideBar />}
+                {isSideBarOpen && <BrowsingBar />}
                 <MenuBar />
             </FilterBar>
             <Map center={initCenter} />
-            <Logo />
+            {mode !== 'mobile' && <Logo />}
             <ToggleMode></ToggleMode>
         </>
     )

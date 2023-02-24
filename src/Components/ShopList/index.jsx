@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import styled from 'styled-components'
-import ShopListItem from '../SideBar/ShopListItem'
+import ShopListItem from '../BrowsingBar/ShopListItem'
 import LoadMoreButton from '../../utils/GenericComponents/LoadMoreButton'
 import { ShopsDataContext } from '../../utils/Context/ShopsDataContext'
 import { UserInterfaceContext } from '../../utils/Context/UserInterfaceContext'

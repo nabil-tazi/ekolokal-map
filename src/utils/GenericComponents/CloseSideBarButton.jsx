@@ -14,17 +14,21 @@ const LeftArrowIcon = styled.img`
 const CloseButton = styled.div`
     position: absolute;
     top: calc(50% - ${(props) => props.SIZE.HEIGHT} / 2);
-    left: calc(${layout.SideBarWidthPx} - ${(props) => props.SIZE.WIDTH} / 2);
+    // prettier-ignore
+    left: calc(${layout.SideBarWidthPx} + ${layout.menuBarWidthPx} - ${(
+        props
+    ) => props.SIZE.WIDTH} / 2);
 
     height: ${(props) => props.SIZE.HEIGHT};
     width: ${(props) => props.SIZE.WIDTH};
 
-    @media ${devices.mobileS} {
+    /* @media ${devices.mobileS} {
         display: none;
-    }
-    @media ${devices.tablet} {
-        display: flex;
-    }
+    } */
+    /* @media ${devices.tablet} {
+       
+    }  */
+    display: flex;
     justify-content: center;
     align-items: center;
 
@@ -34,6 +38,7 @@ const CloseButton = styled.div`
     border-radius: 5px;
     box-shadow: 0px 0px 5px gray;
     cursor: pointer;
+    pointer-events: auto;
     &:hover {
         background-color: ${colors.hoverBackground};
     }
