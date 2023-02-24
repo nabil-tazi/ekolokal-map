@@ -10,9 +10,9 @@ import layout from '../../../utils/Style/Layout'
 import { useLanguage } from '../../../utils/Hooks/Language'
 
 const ItemContainer = styled.div`
-    max-width: 160px;
-    height: 170px;
-    padding: 10px;
+    max-width: 150px;
+    height: 160px;
+    padding: 5px;
     flex: 1 1 40%;
 
     font-size: ${font.textSize};
@@ -29,17 +29,12 @@ const ItemContainer = styled.div`
     cursor: pointer;
 `
 const ImageTitle = styled.div`
-    width: 160px;
-    height: 130px;
+    width: 100%;
+    height: calc(100% - 30px);
     position: relative;
     border-radius: ${layout.slightBorderRadius};
 `
-const RightColumn = styled.div`
-    /* display: flex;
-    flex-direction: column;
-    align-items: flex-start; */
-    /* flex-basis: 100px; */
-`
+const InfoContainer = styled.div``
 const BusinessHours = styled.div`
     width: 100px;
 `
@@ -91,12 +86,12 @@ function ShopListItem({ shop }) {
                     )}
                 </TitleBackground>
             </ImageTitle>
-            <RightColumn>
+            <InfoContainer>
                 {/* <BusinessHours
                     dangerouslySetInnerHTML={{ __html: shop.opening_hours[0] }}
                 ></BusinessHours> */}
-                <IconList iconSize={'30px'} shop={shop}></IconList>
-            </RightColumn>
+                <IconList iconSize={'25px'} shop={shop}></IconList>
+            </InfoContainer>
         </ItemContainer>
     )
 }

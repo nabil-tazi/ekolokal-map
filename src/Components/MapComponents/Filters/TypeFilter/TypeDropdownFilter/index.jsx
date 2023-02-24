@@ -14,7 +14,6 @@ import { devices } from '../../../../../utils/Style/Layout'
 
 const TypeDropdownButton = styled.div`
     height: 37px;
-    width: calc(((${layout.SideBarWidthPx} - 30px) / 2) - 40px);
     line-height: 13px;
     border-radius: 20px;
     font-size: ${font.textSize};
@@ -29,16 +28,10 @@ const TypeDropdownButton = styled.div`
     box-shadow: 0px 0px 10px gray;
     z-index: 500;
     position: relative;
-    /* margin-right: 40px; */
     flex-shrink: 0;
-
-    @media ${devices.mobileS} {
-        width: calc(((100vw - 110px) / 2) - 40px);
-        /* width: 100vw; */
-    }
-    @media ${devices.tablet} {
-        width: calc(((${layout.SideBarWidthPx} - 30px) / 2) - 40px);
-    }
+    flex-grow: 1;
+    flex-basis: 40%;
+    transform-style: preserve-3d;
 
     background-color: ${(props) =>
         props.type !== 'all'
@@ -52,21 +45,22 @@ const TypeDropdownButton = styled.div`
         props.type !== 'all' ? colors.activeText : colors.primaryText};
 `
 const DropdownMenu = styled.div`
-    width: calc(((${layout.SideBarWidthPx} - 30px) / 2) - 40px);
-    /* height: 124px; */
+    width: calc(100% - 20px);
+
     font-size: 13px;
     color: ${colors.primaryText};
     background-color: ${colors.primaryBackground};
     border-radius: ${layout.slightBorderRadius};
     position: absolute;
     padding: 5px;
-    top: 42px;
+    top: 27px;
+    left: 5px;
     padding-top: 15px;
     display: flex;
     flex-direction: column;
     box-shadow: 0px 0px 10px gray;
-    transform: translateX(calc(((${layout.SideBarWidthPx} - 30px) / 2) + 20px));
     pointer-events: auto;
+    transform: translateZ(-10px);
 `
 
 const ArrowDownIcon = styled.img`
@@ -92,15 +86,13 @@ function TypeDropdownFilter() {
     const { currentLanguage } = useLanguage()
 
     return (
-        <>
-            <TypeDropdownButton onClick={toggleDropdown} type={filteredType.ID}>
-                {filteredType[currentLanguage.ID]}
-                <ArrowDownIcon
-                    src={arrow}
-                    title="Down-arroarrow-downw"
-                    type={filteredType.ID}
-                ></ArrowDownIcon>
-            </TypeDropdownButton>
+        <TypeDropdownButton onClick={toggleDropdown} type={filteredType.ID}>
+            {filteredType[currentLanguage.ID]}
+            <ArrowDownIcon
+                src={arrow}
+                title="Down-arroarrow-downw"
+                type={filteredType.ID}
+            ></ArrowDownIcon>
             {isDropdownOpen && (
                 <DropdownMenu>
                     {TypesMenu.map((type, index) => (
@@ -111,7 +103,7 @@ function TypeDropdownFilter() {
                     ))}
                 </DropdownMenu>
             )}
-        </>
+        </TypeDropdownButton>
     )
 }
 

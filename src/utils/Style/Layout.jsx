@@ -1,6 +1,6 @@
 const windowWidth = window.innerWidth
 const overlaysSpacing = 15
-const menuBarWidth = 60
+const menuBarWidth = 70
 const SideBarWidth = 380
 const baseModalWidth = 600
 const popupWidth = 200

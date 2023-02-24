@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
+import { useWindowSize } from '../Hooks/WindowSize'
 import colors from './Colors'
 import font from './Font'
 
@@ -27,10 +28,16 @@ const StyledGlobalStyle = createGlobalStyle`
     .leaflet-popup-close-button {
         display: none;
     }
+
+    .leaflet-top {
+        z-index: 700;
+        display: ${(props) => (props.mode === 'mobile' ? 'none' : 'block')};
+    }
 `
 
 function GlobalStyle() {
-    return <StyledGlobalStyle />
+    const { mode } = useWindowSize()
+    return <StyledGlobalStyle mode={mode} />
 }
 
 export default GlobalStyle

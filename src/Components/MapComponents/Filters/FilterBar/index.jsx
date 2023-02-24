@@ -7,22 +7,22 @@ import { FiltersMenuContext } from '../../../../utils/Context/FiltersMenuContext
 import TypeDropdownFilter from '../TypeFilter/TypeDropdownFilter'
 import layout, { devices } from '../../../../utils/Style/Layout'
 import colors from '../../../../utils/Style/Colors'
-import Logo from '../../../../utils/GenericComponents/Logo'
 import { UserInterfaceContext } from '../../../../utils/Context/UserInterfaceContext'
 
 const LeftFilters = styled.div`
     padding: 15px;
+    z-index: 900;
 
     display: flex;
     flex-direction: row;
     gap: 10px;
+    flex-shrink: 0;
 
     @media ${devices.mobileS} {
-        width: 100vw;
-        /* margin-left: 50px; */
+        width: calc(100% - 30px);
     }
     @media ${devices.tablet} {
-        width: ${layout.SideBarWidthPx};
+        width: calc(${layout.SideBarWidthPx} - 30px);
     }
 `
 
@@ -36,6 +36,7 @@ const FilterBarWrapper = styled.div`
 
     justify-content: space-between;
     left: ${layout.menuBarWidthPx};
+    margin-bottom: 20px;
 
     @media ${devices.mobileS} {
         width: 100%;
@@ -57,24 +58,27 @@ const CategoryFilters = styled.div`
     padding: 15px;
     display: flex;
     overflow-x: scroll;
+
+    z-index: 500;
+
     @media ${devices.mobileS} {
-        width: 100vw;
+        width: 100%;
         flex-wrap: wrap;
         justify-content: space-between;
         gap: 10px;
+        transform: translateY(-20px);
     }
     @media ${devices.tablet} {
         flex-wrap: nowrap;
         justify-content: flex-start;
-
         gap: 20px;
+        transform: translateY(0px);
     }
 `
 
 const FiltersContainer = styled.div`
     display: flex;
     align-self: start;
-    z-index: 900;
 
     @media ${devices.mobileS} {
         width: 100%;
@@ -82,6 +86,8 @@ const FiltersContainer = styled.div`
         left: 0px;
         background-color: ${(props) =>
             props.isSideBarOpen ? colors.primaryBackground : null};
+
+        margin-bottom: -25px;
     }
     @media ${devices.tablet} {
         width: calc(

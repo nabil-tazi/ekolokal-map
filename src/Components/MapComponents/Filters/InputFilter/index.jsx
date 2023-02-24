@@ -20,6 +20,8 @@ const InputFilterWrapper = styled.div`
     justify-content: space-between;
     align-items: center;
     pointer-events: auto;
+    /* width: calc(((${layout.SideBarWidthPx} - 30px) / 2) - 60px); */
+    flex-grow: 1;
 `
 const ResearchIcon = styled.img`
     height: 17px;
@@ -35,11 +37,15 @@ const ResearchIcon = styled.img`
 `
 
 const ResearchInput = styled.input`
+    width: 100%;
     @media ${devices.mobileS} {
-        width: calc(((100vw - 110px) / 2) - 60px);
+        /* width: calc(((100vw - 110px) / 2) - 60px); */
+        /* width: calc(((100vw - 30px) / 2) - 60px); */
+        /* flex-grow: 1; */
+        /* flex-grow: stretch; */
     }
     @media ${devices.tablet} {
-        width: calc(((${layout.SideBarWidthPx} - 30px) / 2) - 60px);
+        /* width: calc(((${layout.SideBarWidthPx} - 30px) / 2) - 60px); */
     }
 
     height: 35px;

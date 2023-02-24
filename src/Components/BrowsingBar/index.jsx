@@ -15,6 +15,8 @@ import { useWindowSize } from '../../utils/Hooks/WindowSize'
 const BrowsingBarContainer = styled.div`
     z-index: 600;
     pointer-events: auto;
+    padding-top: 15px;
+    box-shadow: 0px 0px 10px gray;
 
     @media ${devices.mobileS} {
         height: 10px;
@@ -49,10 +51,10 @@ function BrowsingBar() {
     return (
         <>
             <BrowsingBarContainer onClick={closeDropdown}>
+                <CloseSideBarButton />
                 <FilterSummary />
                 <ShopList />
             </BrowsingBarContainer>
-            {mode !== 'mobile' && <CloseSideBarButton />}
         </>
     )
 }

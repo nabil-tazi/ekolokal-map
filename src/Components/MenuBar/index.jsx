@@ -59,16 +59,44 @@ const IconWrapper = styled.div`
         justify-content: flex-start;
     }
 `
-const MenuIcon = styled.img`
-    width: 35px;
-    padding: 7px;
+const MenuItem = styled.div`
+    width: 45px;
+    height: 45px;
     cursor: pointer;
+    user-select: none;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 7px;
+
     border-radius: ${layout.slightBorderRadius};
+
+    background-color: ${(props) =>
+        props.active ? colors.activeBackground : null};
+`
+
+const MenuItemName = styled.div`
+    font-size: ${font.textSize};
+
+    color: ${(props) =>
+        props.active ? colors.activeText : colors.primaryText};
+
+    text-shadow: ${(props) =>
+        props.active ? '-0.1px 0 #fff, 0.1px 0 #fff' : null};
+`
+
+const MenuIcon = styled.img`
+    width: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: ${(props) =>
-        props.active ? colors.activeBackground : null};
+
+    filter: ${(props) =>
+        props.active
+            ? ' drop-shadow(.2px .2px 0px #fff) brightness(0) invert(1) '
+            : null};
 `
 
 const LanguageContainer = styled.div`
@@ -76,17 +104,10 @@ const LanguageContainer = styled.div`
     font-size: ${font.textSize};
     margin: 10px;
     display: flex;
-    @media ${devices.mobileS} {
-        flex-direction: row;
-        display: none;
-    }
-    @media ${devices.tablet} {
-        flex-direction: column;
-        display: block;
-    }
+    gap: 5px;
+    flex-direction: column;
 `
 const LanguageButton = styled.div`
-    margin: 5px;
     user-select: none;
     cursor: pointer;
     width: 20px;
@@ -130,14 +151,21 @@ function MenuBar() {
         <MenuWrapper isSideBarOpen={isSideBarOpen}>
             <IconWrapper>
                 {ScopesMenu.map((scopeItem, index) => (
-                    <MenuIcon
-                        key={index}
-                        src={scopeItem.IMG}
+                    <MenuItem
+                        active={scopeItem.ID === currentScope.ID}
                         onClick={() => {
                             handleChangeScope(scopeItem)
                         }}
-                        active={scopeItem.ID === currentScope.ID}
-                    ></MenuIcon>
+                    >
+                        <MenuIcon
+                            key={index}
+                            src={scopeItem.IMG}
+                            active={scopeItem.ID === currentScope.ID}
+                        />
+                        <MenuItemName active={scopeItem.ID === currentScope.ID}>
+                            {scopeItem[currentLanguage.ID]}
+                        </MenuItemName>
+                    </MenuItem>
                 ))}
             </IconWrapper>
             <LanguageContainer>

@@ -11,13 +11,13 @@ import GlobalStyle from './utils/Style/GlobalStyle'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        <GlobalStyle />
         <LayoutProvider>
             <LanguageProvider>
                 <UserInterfaceProvider>
                     <ScopeProvider>
                         <ShopsDataProvider>
                             <FiltersMenuProvider>
+                                <GlobalStyle />
                                 <App />
                             </FiltersMenuProvider>
                         </ShopsDataProvider>

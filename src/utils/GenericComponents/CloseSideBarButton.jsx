@@ -12,27 +12,33 @@ const LeftArrowIcon = styled.img`
 `
 
 const CloseButton = styled.div`
-    position: absolute;
-    top: calc(50% - ${(props) => props.SIZE.HEIGHT} / 2);
-    // prettier-ignore
-    left: calc(${layout.SideBarWidthPx} + ${layout.menuBarWidthPx} - ${(
-        props
-    ) => props.SIZE.WIDTH} / 2);
-
     height: ${(props) => props.SIZE.HEIGHT};
     width: ${(props) => props.SIZE.WIDTH};
 
-    /* @media ${devices.mobileS} {
-        display: none;
-    } */
-    /* @media ${devices.tablet} {
-       
-    }  */
+    z-index: 900;
+
+    @media ${devices.mobileS} {
+        position: absolute;
+        transform: translateY(-27px) translateX(calc(100vw / 2)) rotate(-90deg);
+    }
+    @media ${devices.tablet} {
+        position: absolute;
+        transform: translateY(calc(50vh - ${(props) => props.SIZE.HEIGHT} / 2))
+            translateX(
+                calc(
+                    ${layout.SideBarWidthPx} -
+                        (${(props) => props.SIZE.WIDTH} / 2)
+                )
+            );
+
+        /* top: calc(50% - ${(props) => props.SIZE.HEIGHT} / 2);
+        left: calc(
+            ${layout.SideBarWidthPx} - ${(props) => props.SIZE.WIDTH} / 2
+        ); */
+    }
     display: flex;
     justify-content: center;
     align-items: center;
-
-    z-index: 600;
 
     background-color: ${colors.primaryBackground};
     border-radius: 5px;
