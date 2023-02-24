@@ -49,9 +49,12 @@ const ResearchInput = styled.input`
     margin-right: 5px;
     border: 0;
     box-shadow: 0px 0px 10px gray;
+    -webkit-appearance: none;
+
     padding-left: 30px;
     padding-right: 30px;
-    font-size: ${font.textSize};
+    /* font-size: ${font.textSize}; */
+    font-size: 16px;
 
     &:focus {
         outline: none;
