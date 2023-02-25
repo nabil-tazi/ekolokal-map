@@ -8,13 +8,23 @@ export function alphabetical(a, b) {
     return comparison
 }
 
-export function localizeShops(filteredShops, map) {
+export function localizeShops(filteredShops, map, mode) {
     console.log('LOCALIZE')
+
+    const mobilePadding = {
+        paddingTopLeft: L.point(0, 0),
+        paddingBottomRight: L.point(0, 70),
+    }
+
+    const regularPadding = {
+        paddingTopLeft: L.point(550, 50),
+        paddingBottomRight: L.point(0, 50),
+    }
+
+    const paddingSetting = mode === 'mobile' ? mobilePadding : regularPadding
+
     if (filteredShops.length === 0) return
-    map.fitBounds(getNewBounds(filteredShops), {
-        paddingTopLeft: L.point(500, 200),
-        paddingBottomRight: L.point(200, 0),
-    })
+    map.fitBounds(getNewBounds(filteredShops), paddingSetting)
 }
 
 export function isContained(shop, shopList) {

@@ -20,6 +20,7 @@ import {
     localizeShops,
     isContained,
 } from '../FiltersFunctions/maputils'
+import { useWindowSize } from '../Hooks/WindowSize'
 
 export const ShopsDataContext = createContext()
 
@@ -29,6 +30,8 @@ export const ShopsDataProvider = ({ children }) => {
     const { resetLazyLoad, openModal, modalShop, closeModal } =
         useContext(UserInterfaceContext)
     const { fetchedData, currentScope } = useContext(ScopeContext)
+
+    const { mode } = useWindowSize()
 
     const [research, setResearch] = useState('')
     const [filteredCategories, saveFilteredCategories] = useState([])
@@ -67,7 +70,7 @@ export const ShopsDataProvider = ({ children }) => {
 
         openSingleResultModal && filteredShops.length === 1
             ? openModal(map, filteredShops[0], 16)
-            : localize && localizeShops(filteredShops, map)
+            : localize && localizeShops(filteredShops, map, mode)
 
         modalShop.id && !isContained(modalShop, filteredShops) && closeModal()
 
