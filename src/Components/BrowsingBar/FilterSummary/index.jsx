@@ -8,17 +8,19 @@ import layout from '../../../utils/Style/Layout'
 import { devices } from '../../../utils/Style/Layout'
 
 const Summary = styled.div`
-    width: 80%;
+    /* width: 80%; */
     margin: auto;
     padding: 12px 20px 12px 20px;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
 
     @media ${devices.mobileS} {
-        margin-top: 0px;
+        margin: 20px;
+        margin-bottom: 10px;
     }
 
     @media ${devices.tablet} {
-        margin-top: 70px;
+        margin-top: 50px;
+        margin-bottom: 10px;
     }
     border-radius: ${layout.slightBorderRadius};
     font-size: ${font.textSize};
@@ -27,8 +29,16 @@ const Summary = styled.div`
 `
 
 const SummaryContainer = styled.div`
-    width: 100%;
+    @media ${devices.mobileS} {
+        box-shadow: 0px 0px 10px gray;
+    }
+
+    @media ${devices.tablet} {
+        width: 100%;
+        box-shadow: none;
+    }
     z-index: 600;
+
     background-color: ${(props) =>
         props.isSideBarOpen ? colors.primaryBackground : null};
 `

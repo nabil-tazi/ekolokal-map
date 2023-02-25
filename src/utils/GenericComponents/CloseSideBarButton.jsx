@@ -18,8 +18,8 @@ const CloseButton = styled.div`
     z-index: 900;
 
     @media ${devices.mobileS} {
-        position: absolute;
-        transform: translateY(-27px) translateX(calc(100vw / 2)) rotate(-90deg);
+        position: relative;
+        transform: translateY(15px) translateX(calc(100vw / 2)) rotate(-90deg);
     }
     @media ${devices.tablet} {
         position: absolute;

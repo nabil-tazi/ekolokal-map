@@ -11,6 +11,7 @@ import { UserInterfaceContext } from '../../../../utils/Context/UserInterfaceCon
 
 const LeftFilters = styled.div`
     padding: 15px;
+
     z-index: 900;
 
     display: flex;
@@ -56,6 +57,7 @@ const FilterBarWrapper = styled.div`
 
 const CategoryFilters = styled.div`
     padding: 15px;
+
     display: flex;
     overflow-x: scroll;
 
@@ -82,12 +84,13 @@ const FiltersContainer = styled.div`
 
     @media ${devices.mobileS} {
         width: 100%;
+
         flex-wrap: wrap;
         left: 0px;
         background-color: ${(props) =>
             props.isSideBarOpen ? colors.primaryBackground : null};
 
-        margin-bottom: -25px;
+        margin-bottom: -50px;
     }
     @media ${devices.tablet} {
         width: calc(

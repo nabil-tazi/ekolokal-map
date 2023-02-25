@@ -15,15 +15,14 @@ import { useWindowSize } from '../../utils/Hooks/WindowSize'
 const BrowsingBarContainer = styled.div`
     z-index: 600;
     pointer-events: auto;
-    padding-top: 15px;
-    box-shadow: 0px 0px 10px gray;
 
     @media ${devices.mobileS} {
         height: 10px;
+        padding-top: 0px;
 
         align-self: stretch;
         flex-grow: 1;
-        /* overflow-x: hidden; */
+        overflow-x: hidden;
         overflow-y: visible;
 
         background-color: ${colors.primaryBackground};
@@ -32,7 +31,8 @@ const BrowsingBarContainer = styled.div`
     @media ${devices.tablet} {
         position: absolute;
         width: ${layout.SideBarWidthPx};
-        height: 100%;
+        height: calc(100% - 15px);
+        padding-top: 15px;
 
         top: 0;
         left: ${layout.menuBarWidthPx};
@@ -52,9 +52,10 @@ function BrowsingBar() {
 
     return (
         <>
+            <CloseSideBarButton />
+            {mode === 'mobile' && <FilterSummary />}
             <BrowsingBarContainer onClick={closeDropdown}>
-                <CloseSideBarButton />
-                <FilterSummary />
+                {mode !== 'mobile' && <FilterSummary />}
                 <ShopList />
             </BrowsingBarContainer>
         </>
