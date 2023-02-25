@@ -15,7 +15,7 @@ import IconList from '../CategoriesIcon/IconList'
 import { UserInterfaceContext } from '../../utils/Context/UserInterfaceContext'
 import { ScopeContext } from '../../utils/Context/ScopeContext'
 
-import layout from '../../utils/Style/Layout'
+import layout, { devices } from '../../utils/Style/Layout'
 import { LayoutContext } from '../../utils/Context/LayoutContext'
 import { useLanguage } from '../../utils/Hooks/Language'
 
@@ -23,13 +23,22 @@ const ShopModalWrapper = styled.div`
     position: absolute;
     display: flex;
     flex-direction: column;
-    border-radius: ${layout.slightBorderRadius};
-    // prettier-ignore
-    left: calc(${layout.menuBarWidthPx} + ${layout.SideBarWidthPx} + ${layout.overlaysSpacingPx});
-    top: 10vh;
-    width: ${layout.baseModalWidthPx};
+
+    @media ${devices.mobileS} {
+        left: 0px;
+        width: 100%;
+        height: calc(100% - 120px - 70px);
+        bottom: 70px;
+    }
+    @media ${devices.tablet} {
+        // prettier-ignore
+        left: calc(${layout.menuBarWidthPx} + ${layout.SideBarWidthPx} + ${layout.overlaysSpacingPx});
+        width: ${layout.baseModalWidthPx};
+        top: 10vh;
+        height: 80vh;
+        border-radius: ${layout.slightBorderRadius};
+    }
     max-width: ${(props) => props.maxOverlayWidth + 'px'};
-    height: 80vh;
     background-color: ${colors.transparentBackground};
     z-index: 500;
     box-shadow: 0px 0px 10px gray;

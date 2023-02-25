@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from 'react'
+import { useWindowSize } from '../Hooks/WindowSize'
 import layout from '../Style/Layout'
 import { LayoutContext } from './LayoutContext'
 
@@ -13,14 +14,20 @@ export const UserInterfaceProvider = ({ children }) => {
 
     const { widthTaken } = useContext(LayoutContext)
 
+    const { mode } = useWindowSize()
+
     function flyToShop(map, shopLatLng, targetZoom) {
         const overlayWidth = Math.min(
             widthTaken,
             layout.baseModalWidth + layout.leftBLock
         )
-        var targetPoint = map
-            .project(shopLatLng, targetZoom)
-            .subtract([overlayWidth / 2, 0])
+
+        var targetPoint =
+            mode !== 'mobile'
+                ? map
+                      .project(shopLatLng, targetZoom)
+                      .subtract([overlayWidth / 2, 0])
+                : map.project(shopLatLng, targetZoom).subtract([0, -290])
 
         var targetLatLng = map.unproject(targetPoint, targetZoom)
         map.flyTo(targetLatLng, targetZoom, { duration: 0.5 })

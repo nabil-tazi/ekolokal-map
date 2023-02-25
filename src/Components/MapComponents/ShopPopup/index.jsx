@@ -1,12 +1,13 @@
 import styled from 'styled-components'
 import { Popup } from 'react-leaflet'
 import { useLanguage } from '../../../utils/Hooks/Language'
+import { useWindowSize } from '../../../utils/Hooks/WindowSize'
 
 const PopupContainer = styled(Popup)`
     .leaflet-popup-content-wrapper {
         padding: 0;
         border-radius: 5px;
-        height: 230px;
+        /* height: 230px; */
         width: 200px;
     }
     .leaflet-popup-content {
@@ -23,13 +24,15 @@ const OverviewImage = styled.img`
 
 const ShopName = styled.div`
     margin: 5px 10px 0px 10px;
+    padding: 10px;
 `
 
 function ShopPopup({ imgUrl, shop }) {
     const { currentLanguage } = useLanguage()
+    const { mode } = useWindowSize()
     return (
         <PopupContainer autoPan={false}>
-            <OverviewImage src={imgUrl} />
+            {mode !== 'mobile' && <OverviewImage src={imgUrl} />}
             {shop.shopname[currentLanguage.ID] ? (
                 <ShopName>{shop.shopname[currentLanguage.ID]}</ShopName>
             ) : (
@@ -37,13 +40,14 @@ function ShopPopup({ imgUrl, shop }) {
             )}
             {/* <ShopName>{shopName}</ShopName> */}
             {/* <ShopName>{shopAddress}</ShopName> */}
-            {shop.full_address[currentLanguage.ID] ? (
-                <ShopName>{shop.full_address[currentLanguage.ID]}</ShopName>
-            ) : (
-                shop.formatted_address && (
-                    <ShopName>{shop.formatted_address}</ShopName>
-                )
-            )}
+            {mode !== 'mobile' &&
+                (shop.full_address[currentLanguage.ID] ? (
+                    <ShopName>{shop.full_address[currentLanguage.ID]}</ShopName>
+                ) : (
+                    shop.formatted_address && (
+                        <ShopName>{shop.formatted_address}</ShopName>
+                    )
+                ))}
         </PopupContainer>
     )
 }

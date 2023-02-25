@@ -8,6 +8,7 @@ import TypeDropdownFilter from '../TypeFilter/TypeDropdownFilter'
 import layout, { devices } from '../../../../utils/Style/Layout'
 import colors from '../../../../utils/Style/Colors'
 import { UserInterfaceContext } from '../../../../utils/Context/UserInterfaceContext'
+import { useWindowSize } from '../../../../utils/Hooks/WindowSize'
 
 const LeftFilters = styled.div`
     padding: 15px;
@@ -103,22 +104,24 @@ const FiltersContainer = styled.div`
 
 function FilterBar({ children }) {
     const { CategoriesMenu } = useContext(FiltersMenuContext)
-    const { isSideBarOpen } = useContext(UserInterfaceContext)
+    const { isSideBarOpen, modalShop } = useContext(UserInterfaceContext)
+    const { mode } = useWindowSize()
 
-    console.log(isSideBarOpen)
     return (
         <FilterBarWrapper pointer={isSideBarOpen ? 'auto' : 'none'}>
-            <FiltersContainer isSideBarOpen={isSideBarOpen}>
-                <LeftFilters>
-                    <InputFilter />
-                    <TypeDropdownFilter />
-                </LeftFilters>
-                <CategoryFilters>
-                    {CategoriesMenu.map((cat, index) => (
-                        <CategoryFilterButton key={index} CATEGORY={cat} />
-                    ))}
-                </CategoryFilters>
-            </FiltersContainer>
+            {(mode !== 'mobile' || !modalShop.id) && (
+                <FiltersContainer isSideBarOpen={isSideBarOpen}>
+                    <LeftFilters>
+                        <InputFilter />
+                        <TypeDropdownFilter />
+                    </LeftFilters>
+                    <CategoryFilters>
+                        {CategoriesMenu.map((cat, index) => (
+                            <CategoryFilterButton key={index} CATEGORY={cat} />
+                        ))}
+                    </CategoryFilters>
+                </FiltersContainer>
+            )}
             {children}
         </FilterBarWrapper>
     )

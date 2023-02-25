@@ -152,13 +152,13 @@ function MenuBar() {
             <IconWrapper>
                 {ScopesMenu.map((scopeItem, index) => (
                     <MenuItem
+                        key={index}
                         active={scopeItem.ID === currentScope.ID}
                         onClick={() => {
                             handleChangeScope(scopeItem)
                         }}
                     >
                         <MenuIcon
-                            key={index}
                             src={scopeItem.IMG}
                             active={scopeItem.ID === currentScope.ID}
                         />
