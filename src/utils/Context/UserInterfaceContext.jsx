@@ -14,7 +14,7 @@ export const UserInterfaceProvider = ({ children }) => {
 
     const { widthTaken } = useContext(LayoutContext)
 
-    const { mode } = useWindowSize()
+    const { windowSize, mode } = useWindowSize()
 
     function flyToShop(map, shopLatLng, targetZoom) {
         const overlayWidth = Math.min(
@@ -27,7 +27,9 @@ export const UserInterfaceProvider = ({ children }) => {
                 ? map
                       .project(shopLatLng, targetZoom)
                       .subtract([overlayWidth / 2, 0])
-                : map.project(shopLatLng, targetZoom).subtract([0, -290])
+                : map
+                      .project(shopLatLng, targetZoom)
+                      .subtract([0, -(windowSize.height / 2) + 110]) //-((windowSize.height) / 2) + 70]
 
         var targetLatLng = map.unproject(targetPoint, targetZoom)
         map.flyTo(targetLatLng, targetZoom, { duration: 0.5 })

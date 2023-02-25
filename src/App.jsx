@@ -28,17 +28,31 @@ const ToggleMode = styled.div`
         display: none;
     }
 `
+// const Test = styled.div`
+//     position: absolute;
+//     height: 1px;
+//     width: 100%;
+//     background-color: red;
+//     top: 50%;
+//     z-index: 999;
+//     transform: translateY(
+//         ${(props) => (-(props.windowHeight / 2) + 110).toString() + 'px'}
+//     );
+// `
+
 function App() {
     const { isLoading } = useContext(ScopeContext)
     const { isSideBarOpen, modalShop } = useContext(UserInterfaceContext)
     const initCenter = [34.67, 135.49]
 
-    const { mode } = useWindowSize()
+    const { windowSize, mode } = useWindowSize()
 
     console.log(`MODE : ${mode}`)
+    console.log(`HEIGHT : ${windowSize.height}`)
 
     return (
         <>
+            {/* <Test windowHeight={windowSize.height}></Test> */}
             {isLoading && <LoadingScreen />}
             {modalShop.id && <ShopModal shop={modalShop} />}
             <FilterBar>
