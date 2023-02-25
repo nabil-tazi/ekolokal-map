@@ -23,7 +23,7 @@ const BrowsingBarContainer = styled.div`
 
         align-self: stretch;
         flex-grow: 1;
-        overflow-x: hidden;
+        /* overflow-x: hidden; */
         overflow-y: visible;
 
         background-color: ${colors.primaryBackground};
