@@ -12,7 +12,7 @@ export function localizeShops(filteredShops, map, mode) {
     console.log('LOCALIZE')
 
     const mobilePadding = {
-        paddingTopLeft: L.point(0, 0),
+        paddingTopLeft: L.point(0, 100),
         paddingBottomRight: L.point(0, 70),
     }
 
