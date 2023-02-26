@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react'
+import { createContext, useState, useEffect, useContext } from 'react'
 import { INITIAL_SCOPE, SCOPES } from '../Configuration/ScopeConfig'
 import { useFetch } from '../Hooks/Fetch'
 import { useLocalStorage } from '../Hooks/LocalStorage'
@@ -6,6 +6,8 @@ import { recursiveCategoryFilter } from '../FiltersFunctions/maputils'
 import { TYPES } from '../Configuration/TypeConfig'
 
 import { isContained } from '../FiltersFunctions/maputils'
+import { useWindowSize } from '../Hooks/WindowSize'
+import { UserInterfaceContext } from './UserInterfaceContext'
 
 export const ScopeContext = createContext()
 
@@ -62,6 +64,10 @@ export const ScopeProvider = ({ children }) => {
     const [isLoadingStorage, favoriteShops, saveFavoriteShops] =
         useLocalStorage('favorites', [])
 
+    const { closeModal } = useContext(UserInterfaceContext)
+
+    const { mode } = useWindowSize()
+
     const isLoading = isLoadingStorage || isLoadingFetch
 
     function isFavorite(shop) {
@@ -88,7 +94,7 @@ export const ScopeProvider = ({ children }) => {
             default:
                 clickedScope.DATA = allShops
         }
-        console.log(clickedScope)
+
         setScope(clickedScope)
     }
     return (

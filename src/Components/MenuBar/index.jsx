@@ -11,6 +11,7 @@ import colors from '../../utils/Style/Colors'
 import font from '../../utils/Style/Font'
 import { LanguagesMenu } from '../../utils/Configuration/LanguagesConfig'
 import { useLanguage } from '../../utils/Hooks/Language'
+import { useWindowSize } from '../../utils/Hooks/WindowSize'
 
 const MenuWrapper = styled.div`
     position: absolute;
@@ -129,16 +130,33 @@ function MenuBar() {
     const { updateDisplayedShops, ACTIONS } = useContext(ShopsDataContext)
     const { currentScope, switchScope } = useContext(ScopeContext)
     const { updateTypesMenu } = useContext(FiltersMenuContext)
-    const { isSideBarOpen, toggleSideBar, closeDropdown, resetLazyLoad } =
-        useContext(UserInterfaceContext)
+    const {
+        isSideBarOpen,
+        toggleSideBar,
+        closeDropdown,
+        resetLazyLoad,
+        closeModal,
+        modalShop,
+    } = useContext(UserInterfaceContext)
 
     const { currentLanguage, setLanguage } = useLanguage()
+
+    const { mode } = useWindowSize()
 
     function handleChangeScope(clickedScope) {
         resetLazyLoad()
         closeDropdown()
-        if (clickedScope.ID === currentScope.ID || !isSideBarOpen)
+        if (
+            (clickedScope.ID === currentScope.ID &&
+                !(mode === 'mobile' && modalShop.id)) ||
+            !isSideBarOpen
+        ) {
             toggleSideBar()
+        }
+        if (mode === 'mobile') {
+            closeModal()
+        }
+
         updateDisplayedShops(ACTIONS.CHANGE_SCOPE, {
             clickedScope: clickedScope,
             isNewScope: clickedScope.ID === currentScope.ID,

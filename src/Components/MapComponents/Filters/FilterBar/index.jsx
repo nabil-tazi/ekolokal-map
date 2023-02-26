@@ -80,7 +80,7 @@ const CategoryFilters = styled.div`
 `
 
 const FiltersContainer = styled.div`
-    display: flex;
+    display: ${(props) => (props.visible ? 'flex' : 'none')};
     align-self: start;
 
     @media ${devices.mobileS} {
@@ -109,19 +109,22 @@ function FilterBar({ children }) {
 
     return (
         <FilterBarWrapper pointer={isSideBarOpen ? 'auto' : 'none'}>
-            {(mode !== 'mobile' || !modalShop.id) && (
-                <FiltersContainer isSideBarOpen={isSideBarOpen}>
-                    <LeftFilters>
-                        <InputFilter />
-                        <TypeDropdownFilter />
-                    </LeftFilters>
-                    <CategoryFilters>
-                        {CategoriesMenu.map((cat, index) => (
-                            <CategoryFilterButton key={index} CATEGORY={cat} />
-                        ))}
-                    </CategoryFilters>
-                </FiltersContainer>
-            )}
+            {/* {(mode !== 'mobile' || !modalShop.id) && ( */}
+            <FiltersContainer
+                isSideBarOpen={isSideBarOpen}
+                visible={mode !== 'mobile' || !modalShop.id}
+            >
+                <LeftFilters>
+                    <InputFilter />
+                    <TypeDropdownFilter />
+                </LeftFilters>
+                <CategoryFilters>
+                    {CategoriesMenu.map((cat, index) => (
+                        <CategoryFilterButton key={index} CATEGORY={cat} />
+                    ))}
+                </CategoryFilters>
+            </FiltersContainer>
+            {/* )} */}
             {children}
         </FilterBarWrapper>
     )

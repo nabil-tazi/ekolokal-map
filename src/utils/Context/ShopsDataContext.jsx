@@ -152,8 +152,6 @@ export const ShopsDataProvider = ({ children }) => {
                 displayedShops: state.displayedShops,
 
                 updateDisplayedShops: (actionType, param) => {
-                    console.log('reducer')
-
                     dispatch({ type: actionType, param: param })
                 },
 

@@ -56,7 +56,9 @@ function App() {
             {isLoading && <LoadingScreen />}
             {modalShop.id && <ShopModal shop={modalShop} />}
             <FilterBar>
-                {isSideBarOpen && <BrowsingBar />}
+                {isSideBarOpen && (mode !== 'mobile' || !modalShop.id) && (
+                    <BrowsingBar />
+                )}
                 <MenuBar />
             </FilterBar>
             <Map center={initCenter} />

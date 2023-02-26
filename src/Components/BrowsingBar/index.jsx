@@ -12,6 +12,13 @@ import colors from '../../utils/Style/Colors'
 import { UserInterfaceContext } from '../../utils/Context/UserInterfaceContext'
 import { useWindowSize } from '../../utils/Hooks/WindowSize'
 
+const BrowsingBarWrapper = styled.div`
+    /* @media ${devices.mobileS} {
+        visibility: ${(props) =>
+        props.isModalShopOpened ? 'hidden' : 'visible'};
+    } */
+`
+
 const BrowsingBarContainer = styled.div`
     z-index: 600;
     pointer-events: auto;
@@ -47,7 +54,7 @@ const BrowsingBarContainer = styled.div`
 `
 
 function BrowsingBar() {
-    const { closeDropdown } = useContext(UserInterfaceContext)
+    const { closeDropdown, modalShop } = useContext(UserInterfaceContext)
     const { mode } = useWindowSize()
 
     return (

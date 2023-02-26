@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import cross from '../../assets/cross.png'
+import goback from '../../assets/undo.png'
 import phone from '../../assets/phone.png'
 import target from '../../assets/target.png'
 import link from '../../assets/link.png'
@@ -18,6 +19,7 @@ import { ScopeContext } from '../../utils/Context/ScopeContext'
 import layout, { devices } from '../../utils/Style/Layout'
 import { LayoutContext } from '../../utils/Context/LayoutContext'
 import { useLanguage } from '../../utils/Hooks/Language'
+import { useWindowSize } from '../../utils/Hooks/WindowSize'
 
 const ShopModalWrapper = styled.div`
     position: absolute;
@@ -52,7 +54,18 @@ const FirstLine = styled.div`
 `
 const CloseIcon = styled.img`
     cursor: pointer;
-    width: 11px;
+    width: 15px;
+    padding: 7px;
+    margin: 10px;
+    border-radius: 100%;
+    &:hover {
+        background-color: ${colors.hoverBackground};
+    }
+`
+
+const GoBackIcon = styled.img`
+    cursor: pointer;
+    width: 20px;
     padding: 7px;
     margin: 10px;
     border-radius: 100%;
@@ -182,11 +195,7 @@ const AddressWrapper = styled.div`
 `
 
 function ShopModal({ shop }) {
-    // const { maxOverlayWidth } = useContext(UserInterfaceContext)
     const { maxOverlayWidth } = useContext(LayoutContext)
-
-    console.log('maxOverlayWidth')
-    console.log(maxOverlayWidth)
 
     const { mapRef, ACTIONS, updateDisplayedShops } =
         useContext(ShopsDataContext)
@@ -196,15 +205,16 @@ function ShopModal({ shop }) {
 
     const { currentLanguage } = useLanguage()
 
-    const { closeModal, flyToShop } = useContext(UserInterfaceContext)
+    const { mode } = useWindowSize()
+
+    const { closeModal, flyToShop, isSideBarOpen } =
+        useContext(UserInterfaceContext)
 
     const isModalShopFavorite = isFavorite(shop)
 
     function handleCloseModal() {
         closeModal()
     }
-    console.log('content')
-    console.log(shop.tagline_new[currentLanguage.ID])
 
     function handleFavoriteClick() {
         const newFavorites = isModalShopFavorite
@@ -230,7 +240,11 @@ function ShopModal({ shop }) {
                     <ShopName>{shop.title.toUpperCase()}</ShopName>
                 )}
 
-                <CloseIcon src={cross} onClick={handleCloseModal}></CloseIcon>
+                {isSideBarOpen && mode === 'mobile' ? (
+                    <GoBackIcon src={goback} onClick={handleCloseModal} />
+                ) : (
+                    <CloseIcon src={cross} onClick={handleCloseModal} />
+                )}
             </FirstLine>
 
             <ModalContent>

@@ -36,6 +36,7 @@ export const UserInterfaceProvider = ({ children }) => {
     }
 
     function openModal(map, shop, zoomLevel) {
+        // mode === 'mobile' && closeSideBar()
         openOverview(shop.id)
         setModalShop(shop)
         flyToShop(
