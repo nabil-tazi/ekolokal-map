@@ -14,9 +14,9 @@ import { devices } from '../../../../../utils/Style/Layout'
 
 const TypeDropdownButton = styled.div`
     height: 37px;
-    line-height: 13px;
+    /* line-height: 3px; */
     border-radius: 20px;
-    font-size: ${font.textSize};
+    font-size: 16px;
     user-select: none;
     display: flex;
     justify-content: space-between;
