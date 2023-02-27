@@ -28,19 +28,31 @@ const MenuWrapper = styled.div`
         width: 100%;
         height: ${layout.menuBarWidthPx};
         flex-direction: row;
+
+        box-shadow: ${(props) =>
+            !(props.isSideBarOpen || !props.modalShop)
+                ? '0px 0px 10px gray'
+                : '0px 0px 0px gray'};
+
+        border-top: ${(props) =>
+            props.isSideBarOpen || props.modalShop
+                ? '.2px solid #a0a0a0'
+                : '0px 0px 10px gray'};
     }
+
     @media ${devices.tablet} {
         left: 0;
         top: 0;
         height: 100%;
         width: ${layout.menuBarWidthPx};
         flex-direction: column;
-    }
 
-    box-shadow: ${(props) =>
-        props.isSideBarOpen ? '0px 0px 0px gray' : '0px 0px 10px gray'};
-    border-right: ${(props) =>
-        props.isSideBarOpen ? '.2px solid #a0a0a0' : '0px 0px 10px gray'};
+        box-shadow: ${(props) =>
+            props.isSideBarOpen ? '0px 0px 0px gray' : '0px 0px 10px gray'};
+
+        border-right: ${(props) =>
+            props.isSideBarOpen ? '.2px solid #a0a0a0' : '0px 0px 10px gray'};
+    }
 `
 
 const IconWrapper = styled.div`
@@ -166,7 +178,7 @@ function MenuBar() {
     }
 
     return (
-        <MenuWrapper isSideBarOpen={isSideBarOpen}>
+        <MenuWrapper isSideBarOpen={isSideBarOpen} modalShop={modalShop}>
             <IconWrapper>
                 {ScopesMenu.map((scopeItem, index) => (
                     <MenuItem
