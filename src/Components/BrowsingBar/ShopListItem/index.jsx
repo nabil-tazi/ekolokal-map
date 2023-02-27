@@ -8,6 +8,7 @@ import font from '../../../utils/Style/Font'
 
 import layout from '../../../utils/Style/Layout'
 import { useLanguage } from '../../../utils/Hooks/Language'
+import { useWindowSize } from '../../../utils/Hooks/WindowSize'
 
 const ItemContainer = styled.div`
     max-width: 150px;
@@ -65,14 +66,21 @@ function ShopListItem({ shop }) {
 
     const { currentLanguage } = useLanguage()
 
+    const { mode } = useWindowSize()
+
     return (
         <ItemContainer
-            onMouseEnter={() => isModalClosed && openOverview(shop.id)}
-            onMouseLeave={() => isModalClosed && closeOverview()}
+            onMouseEnter={
+                mode === 'mobile'
+                    ? () => false
+                    : isModalClosed && openOverview(shop.id)
+            }
+            onMouseLeave={
+                mode === 'mobile'
+                    ? () => false
+                    : isModalClosed && closeOverview()
+            }
             onClick={() => {
-                openModal(mapRef.current, shop, mapRef.current.getZoom())
-            }}
-            onTouchEnd={() => {
                 openModal(mapRef.current, shop, mapRef.current.getZoom())
             }}
             active={modalShop.id === shop.id}
