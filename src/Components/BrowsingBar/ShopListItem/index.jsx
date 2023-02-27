@@ -72,6 +72,9 @@ function ShopListItem({ shop }) {
             onClick={() => {
                 openModal(mapRef.current, shop, mapRef.current.getZoom())
             }}
+            onTouchEnd={() => {
+                openModal(mapRef.current, shop, mapRef.current.getZoom())
+            }}
             active={modalShop.id === shop.id}
         >
             <ImageTitle>
