@@ -54,8 +54,8 @@ function App() {
         <>
             {/* <Test windowHeight={windowSize.height}></Test> */}
             {isLoading && <LoadingScreen />}
-            {modalShop.id && <ShopModal shop={modalShop} />}
             <FilterBar>
+                {modalShop.id && <ShopModal shop={modalShop} />}
                 {isSideBarOpen && (mode !== 'mobile' || !modalShop.id) && (
                     <BrowsingBar />
                 )}

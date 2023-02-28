@@ -33,7 +33,6 @@ const BrowsingBarContainer = styled.div`
         overflow-y: visible;
 
         background-color: ${colors.primaryBackground};
-        margin-bottom: ${layout.menuBarWidthPx};
     }
     @media ${devices.tablet} {
         position: absolute;

@@ -21,8 +21,9 @@ import { LayoutContext } from '../../utils/Context/LayoutContext'
 import { useLanguage } from '../../utils/Hooks/Language'
 import { useWindowSize } from '../../utils/Hooks/WindowSize'
 
+import NewShopModal from '../NewShopModal'
+
 const ShopModalWrapper = styled.div`
-    position: absolute;
     display: flex;
     flex-direction: column;
 
@@ -30,17 +31,21 @@ const ShopModalWrapper = styled.div`
         left: 0px;
         width: 100%;
         height: calc(100% - 120px - 70px);
-        bottom: 70px;
+        margin-top: auto;
+        overflow: hidden;
     }
     @media ${devices.tablet} {
+        position: absolute;
+
         // prettier-ignore
         left: calc(${layout.menuBarWidthPx} + ${layout.SideBarWidthPx} + ${layout.overlaysSpacingPx});
         width: ${layout.baseModalWidthPx};
+        max-width: ${(props) => props.maxOverlayWidth + 'px'};
+
         top: 10vh;
         height: 80vh;
         border-radius: ${layout.slightBorderRadius};
     }
-    max-width: ${(props) => props.maxOverlayWidth + 'px'};
     background-color: ${colors.transparentBackground};
     z-index: 500;
     box-shadow: 0px 0px 10px gray;
@@ -81,7 +86,7 @@ const Icon = styled.img`
 `
 const ModalContent = styled.div`
     padding: 0 30px 0 30px;
-    height: 100%;
+    /* height: 100%; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -226,124 +231,125 @@ function ShopModal({ shop }) {
     }
 
     return (
-        <ShopModalWrapper maxOverlayWidth={maxOverlayWidth}>
-            <FirstLine>
-                <FavoriteIcon
-                    src={isModalShopFavorite ? fullHeart : emptyHeart}
-                    onClick={handleFavoriteClick}
-                ></FavoriteIcon>
-                {shop.shopname[currentLanguage.ID] ? (
-                    <ShopName>
-                        {shop.shopname[currentLanguage.ID].toUpperCase()}
-                    </ShopName>
-                ) : (
-                    <ShopName>{shop.title.toUpperCase()}</ShopName>
-                )}
+        <NewShopModal shop={shop}></NewShopModal>
+        // <ShopModalWrapper maxOverlayWidth={maxOverlayWidth}>
+        //     <FirstLine>
+        //         <FavoriteIcon
+        //             src={isModalShopFavorite ? fullHeart : emptyHeart}
+        //             onClick={handleFavoriteClick}
+        //         ></FavoriteIcon>
+        // {shop.shopname[currentLanguage.ID] ? (
+        //     <ShopName>
+        //         {shop.shopname[currentLanguage.ID].toUpperCase()}
+        //     </ShopName>
+        // ) : (
+        //     <ShopName>{shop.title.toUpperCase()}</ShopName>
+        // )}
 
-                {isSideBarOpen && mode === 'mobile' ? (
-                    <GoBackIcon src={goback} onClick={handleCloseModal} />
-                ) : (
-                    <CloseIcon src={cross} onClick={handleCloseModal} />
-                )}
-            </FirstLine>
+        //         {isSideBarOpen && mode === 'mobile' ? (
+        //             <GoBackIcon src={goback} onClick={handleCloseModal} />
+        //         ) : (
+        //             <CloseIcon src={cross} onClick={handleCloseModal} />
+        //         )}
+        //     </FirstLine>
 
-            <ModalContent>
-                <TopWrapper>
-                    <ImagesWrapper>
-                        {shop.images_url.length == 1 && (
-                            <ImageSingle>
-                                <ImageOne src={shop.images_url[0]} />
-                            </ImageSingle>
-                        )}
-                        {shop.images_url.length == 2 && (
-                            <ImageDuo>
-                                <ImageOne src={shop.images_url[0]} />
-                                <ImageOne src={shop.images_url[1]} />
-                            </ImageDuo>
-                        )}
-                        {shop.images_url.length > 2 && (
-                            <>
-                                <ImageLeft>
-                                    <ImageOne src={shop.images_url[0]} />
-                                </ImageLeft>
-                                <ImageRight>
-                                    <ImageTwo src={shop.images_url[1]} />
-                                    <ImageTwo src={shop.images_url[2]} />
-                                </ImageRight>
-                            </>
-                        )}
-                    </ImagesWrapper>
-                    <SecondLine>
-                        {shop.tagline_new[currentLanguage.ID] ? (
-                            <Tagline>
-                                {shop.tagline_new[currentLanguage.ID]}
-                            </Tagline>
-                        ) : (
-                            <Tagline>{shop.tagline}</Tagline>
-                        )}
+        //     <ModalContent>
+        //         <TopWrapper>
+        // <ImagesWrapper>
+        //     {shop.images_url.length == 1 && (
+        //         <ImageSingle>
+        //             <ImageOne src={shop.images_url[0]} />
+        //         </ImageSingle>
+        //     )}
+        //     {shop.images_url.length == 2 && (
+        //         <ImageDuo>
+        //             <ImageOne src={shop.images_url[0]} />
+        //             <ImageOne src={shop.images_url[1]} />
+        //         </ImageDuo>
+        //     )}
+        //     {shop.images_url.length > 2 && (
+        //         <>
+        //             <ImageLeft>
+        //                 <ImageOne src={shop.images_url[0]} />
+        //             </ImageLeft>
+        //             <ImageRight>
+        //                 <ImageTwo src={shop.images_url[1]} />
+        //                 <ImageTwo src={shop.images_url[2]} />
+        //             </ImageRight>
+        //         </>
+        //     )}
+        // </ImagesWrapper>
+        //             <SecondLine>
+        // {shop.tagline_new[currentLanguage.ID] ? (
+        //     <Tagline>
+        //         {shop.tagline_new[currentLanguage.ID]}
+        //     </Tagline>
+        // ) : (
+        //     <Tagline>{shop.tagline}</Tagline>
+        // )}
 
-                        <IconList shop={shop} iconSize={'30px'}></IconList>
-                    </SecondLine>
+        //                 <IconList shop={shop} iconSize={'30px'}></IconList>
+        //             </SecondLine>
 
-                    {shop.content_new[currentLanguage.ID] ? (
-                        <Content>
-                            {shop.content_new[currentLanguage.ID]}
-                        </Content>
-                    ) : (
-                        <Content
-                            dangerouslySetInnerHTML={{ __html: shop.content }}
-                        ></Content>
-                    )}
-                </TopWrapper>
-                <BottomWrapper>
-                    <ThirdLine>
-                        <ContactInformation>
-                            {shop.phone_number && (
-                                <PhoneNumber>
-                                    <Icon src={phone}></Icon>
-                                    {shop.phone_number}
-                                </PhoneNumber>
-                            )}
-                            {shop.website[0] && (
-                                <Website href={shop.website} target="_blank">
-                                    <Icon src={link}></Icon>Visit website
-                                </Website>
-                            )}
-                            {shop.instagram[0] && (
-                                <Website href={shop.instagram} target="_blank">
-                                    <Icon src={link}></Icon>Instagram
-                                </Website>
-                            )}
-                        </ContactInformation>
-                        <AddressWrapper
-                            onClick={() => {
-                                flyToShop(
-                                    mapRef.current,
-                                    [
-                                        parseFloat(shop.geolocation_lat[0]),
-                                        parseFloat(shop.geolocation_long[0]),
-                                    ],
-                                    16
-                                )
-                            }}
-                        >
-                            {shop.full_address[currentLanguage.ID] ? (
-                                <Address>
-                                    {shop.full_address[currentLanguage.ID]}
-                                </Address>
-                            ) : (
-                                shop.formatted_address && (
-                                    <Address>{shop.formatted_address}</Address>
-                                )
-                            )}
-                            <LocalizeIcon src={target}></LocalizeIcon>
-                        </AddressWrapper>
-                    </ThirdLine>
-                </BottomWrapper>
-            </ModalContent>
+        // {shop.content_new[currentLanguage.ID] ? (
+        //     <Content>
+        //         {shop.content_new[currentLanguage.ID]}
+        //     </Content>
+        // ) : (
+        //     <Content
+        //         dangerouslySetInnerHTML={{ __html: shop.content }}
+        //     ></Content>
+        // )}
+        //         </TopWrapper>
+        //         <BottomWrapper>
+        // <ThirdLine>
+        //     <ContactInformation>
+        //         {shop.phone_number && (
+        //             <PhoneNumber>
+        //                 <Icon src={phone}></Icon>
+        //                 {shop.phone_number}
+        //             </PhoneNumber>
+        //         )}
+        //         {shop.website[0] && (
+        //             <Website href={shop.website} target="_blank">
+        //                 <Icon src={link}></Icon>Visit website
+        //             </Website>
+        //         )}
+        //         {shop.instagram[0] && (
+        //             <Website href={shop.instagram} target="_blank">
+        //                 <Icon src={link}></Icon>Instagram
+        //             </Website>
+        //         )}
+        //     </ContactInformation>
+        //     <AddressWrapper
+        //         onClick={() => {
+        //             flyToShop(
+        //                 mapRef.current,
+        //                 [
+        //                     parseFloat(shop.geolocation_lat[0]),
+        //                     parseFloat(shop.geolocation_long[0]),
+        //                 ],
+        //                 16
+        //             )
+        //         }}
+        //     >
+        //         {shop.full_address[currentLanguage.ID] ? (
+        //             <Address>
+        //                 {shop.full_address[currentLanguage.ID]}
+        //             </Address>
+        //         ) : (
+        //             shop.formatted_address && (
+        //                 <Address>{shop.formatted_address}</Address>
+        //             )
+        //         )}
+        //         <LocalizeIcon src={target}></LocalizeIcon>
+        //     </AddressWrapper>
+        // </ThirdLine>
+        //         </BottomWrapper>
+        //     </ModalContent>
 
-            {/* <img src={shop.images_url[0]} alt={shop.id}></img> */}
-        </ShopModalWrapper>
+        //     {/* <img src={shop.images_url[0]} alt={shop.id}></img> */}
+        // </ShopModalWrapper>
     )
 }
 

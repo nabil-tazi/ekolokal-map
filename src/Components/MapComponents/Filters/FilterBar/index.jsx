@@ -109,7 +109,6 @@ function FilterBar({ children }) {
 
     return (
         <FilterBarWrapper pointer={isSideBarOpen ? 'auto' : 'none'}>
-            {/* {(mode !== 'mobile' || !modalShop.id) && ( */}
             <FiltersContainer
                 isSideBarOpen={isSideBarOpen}
                 visible={mode !== 'mobile' || !modalShop.id}
@@ -124,7 +123,6 @@ function FilterBar({ children }) {
                     ))}
                 </CategoryFilters>
             </FiltersContainer>
-            {/* )} */}
             {children}
         </FilterBarWrapper>
     )

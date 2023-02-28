@@ -14,7 +14,6 @@ import { useLanguage } from '../../utils/Hooks/Language'
 import { useWindowSize } from '../../utils/Hooks/WindowSize'
 
 const MenuWrapper = styled.div`
-    position: absolute;
     pointer-events: auto;
 
     background-color: ${colors.primaryBackground};
@@ -24,7 +23,7 @@ const MenuWrapper = styled.div`
     z-index: 700;
 
     @media ${devices.mobileS} {
-        bottom: 0;
+        /* bottom: 0; */
         width: 100%;
         height: ${layout.menuBarWidthPx};
         flex-direction: row;
@@ -41,6 +40,8 @@ const MenuWrapper = styled.div`
     }
 
     @media ${devices.tablet} {
+        position: absolute;
+
         left: 0;
         top: 0;
         height: 100%;
@@ -52,6 +53,8 @@ const MenuWrapper = styled.div`
 
         border-right: ${(props) =>
             props.isSideBarOpen ? '.2px solid #a0a0a0' : '0px 0px 10px gray'};
+
+        border-top: none;
     }
 `
 
