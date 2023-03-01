@@ -15,15 +15,7 @@ export const FiltersMenuProvider = ({ children }) => {
         ],
     }
 
-    // const scopes = {
-    //     NONE: '',
-    //     BROWSE: 'browse',
-    //     EVENT: 'events',
-    //     FAVORITES: 'favorites',
-    // }
     const reducerTypes = (state, action) => {
-        // console.log(action.scope)
-
         switch (action.scope.ID) {
             case SCOPES.NONE.ID:
                 return {
