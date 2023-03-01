@@ -23,15 +23,14 @@ const MenuWrapper = styled.div`
     z-index: 700;
 
     @media ${devices.mobileS} {
-        /* bottom: 0; */
         width: 100%;
         height: ${layout.menuBarWidthPx};
         flex-direction: row;
 
         box-shadow: ${(props) =>
-            !(props.isSideBarOpen || !props.modalShop)
-                ? '0px 0px 10px gray'
-                : '0px 0px 0px gray'};
+            props.isSideBarOpen || !!props.modalShop.id
+                ? '0px 0px 0px gray'
+                : '0px 0px 10px gray'};
 
         border-top: ${(props) =>
             props.isSideBarOpen || props.modalShop
@@ -157,6 +156,9 @@ function MenuBar() {
     const { currentLanguage, setLanguage } = useLanguage()
 
     const { mode } = useWindowSize()
+
+    console.log('MENUBAR')
+    console.log(!modalShop.id)
 
     function handleChangeScope(clickedScope) {
         resetLazyLoad()

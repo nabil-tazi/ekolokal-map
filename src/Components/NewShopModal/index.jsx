@@ -98,21 +98,21 @@ const ContactContainer = styled.div`
     align-items: center;
     margin: 10px 20px 10px 20px;
 `
-const ContactInformation = styled.div`
+const LinksWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
+    min-width: 115px;
 `
 const PhoneNumber = styled.div`
-    width: 200px;
+    text-align: right;
 `
 const Website = styled.a`
     margin-top: 5px;
-    text-align: left;
+    text-align: right;
 `
 const Address = styled.div`
-    text-align: right;
-    margin-left: auto;
+    text-align: left;
 `
 
 const AddressWrapper = styled.div`
@@ -123,7 +123,7 @@ const AddressWrapper = styled.div`
 const Icon = styled.img`
     cursor: pointer;
     width: 10px;
-    margin-right: 5px;
+    margin-left: 5px;
     align-self: flex-end;
 `
 const LocalizeIcon = styled.img`
@@ -135,7 +135,6 @@ const LocalizeIcon = styled.img`
 const OpeningHours = styled.div`
     margin-left: 20px;
     margin-right: 20px;
-    align-self: flex-end;
 `
 
 function NewShopModal({ shop }) {
@@ -178,24 +177,6 @@ function NewShopModal({ shop }) {
                 )}
             </ContentContainer>
             <ContactContainer>
-                <ContactInformation>
-                    {shop.phone_number && (
-                        <PhoneNumber>
-                            <Icon src={phone}></Icon>
-                            {shop.phone_number}
-                        </PhoneNumber>
-                    )}
-                    {shop.website[0] && (
-                        <Website href={shop.website} target="_blank">
-                            <Icon src={link}></Icon>Visit website
-                        </Website>
-                    )}
-                    {shop.instagram[0] && (
-                        <Website href={shop.instagram} target="_blank">
-                            <Icon src={link}></Icon>Instagram
-                        </Website>
-                    )}
-                </ContactInformation>
                 <AddressWrapper
                     onClick={() => {
                         flyToShop(
@@ -208,6 +189,7 @@ function NewShopModal({ shop }) {
                         )
                     }}
                 >
+                    <LocalizeIcon src={target} />
                     {shop.full_address[currentLanguage.ID] ? (
                         <Address>
                             {shop.full_address[currentLanguage.ID]}
@@ -217,8 +199,25 @@ function NewShopModal({ shop }) {
                             <Address>{shop.formatted_address}</Address>
                         )
                     )}
-                    <LocalizeIcon src={target}></LocalizeIcon>
                 </AddressWrapper>
+                <LinksWrapper>
+                    {shop.phone_number && (
+                        <PhoneNumber>
+                            {shop.phone_number}
+                            <Icon src={phone}></Icon>
+                        </PhoneNumber>
+                    )}
+                    {shop.website[0] && (
+                        <Website href={shop.website} target="_blank">
+                            Visit website<Icon src={link}></Icon>
+                        </Website>
+                    )}
+                    {shop.instagram[0] && (
+                        <Website href={shop.instagram} target="_blank">
+                            Instagram<Icon src={link}></Icon>
+                        </Website>
+                    )}
+                </LinksWrapper>
             </ContactContainer>
             <OpeningHours>
                 {shop.opening_hours && shop.opening_hours[0]}
