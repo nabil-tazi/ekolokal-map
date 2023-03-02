@@ -15,28 +15,28 @@ export const SCOPES = {
         IMG: eat,
         LOCALIZED: true,
         ENGLISH: 'Eat',
-        JAPANESE: 'Eat',
+        JAPANESE: '食べる',
     },
     SHOPPING: {
         ID: 'shopping',
         IMG: shop,
         LOCALIZED: false,
         ENGLISH: 'Shop',
-        JAPANESE: 'Shop',
+        JAPANESE: 'お買い物する',
     },
     DISCOVER: {
         ID: 'discover',
         IMG: discover,
         LOCALIZED: false,
         ENGLISH: 'Discover',
-        JAPANESE: 'Discover',
+        JAPANESE: '出会う',
     },
     FAVORITES: {
         ID: 'favorites',
         IMG: favorites,
         LOCALIZED: false,
         ENGLISH: 'Favorites',
-        JAPANESE: 'Favorites',
+        JAPANESE: 'お気に入り',
     },
 }
 

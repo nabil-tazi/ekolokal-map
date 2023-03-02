@@ -75,16 +75,22 @@ const IconWrapper = styled.div`
     }
 `
 const MenuItem = styled.div`
-    width: 45px;
-    height: 45px;
+    width: 60px;
+    min-height: 60px;
     cursor: pointer;
     user-select: none;
 
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 5px;
+    text-align: center;
+    gap: 3px;
     padding: 7px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+
+    box-sizing: border-box;
 
     border-radius: ${layout.slightBorderRadius};
 
@@ -94,6 +100,7 @@ const MenuItem = styled.div`
 
 const MenuItemName = styled.div`
     font-size: ${font.textSize};
+    line-height: 12px;
 
     color: ${(props) =>
         props.active ? colors.activeText : colors.primaryText};
