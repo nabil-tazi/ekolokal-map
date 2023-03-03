@@ -135,7 +135,30 @@ const LocalizeIcon = styled.img`
 const OpeningHours = styled.div`
     margin-left: 20px;
     margin-right: 20px;
+    white-space: pre-line;
 `
+
+function translateOpeningHoursTo(language, opening_hours) {
+    return language === 'ENGLISH'
+        ? opening_hours
+              .toLowerCase()
+              .replace('monday', 'Mon')
+              .replace('tuesday', 'Tue')
+              .replace('wednesday', 'Wed')
+              .replace('thursday', 'Thu')
+              .replace('friday', 'Fri')
+              .replace('saturday', 'Sat')
+              .replace('sunday', 'Sun')
+        : opening_hours
+              .toLowerCase()
+              .replace('monday', '月')
+              .replace('tuesday', '火')
+              .replace('wednesday', '水')
+              .replace('thursday', '木')
+              .replace('friday', '金')
+              .replace('saturday', '土')
+              .replace('sunday', '日')
+}
 
 function ShopModal({ shop }) {
     const { maxOverlayWidth } = useContext(LayoutContext)
@@ -143,6 +166,11 @@ function ShopModal({ shop }) {
 
     const { flyToShop } = useContext(UserInterfaceContext)
     const { mapRef } = useContext(ShopsDataContext)
+
+    const opening_hours = {
+        ENGLISH: translateOpeningHoursTo('ENGLISH', shop.opening_hours[0]),
+        JAPANESE: translateOpeningHoursTo('JAPANESE', shop.opening_hours[0]),
+    }
 
     return (
         <ModalWrapper maxOverlayWidth={maxOverlayWidth}>
@@ -220,7 +248,8 @@ function ShopModal({ shop }) {
                 </LinksWrapper>
             </ContactContainer>
             <OpeningHours>
-                {shop.opening_hours && shop.opening_hours[0]}
+                {opening_hours[currentLanguage.ID]}
+                {/* {shop.opening_hours && shop.opening_hours[0]} */}
             </OpeningHours>
         </ModalWrapper>
     )
