@@ -21,6 +21,7 @@ import ShopMarkersList from '../ShopMarkersList'
 import { SCOPES } from '../../../utils/Configuration/ScopeConfig'
 import { UserInterfaceContext } from '../../../utils/Context/UserInterfaceContext'
 import { ScopeContext } from '../../../utils/Context/ScopeContext'
+import { useLocalizeUser } from '../../../utils/Hooks/LocalizeUser'
 
 const MapWrapper = styled(MapContainer)`
     position: absolute;
@@ -53,6 +54,7 @@ function Bounds() {
 
 function Map({ center, inputRef }) {
     const { mapRef, displayedShops } = useContext(ShopsDataContext)
+    // const { userLocation } = useLocalizeUser()
 
     return (
         <>
