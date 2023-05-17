@@ -85,6 +85,16 @@ const Tagline = styled.div`
     font-style: italic;
 `
 
+const HashtagsContainer = styled.div`
+    margin-left: 20px;
+    margin-right: 20px;
+`
+
+const HashtagItem = styled.span`
+    margin-right: 20px;
+    cursor: pointer;
+`
+
 const ContentContainer = styled.div`
     max-height: 120px;
     overflow: scroll;
@@ -172,6 +182,14 @@ function ShopModal({ shop }) {
         JAPANESE: translateOpeningHoursTo('JAPANESE', shop.opening_hours[0]),
     }
 
+    const hashtags = {
+        ENGLISH: shop.categories.filter((cat) => cat.parent === 251),
+        JAPANESE: shop.categories.filter((cat) => cat.parent === 252),
+    }
+
+    console.log('LOOKING FOR HASHTAGS')
+    console.log(shop.categories)
+
     return (
         <ModalWrapper maxOverlayWidth={maxOverlayWidth}>
             <ActionsImagesContainer>
@@ -197,6 +215,11 @@ function ShopModal({ shop }) {
                 </Tagline>
                 <IconList shop={shop} iconSize={'30px'}></IconList>
             </TaglineCategoriesContainer>
+            <HashtagsContainer>
+                {hashtags[currentLanguage.ID].map((hashtag) => {
+                    return <HashtagItem>#{hashtag.name}</HashtagItem>
+                })}
+            </HashtagsContainer>
             <ContentContainer>
                 {shop.content_new[currentLanguage.ID] ? (
                     <p>{shop.content_new[currentLanguage.ID]}</p>

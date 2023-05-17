@@ -2,7 +2,9 @@ import { useState, useEffect, useContext } from 'react'
 import { ShopsDataContext } from '../Context/ShopsDataContext'
 
 export const useLocalizeUser = () => {
-    const defaultLocation = [34.67, 135.49]
+    // const defaultLocation = [34.67, 135.49]
+    const defaultLocation = [35.644169, 139.6984493]
+
     const [isLoadingLocalize, setLoadingLocalize] = useState(true)
 
     const [location, setLocation] = useState(defaultLocation)

@@ -61,7 +61,7 @@ function Map({ center, inputRef }) {
             <MapWrapper
                 ref={mapRef}
                 center={center}
-                zoom={13}
+                zoom={15}
                 scrollWheelZoom={true}
                 zoomControl={false}
             >

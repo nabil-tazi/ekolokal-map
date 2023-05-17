@@ -1,5 +1,7 @@
 import fairtrade from '../../assets/fairtrade.png'
 import nobin from '../../assets/nobin.png'
+import takeout from '../../assets/take-away.png'
+
 import noplastic from '../../assets/noplastic.png'
 import organic from '../../assets/organic.png'
 import plantbased from '../../assets/plantbased.png'
@@ -31,7 +33,7 @@ export const CATEGORIES = {
     },
     TAKEOUT: {
         ID: 'take-out',
-        IMG: nobin,
+        IMG: takeout,
         ENGLISH: 'Take out',
         JAPANESE: 'テイクアウト',
     },
