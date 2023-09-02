@@ -168,6 +168,17 @@ function translateOpeningHoursTo(language, opening_hours) {
               .replace('friday', '金')
               .replace('saturday', '土')
               .replace('sunday', '日')
+              .replace('mon', '月')
+              .replace('tue', '火')
+              .replace('wed', '水')
+              .replace('thu', '木')
+              .replace('fri', '金')
+              .replace('sat', '土')
+              .replace('sun', '日')
+              .replace('-', '〜')
+              .replace('-', '〜')
+              .replace('-', '〜')
+              .replace('closed', '定休日')
 }
 
 function ShopModal({ shop }) {

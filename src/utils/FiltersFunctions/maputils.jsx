@@ -120,6 +120,14 @@ export function filterShopsBySearch(searchInput, shopList) {
 }
 
 function singleWordSearch(word, shop) {
+    console.log('Hashtags')
+    console.log(
+        'For shop ' +
+            shop.title +
+            'found ' +
+            shop.categories.some((cat) => cat.slug === 'nowaste')
+    )
+
     return (
         (shop.city[0] &&
             shop.city[0].toLowerCase().match(word.toLowerCase())) ||
@@ -128,7 +136,12 @@ function singleWordSearch(word, shop) {
             shop.formatted_address[0]
                 .toLowerCase()
                 .match(word.toLowerCase())) ||
-        (shop.content && shop.content.toLowerCase().match(word.toLowerCase()))
+        (shop.content &&
+            shop.content.toLowerCase().match(word.toLowerCase())) ||
+        (shop.categories &&
+            shop.categories.some((cat) =>
+                cat.slug.toLowerCase().match(word.toLowerCase())
+            ))
     )
 }
 
