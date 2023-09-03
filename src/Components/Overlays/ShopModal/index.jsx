@@ -61,6 +61,7 @@ const ActionsBar = styled.div`
     padding: 5px;
     box-sizing: border-box;
     background: rgb(0, 0, 0);
+    z-index: 1;
     background: linear-gradient(
         180deg,
         rgba(0, 0, 0, 1) -30%,

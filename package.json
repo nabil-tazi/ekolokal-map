@@ -16,7 +16,8 @@
         "react-dom": "^18.2.0",
         "react-leaflet": "^4.0.0",
         "react-leaflet-cluster": "^2.1.0",
-        "styled-components": "^5.3.6"
+        "styled-components": "^5.3.6",
+        "yet-another-react-lightbox": "^3.12.1"
     },
     "devDependencies": {
         "@types/react": "^18.0.24",
