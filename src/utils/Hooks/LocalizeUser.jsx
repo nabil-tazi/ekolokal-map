@@ -41,8 +41,7 @@ export const useLocalizeUser = () => {
 
         async function localizeUser() {
             try {
-                // const response = await getLocation()
-                getLocation()
+                //getLocation()
             } catch (err) {
                 console.log(err)
                 // setError(true)
